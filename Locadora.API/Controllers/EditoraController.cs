@@ -1,36 +1,62 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+﻿using Locadora.API.Data;
+using Locadora.API.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Locadora.API.Controllers {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class EditoraController : ControllerBase {
-        // GET: api/<EditoraController>
+        private readonly DataContext _context;
+
+        public EditoraController(DataContext context) {
+            _context = context;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get() {
-            return new string[] { "value1", "value2" };
+        public IActionResult Get() {
+            return Ok(_context.Editoras);
         }
 
-        // GET api/<EditoraController>/5
         [HttpGet("{id}")]
-        public string Get(int id) {
-            return "value";
+        public IActionResult GetById(int id) {
+            var editora = _context.Editoras.FirstOrDefault(user => user.Id == id);
+            if (editora == null) return BadRequest("Usuário não encontrado");
+            return Ok(editora);
         }
 
-        // POST api/<EditoraController>
         [HttpPost]
-        public void Post([FromBody] string value) {
+        public IActionResult Post(Editora editora) {
+            _context.Add(editora);
+            _context.SaveChanges();
+            return Ok(editora);
         }
 
-        // PUT api/<EditoraController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value) {
+        public IActionResult Put(int id, Editora editora) {
+            var publisher = _context.Usuarios.AsNoTracking().FirstOrDefault(publisher => publisher.Id == id);
+            if (publisher == null) return BadRequest("Editora não encontrada.");
+            _context.Update(editora);
+            _context.SaveChanges();
+            return Ok(editora);
         }
 
-        // DELETE api/<EditoraController>/5
+        [HttpPatch("{id}")]
+        public IActionResult Patch(int id, Editora editora) {
+            var publisher = _context.Editoras.AsNoTracking().FirstOrDefault(publisher => publisher.Id == id);
+            if (publisher == null) return BadRequest("Editora não encontrada.");
+            _context.Update(editora);
+            _context.SaveChanges();
+            return Ok(editora);
+        }
+
         [HttpDelete("{id}")]
-        public void Delete(int id) {
+        public IActionResult Delete(int id) {
+            var editora = _context.Editoras.FirstOrDefault(publisher => publisher.Id == id);
+            if (editora == null) return BadRequest("Usuário não encontrado.");
+            _context.Remove(editora);
+            _context.SaveChanges();
+            return Ok();
         }
     }
 }

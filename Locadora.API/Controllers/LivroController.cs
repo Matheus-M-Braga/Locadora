@@ -1,34 +1,64 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+﻿using Locadora.API.Data;
+using Locadora.API.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SQLitePCL;
 
 namespace Locadora.API.Controllers {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class LivroController : ControllerBase {
-        // GET: api/<LivroController>
+        private readonly DataContext _context;
+
+        public LivroController(DataContext context) {
+            _context = context;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get() {
-            return new string[] { "value1", "value2" };
+        public IActionResult Get() {
+            return Ok(_context.Livros);
         }
 
-        // GET api/<LivroController>/5
         [HttpGet("{id}")]
-        public string Get(int id) {
-            return "value";
+        public IActionResult GetById(int id) {
+            var livro = _context.Livros.FirstOrDefault(book => book.Id == id);
+            if (livro == null) return BadRequest("Livro não encontrado");
+            return Ok(livro);
         }
 
-        // POST api/<LivroController>
         [HttpPost]
-        public void Post([FromBody] string value) {
+        public IActionResult Post(Livro livro) {
+            _context.Add(livro);
+            _context.SaveChanges();
+            return Ok(livro);
         }
 
-        // PUT api/<LivroController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value) {
+        public IActionResult Put(int id, Livro livro) {
+            var book = _context.Usuarios.AsNoTracking().FirstOrDefault(book => book.Id == id);
+            if (book == null) return BadRequest("Livro não encontrado");
+            _context.Update(livro);
+            _context.SaveChanges();
+            return Ok(livro);
         }
 
-        // DELETE api/<LivroController>/5
-        
+        [HttpPatch("{id}")]
+        public IActionResult Patch(int id, Livro livro) {
+            var book = _context.Usuarios.AsNoTracking().FirstOrDefault(book => book.Id == id);
+            if (book == null) return BadRequest("Livro não encontrado");
+            _context.Update(livro);
+            _context.SaveChanges();
+            return Ok(livro);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id) {
+            var livro = _context.Livros.FirstOrDefault(book => book.Id == id);
+            if (livro == null) return BadRequest("Livro não encontrado.");
+            _context.Remove(livro);
+            _context.SaveChanges();
+            return Ok();
+        }
+
     }
 }

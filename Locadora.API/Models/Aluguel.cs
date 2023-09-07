@@ -1,7 +1,7 @@
 ﻿namespace Locadora.API.Models {
     public class Aluguel {
         public Aluguel() { }
-        public Aluguel(int id, int livroId, int usuarioId, DateTime dataAluguel, DateTime dataPrevisao, DateTime dataDevolucao, string status) {
+        public Aluguel(int id, int livroId, int usuarioId, DateTime dataAluguel, DateTime dataPrevisao, DateTime? dataDevolucao, string status) {
             this.Id = id;
             this.LivroId = livroId;
             this.UsuarioId = usuarioId;
@@ -17,7 +17,7 @@
         public Usuario Usuario { get; set; }
         public DateTime DataAluguel { get; set; }
         public DateTime DataPrevisao { get; set; }
-        public DateTime DataDevolucao { get; set; }
+        public DateTime? DataDevolucao { get; set; }
         public string Status { get; set; }
     }
 }

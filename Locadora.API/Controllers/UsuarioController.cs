@@ -1,68 +1,61 @@
-﻿using Locadora.API.Models;
+﻿using Locadora.API.Data;
+using Locadora.API.Models;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Microsoft.EntityFrameworkCore;
 
 namespace Locadora.API.Controllers {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class UsuarioController : ControllerBase {
-        // GET: api/<UsuarioController>
-        public List<Usuario> Usuarios = new List<Usuario>() {
-            new Usuario() {
-                Id = 1,
-                Nome = "Francisca Menezes",
-                Cidade = "Fortaleza",
-                Endereco = "Rua A, 27",
-                Email = "francisquinha@gmail.com",
-            },
-            new Usuario() {
-                Id = 2,
-                Nome = "Matheus",
-                Cidade = "Fortaleza",
-                Endereco = "Rua B, 27",
-                Email = "matheus@gmail.com",
-            },
-            new Usuario() {
-                Id = 3,
-                Nome = "Emilly",
-                Cidade = "Fortaleza",
-                Endereco = "Rua C, 27",
-                Email = "emilly@gmail.com",
-            },
-        };
+        private readonly DataContext _context;
 
-        public UsuarioController() { }
+        public UsuarioController(DataContext context) {
+            _context = context;
+        }
 
-        [HttpGet("todos")]
+        [HttpGet]
         public IActionResult Get() {
-            return Ok(Usuarios);
+            return Ok(_context.Usuarios);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetById(int id) {
-            var usuario = Usuarios.FirstOrDefault(user => user.Id == id);
+            var usuario = _context.Usuarios.FirstOrDefault(user => user.Id == id);
             if (usuario == null) return BadRequest("Usuário não encontrado");
             return Ok(usuario);
         }
 
         [HttpPost]
         public IActionResult Post(Usuario usuario) {
+            _context.Add(usuario);
+            _context.SaveChanges();
             return Ok(usuario);
         }
 
         [HttpPut("{id}")]
         public IActionResult Put(int id, Usuario usuario) {
+            var user = _context.Usuarios.AsNoTracking().FirstOrDefault(user => user.Id == id);
+            if (user == null) return BadRequest("Usuário não encontrado.");
+            _context.Update(usuario);
+            _context.SaveChanges();
             return Ok(usuario);
         }
 
         [HttpPatch("{id}")]
         public IActionResult Patch(int id, Usuario usuario) {
+            var user = _context.Usuarios.AsNoTracking().FirstOrDefault(user => user.Id == id);
+            if (user == null) return BadRequest("Usuário não encontrado.");
+            _context.Update(usuario);
+            _context.SaveChanges();
             return Ok(usuario);
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id) {
+            var usuario = _context.Usuarios.FirstOrDefault(user => user.Id == id);
+            if (usuario == null) return BadRequest("Usuário não encontrado.");
+            _context.Remove(usuario);
+            _context.SaveChanges();
             return Ok();
         }
     }
