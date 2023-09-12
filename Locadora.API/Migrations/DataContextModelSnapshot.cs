@@ -306,7 +306,7 @@ namespace Locadora.API.Migrations
             modelBuilder.Entity("Locadora.API.Models.Rentals", b =>
                 {
                     b.HasOne("Locadora.API.Models.Books", "Book")
-                        .WithMany()
+                        .WithMany("Rentals")
                         .HasForeignKey("BookId");
 
                     b.HasOne("Locadora.API.Models.Users", "User")
@@ -316,6 +316,11 @@ namespace Locadora.API.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Locadora.API.Models.Books", b =>
+                {
+                    b.Navigation("Rentals");
                 });
 
             modelBuilder.Entity("Locadora.API.Models.Publishers", b =>

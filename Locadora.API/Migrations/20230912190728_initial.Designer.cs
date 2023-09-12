@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Locadora.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230911165206_init")]
-    partial class init
+    [Migration("20230912190728_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -309,7 +309,7 @@ namespace Locadora.API.Migrations
             modelBuilder.Entity("Locadora.API.Models.Rentals", b =>
                 {
                     b.HasOne("Locadora.API.Models.Books", "Book")
-                        .WithMany()
+                        .WithMany("Rentals")
                         .HasForeignKey("BookId");
 
                     b.HasOne("Locadora.API.Models.Users", "User")
@@ -319,6 +319,11 @@ namespace Locadora.API.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Locadora.API.Models.Books", b =>
+                {
+                    b.Navigation("Rentals");
                 });
 
             modelBuilder.Entity("Locadora.API.Models.Publishers", b =>

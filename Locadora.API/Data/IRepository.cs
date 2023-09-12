@@ -9,7 +9,7 @@ namespace Locadora.API.Data {
         
         // Users
         Users[] GetAllUsers();
-        Users GetUserById(int userId, bool includeRentals = false);
+        Users GetUserById(int userId);
         
         // Books
         Books[] GetAllBooks(bool includePublisher = false);
@@ -18,7 +18,7 @@ namespace Locadora.API.Data {
 
         // Publishers
         Publishers[] GetAllPublishers();
-        Publishers GetPublisherById(int publisherId, bool includeBooks = false);
+        Publishers GetPublisherById(int publisherId);
 
         // Rentals
         Rentals[] GetAllRentals(bool includeUser = false, bool includeBook = false);

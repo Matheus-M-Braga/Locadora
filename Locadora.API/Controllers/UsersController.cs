@@ -20,15 +20,15 @@ namespace Locadora.API.Controllers {
         [HttpGet]
         public IActionResult Get() {
             var result = _repo.GetAllUsers();
-            return Ok(_mapper.Map<IEnumerable<UsersDto>>(result));
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetById(int id) {
             var user = _repo.GetUserById(id);
             if (user == null) return BadRequest("Usuário não encontrado");
-            var userDto = _mapper.Map<UsersDto>(user);  
-            return Ok(userDto);
+           
+            return Ok(user);
         }
 
         [HttpPost]
@@ -36,38 +36,28 @@ namespace Locadora.API.Controllers {
             var user = _mapper.Map<Users>(model);
             _repo.Add(user);
             if (_repo.SaveChanges()) {
-                return Created($"/api/Users/{model.Id}", _mapper.Map<UsersDto>(user));
+                return Created($"/api/Users/{user.Id}", _mapper.Map<Users>(user));
             }
             return BadRequest("Erro ao cadastrar usuário.");
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Users user) {
-            var u = _repo.GetUserById(id);
-            if (u == null) return BadRequest("Usuário não encontrado.");
+        public IActionResult Put(int id, UsersDto model) {
+            var user = _repo.GetUserById(id);
+            if (user == null) return BadRequest("Usuário não encontrado.");
+            _mapper.Map(model, user);
             _repo.Update(user);
             if (_repo.SaveChanges()) {
-                return Ok(user);
-            }
-            return BadRequest("Erro ao atualizar usuário.");
-        }
-
-        [HttpPatch("{id}")]
-        public IActionResult Patch(int id, Users user) {
-            var u = _repo.GetUserById(id);
-            if (u == null) return BadRequest("Usuário não encontrado.");
-            _repo.Update(user);
-            if (_repo.SaveChanges()) {
-                return Ok(user);
+                return Created($"/api/Users/{user.Id}", _mapper.Map<Users>(user));
             }
             return BadRequest("Erro ao atualizar usuário.");
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id) {
-            var u = _repo.GetUserById(id, true);
-            if (u == null) return BadRequest("Usuário não encontrado.");
-            _repo.Delete(u);
+            var user = _repo.GetUserById(id);
+            if (user == null) return BadRequest("Usuário não encontrado.");
+            _repo.Delete(user);
 
             if (_repo.SaveChanges()) {
                 return Ok("Usuário deletado com sucesso.");

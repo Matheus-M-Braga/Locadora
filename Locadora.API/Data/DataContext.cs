@@ -5,9 +5,7 @@ namespace Locadora.API.Data {
 
     public class DataContext : DbContext {
         public DataContext() { }
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public DbSet<Users> Users { get; set; }
         public DbSet<Books> Books { get; set; }
         public DbSet<Publishers> Publishers { get; set; }

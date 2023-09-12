@@ -19,6 +19,5 @@
         public string? Release { get; set; }
         public int? Quantity { get; set; }
         public int? Rented { get; set; }
-        //public IEnumerable<Aluguel> Aluguel { get; set; }
     }
 }

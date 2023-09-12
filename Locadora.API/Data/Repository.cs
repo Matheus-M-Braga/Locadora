@@ -17,7 +17,7 @@ namespace Locadora.API.Data {
             _context.Update(entity);
         }
         public bool SaveChanges() {
-           return (_context.SaveChanges() > 0);
+           return _context.SaveChanges() > 0;
         }
         public void Delete<T>(T entity) where T : class {
             _context.Remove(entity);
@@ -31,11 +31,8 @@ namespace Locadora.API.Data {
             return query.ToArray();
         }
          
-        public Users GetUserById(int userId, bool includeRentals = false) {
+        public Users GetUserById(int userId) {
             IQueryable<Users> query = _context.Users;
-            if (includeRentals) {
-                query = query.Include(u => u.Rentals);
-            }
 
             query = query.AsNoTracking().OrderBy(user => user.Id).Where(user => user.Id == userId);
             return query.FirstOrDefault();
@@ -83,11 +80,8 @@ namespace Locadora.API.Data {
             return query.ToArray();
         }
 
-        public Publishers GetPublisherById(int publisherId, bool includeBooks = false) {
+        public Publishers GetPublisherById(int publisherId) {
             IQueryable<Publishers> query = _context.Publishers;
-            if (includeBooks) {
-                query = query.Include(p => p.Books);
-            }
 
             query = query.AsNoTracking().OrderBy(publisher => publisher.Id).Where(publisher => publisher.Id == publisherId);
             return query.FirstOrDefault();
