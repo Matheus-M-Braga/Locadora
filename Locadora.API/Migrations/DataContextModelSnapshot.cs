@@ -158,13 +158,13 @@ namespace Locadora.API.Migrations
                     b.Property<int?>("BookId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime?>("ForecastDate")
+                    b.Property<string>("ForecastDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("RentalDate")
+                    b.Property<string>("RentalDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("ReturnDate")
+                    b.Property<string>("ReturnDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Status")
@@ -186,8 +186,8 @@ namespace Locadora.API.Migrations
                         {
                             Id = 1,
                             BookId = 1,
-                            ForecastDate = new DateTime(2023, 9, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            RentalDate = new DateTime(2023, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ForecastDate = "2023-09-21",
+                            RentalDate = "2023-09-10",
                             Status = "Pendente",
                             UserId = 1
                         },
@@ -195,8 +195,8 @@ namespace Locadora.API.Migrations
                         {
                             Id = 2,
                             BookId = 2,
-                            ForecastDate = new DateTime(2023, 9, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            RentalDate = new DateTime(2023, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ForecastDate = "2023-09-23",
+                            RentalDate = "2023-09-12",
                             Status = "No Prazo",
                             UserId = 2
                         },
@@ -204,8 +204,8 @@ namespace Locadora.API.Migrations
                         {
                             Id = 3,
                             BookId = 3,
-                            ForecastDate = new DateTime(2023, 9, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            RentalDate = new DateTime(2023, 9, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ForecastDate = "2023-09-25",
+                            RentalDate = "2023-09-14",
                             Status = "Atrasado",
                             UserId = 3
                         },
@@ -213,8 +213,8 @@ namespace Locadora.API.Migrations
                         {
                             Id = 4,
                             BookId = 4,
-                            ForecastDate = new DateTime(2023, 9, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            RentalDate = new DateTime(2023, 9, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ForecastDate = "2023-09-30",
+                            RentalDate = "2023-09-18",
                             Status = "Pendente",
                             UserId = 4
                         },
@@ -222,8 +222,8 @@ namespace Locadora.API.Migrations
                         {
                             Id = 5,
                             BookId = 5,
-                            ForecastDate = new DateTime(2023, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            RentalDate = new DateTime(2023, 9, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ForecastDate = "2023-09-30",
+                            RentalDate = "2023-09-20",
                             Status = "No Prazo",
                             UserId = 5
                         });
@@ -297,7 +297,7 @@ namespace Locadora.API.Migrations
             modelBuilder.Entity("Locadora.API.Models.Books", b =>
                 {
                     b.HasOne("Locadora.API.Models.Publishers", "Publisher")
-                        .WithMany()
+                        .WithMany("Books")
                         .HasForeignKey("PublisherId");
 
                     b.Navigation("Publisher");
@@ -310,12 +310,22 @@ namespace Locadora.API.Migrations
                         .HasForeignKey("BookId");
 
                     b.HasOne("Locadora.API.Models.Users", "User")
-                        .WithMany()
+                        .WithMany("Rentals")
                         .HasForeignKey("UserId");
 
                     b.Navigation("Book");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Locadora.API.Models.Publishers", b =>
+                {
+                    b.Navigation("Books");
+                });
+
+            modelBuilder.Entity("Locadora.API.Models.Users", b =>
+                {
+                    b.Navigation("Rentals");
                 });
 #pragma warning restore 612, 618
         }

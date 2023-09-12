@@ -47,11 +47,11 @@ namespace Locadora.API.Data {
 
             builder.Entity<Rentals>()
                 .HasData(new List<Rentals>{
-                    new Rentals(1, 1, 1, new DateTime(2023, 9, 10), new DateTime(2023, 9, 20), null, "Pendente"),
-                    new Rentals(2, 2, 2, new DateTime(2023, 9, 12), new DateTime(2023, 9, 22), null, "No Prazo"),
-                    new Rentals(3, 3, 3, new DateTime(2023, 9, 15), new DateTime(2023, 9, 25), null, "Atrasado"),
-                    new Rentals(4, 4, 4, new DateTime(2023, 9, 18), new DateTime(2023, 9, 28), null, "Pendente"),
-                    new Rentals(5, 5, 5, new DateTime(2023, 9, 20), new DateTime(2023, 9, 30), null, "No Prazo")
+                    new Rentals(1, 1, 1, "2023-09-10", "2023-09-21", null, "Pendente"),
+                    new Rentals(2, 2, 2, "2023-09-12", "2023-09-23", null, "No Prazo"),
+                    new Rentals(3, 3, 3, "2023-09-14", "2023-09-25", null, "Atrasado"),
+                    new Rentals(4, 4, 4, "2023-09-18", "2023-09-30", null, "Pendente"),
+                    new Rentals(5, 5, 5, "2023-09-20", "2023-09-30", null, "No Prazo")
                 });
 
         }

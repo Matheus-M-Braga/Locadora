@@ -1,7 +1,7 @@
 ﻿namespace Locadora.API.Models {
     public class Rentals {
         public Rentals() { }
-        public Rentals(int id, int bookId, int userId, DateTime rentalDate, DateTime forecastDate, DateTime? returnDate, string status) {
+        public Rentals(int id, int bookId, int userId, string rentalDate, string forecastDate, string? returnDate, string status) {
             this.Id = id;
             this.BookId = bookId;
             this.UserId = userId;
@@ -15,9 +15,9 @@
         public Books? Book { get; set; }
         public int? UserId { get; set; }
         public Users? User { get; set; }
-        public DateTime? RentalDate { get; set; }
-        public DateTime? ForecastDate { get; set; }
-        public DateTime? ReturnDate { get; set; }
+        public string? RentalDate { get; set; }
+        public string? ForecastDate { get; set; }
+        public string? ReturnDate { get; set; }
         public string? Status { get; set; }
     }
 }

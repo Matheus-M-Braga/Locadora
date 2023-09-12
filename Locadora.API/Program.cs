@@ -1,3 +1,4 @@
+using AutoMapper;
 using Locadora.API.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlite("Data Source=Locadora.db"));
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IRepository, Repository>();
 
 var app = builder.Build();

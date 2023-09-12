@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -74,9 +73,9 @@ namespace Locadora.API.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     BookId = table.Column<int>(type: "INTEGER", nullable: true),
                     UserId = table.Column<int>(type: "INTEGER", nullable: true),
-                    RentalDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    ForecastDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    ReturnDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    RentalDate = table.Column<string>(type: "TEXT", nullable: true),
+                    ForecastDate = table.Column<string>(type: "TEXT", nullable: true),
+                    ReturnDate = table.Column<string>(type: "TEXT", nullable: true),
                     Status = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
@@ -135,11 +134,11 @@ namespace Locadora.API.Migrations
                 columns: new[] { "Id", "BookId", "ForecastDate", "RentalDate", "ReturnDate", "Status", "UserId" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2023, 9, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Pendente", 1 },
-                    { 2, 2, new DateTime(2023, 9, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "No Prazo", 2 },
-                    { 3, 3, new DateTime(2023, 9, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 9, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Atrasado", 3 },
-                    { 4, 4, new DateTime(2023, 9, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 9, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Pendente", 4 },
-                    { 5, 5, new DateTime(2023, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 9, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "No Prazo", 5 }
+                    { 1, 1, "2023-09-21", "2023-09-10", null, "Pendente", 1 },
+                    { 2, 2, "2023-09-23", "2023-09-12", null, "No Prazo", 2 },
+                    { 3, 3, "2023-09-25", "2023-09-14", null, "Atrasado", 3 },
+                    { 4, 4, "2023-09-30", "2023-09-18", null, "Pendente", 4 },
+                    { 5, 5, "2023-09-30", "2023-09-20", null, "No Prazo", 5 }
                 });
 
             migrationBuilder.CreateIndex(
