@@ -3,6 +3,7 @@ using Locadora.API.Data;
 using Locadora.API.Dtos;
 using Locadora.API.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Update.Internal;
 
 namespace Locadora.API.Controllers {
     [Route("api/[controller]")]
@@ -18,20 +19,26 @@ namespace Locadora.API.Controllers {
 
         [HttpGet]
         public IActionResult Get() {
-            var result = _repo.GetAllRentals(false, false);
+            var result = _repo.GetAllRentals();
             return Ok(_mapper.Map<IEnumerable<RentalsDto>>(result));
         }
 
         [HttpGet("{id}")]
         public IActionResult GetById(int id) {
-            var rental = _repo.GetRentalById(id, true, true);
+            var rental = _repo.GetRentalById(id);
             if (rental == null) return BadRequest("Aluguel não encontrado");
             var rentalDto = _mapper.Map<RentalsDto>(rental);
             return Ok(rentalDto);
         }
 
         [HttpPost]
-        public IActionResult Post(RentalRegisterDto model) {
+        public IActionResult Post(RentalsDto model) {
+
+            var user = _repo.GetUserById((int)model.UserId);
+            if (user == null) return BadRequest("Usuário informado não existe no registro.");
+            var book = _repo.GetBookById((int)model.BookId);
+            if (book == null) return BadRequest("Livro informado não existe no registro.");
+
             var rental = _mapper.Map<Rentals>(model);
             _repo.Add(rental);
             if (_repo.SaveChanges()) {
@@ -42,8 +49,9 @@ namespace Locadora.API.Controllers {
 
         [HttpPut("{id}")]
         public IActionResult Put(int id, RentalReturnDto model) {
-            var rental = _repo.GetRentalById(id, true, true);
+            var rental = _repo.GetRentalById(id);
             if (rental == null) return BadRequest("Aluguel não encontrado.");
+            
             _mapper.Map(model, rental);
             _repo.Update(rental);
             if (_repo.SaveChanges()) {

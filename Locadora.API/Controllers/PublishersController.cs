@@ -2,6 +2,7 @@
 using Locadora.API.Data;
 using Locadora.API.Dtos;
 using Locadora.API.Models;
+using Locadora.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,10 +12,12 @@ namespace Locadora.API.Controllers {
     public class PublishersController : ControllerBase {
         private readonly IRepository _repo;
         private readonly IMapper _mapper;
+        private readonly ManagePublishers _managePublishers;
 
-        public PublishersController(IRepository repo, IMapper mapper) {
+        public PublishersController(IRepository repo, IMapper mapper, ManagePublishers managePublishers) {
             _repo = repo;
             _mapper = mapper;
+            _managePublishers = managePublishers;
         }
 
         [HttpGet]
@@ -32,6 +35,11 @@ namespace Locadora.API.Controllers {
 
         [HttpPost]
         public IActionResult Post(PublishersDto model) {
+            var existingPublisher = _repo.GetPublisherByName(model.Name);
+
+            if (existingPublisher != null) {
+                return BadRequest("Uma editora com este nome já existe.");
+            }
             var publisher = _mapper.Map<Publishers>(model);
             _repo.Add(publisher);
             if (_repo.SaveChanges()) {

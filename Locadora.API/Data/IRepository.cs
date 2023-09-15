@@ -12,19 +12,20 @@ namespace Locadora.API.Data {
         Users GetUserById(int userId);
         
         // Books
-        Books[] GetAllBooks(bool includePublisher = false);
-        Books GetBookById(int bookId, bool includePublisher = false);
-        Books[] GetAllBooksByPublisherId(int publisherId, bool includePublisher = false);
+        Books[] GetAllBooks();
+        Books GetBookById(int bookId);
+        Books[] GetAllBooksByPublisherId(int publisherId);
 
         // Publishers
         Publishers[] GetAllPublishers();
         Publishers GetPublisherById(int publisherId);
+        Publishers GetPublisherByName(string publisherName);
 
         // Rentals
-        Rentals[] GetAllRentals(bool includeUser = false, bool includeBook = false);
-        Rentals GetRentalById(int rentalId, bool includeUser = false, bool includeBook = false);
-        Rentals[] GetAllRentalsByUserId(int userId, bool includeUser = false);
-        Rentals[] GetAllRentalsByBookId(int bookId, bool includeBook = false);
+        Rentals[] GetAllRentals();
+        Rentals GetRentalById(int rentalId);
+        Rentals[] GetAllRentalsByUserId(int userId);
+        Rentals[] GetAllRentalsByBookId(int bookId);
 
     }
 }

@@ -39,35 +39,22 @@ namespace Locadora.API.Data {
         }
 
         // Books
-        public Books[] GetAllBooks(bool includePublisher = false) {
+        public Books[] GetAllBooks() {
             IQueryable<Books> query = _context.Books;
-
-            if(includePublisher) {
-                query = query.Include(b => b.Publisher);
-            }
 
             query = query.AsNoTracking().OrderBy(b => b.Id);
             return query.ToArray();
         }
 
-        public Books GetBookById(int bookId, bool includePublisher = false) {
+        public Books GetBookById(int bookId) {
             IQueryable<Books> query = _context.Books;
-
-            if (includePublisher) {
-                query = query.Include(b => b.Publisher);
-            }
 
             query = query.AsNoTracking().OrderBy(b => b.Id).Where(book => book.Id == bookId);
             return query.FirstOrDefault();
         }
 
-        public Books[] GetAllBooksByPublisherId(int publisherId, bool includePublisher = false) {
+        public Books[] GetAllBooksByPublisherId(int publisherId) {
             IQueryable<Books> query = _context.Books;
-
-            if (includePublisher) {
-                query = query.Include(b => b.Publisher).ThenInclude(p => p.Name);
-            }
-
             query = query.AsNoTracking().OrderBy(b => b.Id).Where(book => book.PublisherId == publisherId);
             return query.ToArray();
         }
@@ -86,47 +73,37 @@ namespace Locadora.API.Data {
             query = query.AsNoTracking().OrderBy(publisher => publisher.Id).Where(publisher => publisher.Id == publisherId);
             return query.FirstOrDefault();
         }
+        public Publishers GetPublisherByName(string publisherName) {
+            IQueryable<Publishers> query = _context.Publishers;
+
+            query = query.AsNoTracking().Where(publisher => publisher.Name == publisherName);
+            return query.FirstOrDefault();
+        }
 
         // Rentals
-        public Rentals[] GetAllRentals(bool includeUser = false, bool includeBook = false) {
+        public Rentals[] GetAllRentals() {
             IQueryable<Rentals> query = _context.Rentals;
-
-            if (includeUser && includeBook) {
-                query = query.Include(r => r.User).Include(r => r.Book);
-            }
 
             query = query.AsNoTracking().OrderBy(r => r.Id);
             return query.ToArray();
         }
 
-        public Rentals GetRentalById(int rentalId, bool includeUser = false, bool includeBook = false) {
+        public Rentals GetRentalById(int rentalId) {
             IQueryable<Rentals> query = _context.Rentals;
-
-            if (includeUser && includeBook) {
-                query = query.Include(r => r.User).Include(r => r.Book);
-            }
 
             query = query.AsNoTracking().OrderBy(r => r.Id).Where(rental => rental.Id == rentalId);
             return query.FirstOrDefault();
         }
 
-        public Rentals[] GetAllRentalsByUserId(int userId, bool includeUser = false) {
+        public Rentals[] GetAllRentalsByUserId(int userId) {
             IQueryable<Rentals> query = _context.Rentals;
-
-            if (includeUser) {
-                query = query.Include(r => r.User);
-            }
 
             query = query.AsNoTracking().OrderBy(r => r.Id).Where(rental => rental.UserId == userId);
             return query.ToArray();
         }
 
-        public Rentals[] GetAllRentalsByBookId(int bookId, bool includeBook = false) {
+        public Rentals[] GetAllRentalsByBookId(int bookId) {
             IQueryable<Rentals> query = _context.Rentals;
-
-            if (includeBook) {
-                query = query.Include(r => r.Book);
-            }
 
             query = query.AsNoTracking().OrderBy(r => r.Id).Where(rental => rental.BookId == bookId);
             return query.ToArray();
