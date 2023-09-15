@@ -24,89 +24,90 @@ namespace Locadora.API.Data {
         }
 
         // Users
-        public Users[] GetAllUsers() {
+        public async Task<Users[]> GetAllUsers() {
             IQueryable<Users> query = _context.Users;
-            
+
             query = query.AsNoTracking().OrderBy(user => user.Id);
-            return query.ToArray();
+            return await query.ToArrayAsync();
         }
-         
-        public Users GetUserById(int userId) {
+        public async Task<Users> GetUserById(int userId) {
             IQueryable<Users> query = _context.Users;
 
             query = query.AsNoTracking().OrderBy(user => user.Id).Where(user => user.Id == userId);
-            return query.FirstOrDefault();
+            return await query.FirstOrDefaultAsync();
         }
 
         // Books
-        public Books[] GetAllBooks() {
+        public async Task<Books[]> GetAllBooks() {
             IQueryable<Books> query = _context.Books;
 
             query = query.AsNoTracking().OrderBy(b => b.Id);
-            return query.ToArray();
+            return await query.ToArrayAsync();
         }
 
-        public Books GetBookById(int bookId) {
+        public async Task<Books> GetBookById(int bookId) {
             IQueryable<Books> query = _context.Books;
 
             query = query.AsNoTracking().OrderBy(b => b.Id).Where(book => book.Id == bookId);
-            return query.FirstOrDefault();
+            return await query.FirstOrDefaultAsync();
         }
 
-        public Books[] GetAllBooksByPublisherId(int publisherId) {
+        public async Task<Books[]> GetAllBooksByPublisherId(int publisherId) {
             IQueryable<Books> query = _context.Books;
             query = query.AsNoTracking().OrderBy(b => b.Id).Where(book => book.PublisherId == publisherId);
-            return query.ToArray();
+            return await query.ToArrayAsync();
         }
 
         // Publishers
-        public Publishers[] GetAllPublishers() {
+        public async Task<Publishers[]> GetAllPublishers() {
             IQueryable<Publishers> query = _context.Publishers;
 
             query = query.AsNoTracking().OrderBy(publisher => publisher.Id);
-            return query.ToArray();
+            return await query.ToArrayAsync();
         }
 
-        public Publishers GetPublisherById(int publisherId) {
+        public async Task<Publishers> GetPublisherById(int publisherId) {
             IQueryable<Publishers> query = _context.Publishers;
 
             query = query.AsNoTracking().OrderBy(publisher => publisher.Id).Where(publisher => publisher.Id == publisherId);
-            return query.FirstOrDefault();
+            return await query.FirstOrDefaultAsync();
         }
-        public Publishers GetPublisherByName(string publisherName) {
+        public async Task<Publishers> GetPublisherByName(string publisherName) {
             IQueryable<Publishers> query = _context.Publishers;
 
             query = query.AsNoTracking().Where(publisher => publisher.Name == publisherName);
-            return query.FirstOrDefault();
+            return await query.FirstOrDefaultAsync();
         }
 
         // Rentals
-        public Rentals[] GetAllRentals() {
+        public async Task<Rentals[]> GetAllRentals() {
             IQueryable<Rentals> query = _context.Rentals;
 
             query = query.AsNoTracking().OrderBy(r => r.Id);
-            return query.ToArray();
+            return await query.ToArrayAsync();
         }
 
-        public Rentals GetRentalById(int rentalId) {
+        public async Task<Rentals> GetRentalById(int rentalId) {
             IQueryable<Rentals> query = _context.Rentals;
 
             query = query.AsNoTracking().OrderBy(r => r.Id).Where(rental => rental.Id == rentalId);
-            return query.FirstOrDefault();
+            return await query.FirstOrDefaultAsync();
         }
 
-        public Rentals[] GetAllRentalsByUserId(int userId) {
+        public async Task<Rentals[]> GetAllRentalsByUserId(int userId) {
             IQueryable<Rentals> query = _context.Rentals;
 
             query = query.AsNoTracking().OrderBy(r => r.Id).Where(rental => rental.UserId == userId);
-            return query.ToArray();
+            return await query.ToArrayAsync();
         }
 
-        public Rentals[] GetAllRentalsByBookId(int bookId) {
+        public async Task<Rentals[]> GetAllRentalsByBookId(int bookId) {
             IQueryable<Rentals> query = _context.Rentals;
 
             query = query.AsNoTracking().OrderBy(r => r.Id).Where(rental => rental.BookId == bookId);
-            return query.ToArray();
+            return await query.ToArrayAsync();
         }
+
+        
     }
 }

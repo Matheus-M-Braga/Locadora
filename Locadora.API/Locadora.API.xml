@@ -4,53 +4,6 @@
         <name>Locadora.API</name>
     </assembly>
     <members>
-        <member name="T:Locadora.API.Controllers.BooksController">
-            <summary>
-            Isso
-            </summary>
-        </member>
-        <member name="M:Locadora.API.Controllers.BooksController.#ctor(Locadora.API.Data.IRepository,AutoMapper.IMapper)">
-            <summary>
-            
-            </summary>
-            <param name="repo"></param>
-            <param name="mapper"></param>
-        </member>
-        <member name="M:Locadora.API.Controllers.BooksController.Get">
-            <summary>
-            Lista todos os livros
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Locadora.API.Controllers.BooksController.GetById(System.Int32)">
-            <summary>
-            Retorna um único livro pelo id
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Locadora.API.Controllers.BooksController.Post(Locadora.API.Dtos.BooksDto)">
-            <summary>
-            Método para adicionar um novo registro
-            </summary>
-            <param name="model"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Locadora.API.Controllers.BooksController.Put(System.Int32,Locadora.API.Dtos.BooksDto)">
-            <summary>
-            Método para atualizar um registro
-            </summary>
-            <param name="id"></param>
-            <param name="model"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Locadora.API.Controllers.BooksController.Delete(System.Int32)">
-            <summary>
-            Método para excluir um registro
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
         <member name="T:Locadora.API.Migrations.initial">
             <inheritdoc />
         </member>

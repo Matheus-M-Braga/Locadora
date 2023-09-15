@@ -18,21 +18,21 @@ namespace Locadora.API.Controllers {
         }
 
         [HttpGet]
-        public IActionResult Get() {
-            var result = _repo.GetAllUsers();
+        public async Task<IActionResult> Get() {
+            var result = await _repo.GetAllUsers();
             return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id) {
-            var user = _repo.GetUserById(id);
+        public async Task<IActionResult> GetById(int id) {
+            var user = await _repo.GetUserById(id);
             if (user == null) return BadRequest("Usuário não encontrado");
            
             return Ok(user);
         }
 
         [HttpPost]
-        public IActionResult Post(UsersDto model) {
+        public async Task<IActionResult> Post(UsersDto model) {
             var user = _mapper.Map<Users>(model);
             _repo.Add(user);
             if (_repo.SaveChanges()) {
@@ -42,8 +42,8 @@ namespace Locadora.API.Controllers {
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, UsersDto model) {
-            var user = _repo.GetUserById(id);
+        public async Task<IActionResult> Put(int id, UsersDto model) {
+            var user = await _repo.GetUserById(id);
             if (user == null) return BadRequest("Usuário não encontrado.");
             _mapper.Map(model, user);
             _repo.Update(user);
@@ -54,8 +54,8 @@ namespace Locadora.API.Controllers {
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id) {
-            var user = _repo.GetUserById(id);
+        public async Task<IActionResult> Delete(int id) {
+            var user = await _repo.GetUserById(id);
             if (user == null) return BadRequest("Usuário não encontrado.");
             _repo.Delete(user);
 

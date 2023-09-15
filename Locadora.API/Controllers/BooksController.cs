@@ -7,9 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using SQLitePCL;
 
 namespace Locadora.API.Controllers {
-    /// <summary>
-    /// Isso
-    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
@@ -43,7 +40,7 @@ namespace Locadora.API.Controllers {
             var book = _mapper.Map<Books>(model);
             _repo.Add(book);
             if (_repo.SaveChanges()) {
-                return Created($"/api/Books/{book.Id}", _mapper.Map<BooksDto>(book));
+                return Created($"/api/Books/{book.Id}", _mapper.Map<Books>(book));
             }
 
             return BadRequest("Erro ao cadastrar livro.");
