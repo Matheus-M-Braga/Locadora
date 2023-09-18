@@ -41,7 +41,7 @@ internal class Program {
             options.UseSqlite("Data Source=Locadora.db"));
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         builder.Services.AddScoped<IRepository, Repository>();
-        builder.Services.AddScoped<ManagePublishers>();
+        builder.Services.AddScoped<PublishersServices>();
 
         var app = builder.Build();
 

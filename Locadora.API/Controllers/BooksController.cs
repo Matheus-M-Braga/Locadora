@@ -20,21 +20,21 @@ namespace Locadora.API.Controllers {
         }
         
         [HttpGet]
-        public IActionResult Get() {
-            var result = _repo.GetAllBooks();
+        public async Task<IActionResult> Get() {
+            var result = await _repo.GetAllBooks(true);
             return Ok(result);
         }
         
         [HttpGet("{id}")]
-        public IActionResult GetById(int id) {
-            var book = _repo.GetBookById(id);
+        public async Task<IActionResult> GetById(int id) {
+            var book = await _repo.GetBookById(id);
             if (book == null) return BadRequest("Livro não encontrado");
             return Ok(book);
         }
         
         [HttpPost]
-        public IActionResult Post(BooksDto model) {
-            var publisher = _repo.GetPublisherById((int)model.PublisherId);
+        public async Task<IActionResult> Post(BooksDto model) {
+            var publisher = await _repo.GetPublisherById((int)model.PublisherId);
             if (publisher == null) return BadRequest("Editora informada não existe no registro.");
 
             var book = _mapper.Map<Books>(model);
@@ -47,13 +47,13 @@ namespace Locadora.API.Controllers {
         }
         
         [HttpPut("{id}")]  
-        public IActionResult Put(int id, BooksDto model) {
-            var publisher = _repo.GetPublisherById((int)model.PublisherId);
+        public async Task<IActionResult> Put(int id, BooksDto model) {
+            var publisher = await _repo.GetPublisherById((int)model.PublisherId);
             if (publisher == null) return BadRequest("Editora informada não existe no registro.");
 
             var book = _repo.GetBookById(id);
             if (book == null) return BadRequest("Livro não encontrado.");
-            _mapper.Map(model, book);
+            await _mapper.Map(model, book);
             _repo.Update(book);
             if (_repo.SaveChanges()) {
                 return Created($"/api/Books/{book.Id}", _mapper.Map<BooksDto>(book));
@@ -63,8 +63,8 @@ namespace Locadora.API.Controllers {
         }
         
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id) {
-            var book = _repo.GetBookById(id);
+        public async Task<IActionResult> Delete(int id) {
+            var book = await _repo.GetBookById(id);
             if (book == null) return BadRequest("Livro não encontrado.");
             _repo.Delete(book);
 

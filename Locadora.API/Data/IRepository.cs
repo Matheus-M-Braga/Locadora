@@ -12,8 +12,8 @@ namespace Locadora.API.Data {
         Task<Users> GetUserById(int userId);
         
         // Books
-        Task<Books[]> GetAllBooks();
-        Task<Books> GetBookById(int bookId);
+        Task<Books[]> GetAllBooks(bool includePublisher = false);
+        Task<Books> GetBookById(int bookId, bool includePublisher = false);
         Task<Books[]> GetAllBooksByPublisherId(int publisherId);
 
         // Publishers
@@ -22,8 +22,8 @@ namespace Locadora.API.Data {
         Task<Publishers> GetPublisherByName(string publisherName);
 
         // Rentals
-        Task<Rentals[]> GetAllRentals();
-        Task<Rentals> GetRentalById(int rentalId);
+        Task<Rentals[]> GetAllRentals(bool includeBook = false, bool includeUser = false);
+        Task<Rentals> GetRentalById(int rentalId, bool includeBook = false, bool includeUser = false);
         Task<Rentals[]> GetAllRentalsByUserId(int userId);
         Task<Rentals[]> GetAllRentalsByBookId(int bookId);
     }

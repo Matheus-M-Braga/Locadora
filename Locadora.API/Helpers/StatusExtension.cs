@@ -18,7 +18,7 @@ namespace Locadora.API.Helpers {
                 }
             }
 
-            return null;
+            return "";
         }
     }
 }

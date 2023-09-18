@@ -18,25 +18,25 @@ namespace Locadora.API.Controllers {
         }
 
         [HttpGet]
-        public IActionResult Get() {
-            var result = _repo.GetAllRentals();
+        public async Task<IActionResult> Get() {
+            var result = await _repo.GetAllRentals(true, true);
             return Ok(_mapper.Map<IEnumerable<RentalsDto>>(result));
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id) {
-            var rental = _repo.GetRentalById(id);
+        public async Task<IActionResult> GetById(int id) {
+            var rental = await _repo.GetRentalById(id, true, true);
             if (rental == null) return BadRequest("Aluguel não encontrado");
             var rentalDto = _mapper.Map<RentalsDto>(rental);
             return Ok(rentalDto);
         }
 
         [HttpPost]
-        public IActionResult Post(RentalsDto model) {
+        public async Task<IActionResult> Post(RentalsDto model) {
 
             var user = _repo.GetUserById((int)model.UserId);
             if (user == null) return BadRequest("Usuário informado não existe no registro.");
-            var book = _repo.GetBookById((int)model.BookId);
+            var book = _repo.GetBookById((int)model.BookId, false);
             if (book == null) return BadRequest("Livro informado não existe no registro.");
 
             var rental = _mapper.Map<Rentals>(model);
@@ -48,8 +48,8 @@ namespace Locadora.API.Controllers {
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, RentalReturnDto model) {
-            var rental = _repo.GetRentalById(id);
+        public async Task<IActionResult> Put(int id, RentalReturnDto model) {
+            var rental = await _repo.GetRentalById(id, false, false);
             if (rental == null) return BadRequest("Aluguel não encontrado.");
             
             _mapper.Map(model, rental);
@@ -61,8 +61,8 @@ namespace Locadora.API.Controllers {
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id) {
-            var rental = _repo.GetRentalById(id);
+        public async Task<IActionResult> Delete(int id) {
+            var rental = await _repo.GetRentalById(id, false, false);
             if (rental == null) return BadRequest("Aluguel não encontrado.");
             _repo.Delete(rental);
 
