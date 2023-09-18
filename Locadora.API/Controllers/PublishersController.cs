@@ -42,7 +42,7 @@ namespace Locadora.API.Controllers
         public async Task<IActionResult> Post(PublishersDto model)
         {
             var existingPublisher = _managePublishers.VerifyName(model.Name);
-            if (existingPublisher != null)
+            if (existingPublisher == false)
             {
                 return BadRequest("Uma editora com este nome já existe.");
             }

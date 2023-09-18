@@ -6,9 +6,9 @@ namespace Locadora.API.Dtos
     {
         public int Id { get; set; }
         public int? BookId { get; set; }
-        public Books? Book { get; set; }
+        public BookRentalDto? Book { get; set; }
         public int? UserId { get; set; }
-        public Users? User { get; set; }
+        public UserRentalDto? User { get; set; }
         public string? RentalDate { get; set; }
         public string? ForecastDate { get; set; }
     }

@@ -1,4 +1,5 @@
 ﻿using Locadora.API.Models;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using SQLitePCL;
@@ -120,7 +121,7 @@ namespace Locadora.API.Data
             {
                 query = query.Include(r => r.User).Include(r => r.Book);
             }
-            
+
             query = query.AsNoTracking().OrderBy(r => r.Id).Where(rental => rental.Id == rentalId);
             return await query.FirstOrDefaultAsync();
         }

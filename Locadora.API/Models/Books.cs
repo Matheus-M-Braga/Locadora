@@ -1,4 +1,6 @@
-﻿namespace Locadora.API.Models {
+﻿using Locadora.API.Dtos;
+
+namespace Locadora.API.Models {
     public class Books {
 
         public Books() { }

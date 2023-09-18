@@ -8,9 +8,12 @@ namespace Locadora.API.Services {
         public PublishersServices(IRepository repo) {
             _repo = repo;
         }
-        public async Task<Publishers> VerifyName(string name) {
-            Publishers existingPublisher = await _repo.GetPublisherByName(name);
-            return existingPublisher;
+        public async Task<bool> VerifyName(string name) {
+            var existingPublisher = await _repo.GetPublisherByName(name);
+            if(existingPublisher != null){
+                return true;
+            }
+            return false;
         }
     }
 }
