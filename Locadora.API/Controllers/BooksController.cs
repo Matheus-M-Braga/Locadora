@@ -1,10 +1,6 @@
-﻿using AutoMapper;
-using Locadora.API.Data;
-using Locadora.API.Dtos;
-using Locadora.API.Models;
+﻿using Locadora.API.Dtos;
+using Locadora.API.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using SQLitePCL;
 
 namespace Locadora.API.Controllers
 {
@@ -13,78 +9,52 @@ namespace Locadora.API.Controllers
     [Produces("application/json")]
     public class BooksController : ControllerBase
     {
-        private readonly IRepository _repo;
-        private readonly IMapper _mapper;
+        private readonly IBooksService _service;
 
-        public BooksController(IRepository repo, IMapper mapper)
+        public BooksController(IBooksService service)
         {
-            _repo = repo;
-            _mapper = mapper;
+            _service = service;
         }
+
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var result = await _repo.GetAllBooks(true);
-            return Ok(_mapper.Map<IEnumerable<BooksDto>>(result));
+            var books = await _service.GetAsync();
+            if (books.IsSucess) return Ok(books);
+            return BadRequest(books);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var book = await _repo.GetBookById(id, true);
-            if (book == null) return BadRequest("Livro não encontrado");
-            var bookDTO = _mapper.Map<BooksDto>(book);
-            return Ok(bookDTO);
+            var book = await _service.GetByIdAsync(id);
+            if (book.IsSucess) return Ok(book);
+            return BadRequest(book);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(CreateBookDto model)
+        public async Task<IActionResult> Post([FromBody] CreateBookDto model)
         {
-            var publisher = await _repo.GetPublisherById((int)model.PublisherId);
-            if (publisher == null) return BadRequest("Editora informada não existe no registro.");
-
-            var book = _mapper.Map<Books>(model);
-            _repo.Add(book);
-            if (_repo.SaveChanges())
-            {
-                return Created($"/api/Books/{book.Id}", _mapper.Map<Books>(book));
-            }
-
-            return BadRequest("Erro ao cadastrar livro.");
+            var result = await _service.CreateAsync(model);
+            if (result.IsSucess) return Ok(result);
+            return BadRequest(result);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, CreateBookDto model)
+        public async Task<IActionResult> Put([FromBody] UpdateBookDto model)
         {
-            var publisher = await _repo.GetPublisherById((int)model.PublisherId);
-            if (publisher == null) return BadRequest("Editora informada não existe no registro.");
-
-            var book = await _repo.GetBookById(id, true);
-            if (book == null) return BadRequest("Livro não encontrado.");
-            _mapper.Map(model, book);
-            _repo.Update(book);
-            if (_repo.SaveChanges())
-            {
-                return Created($"/api/Books/{book.Id}", _mapper.Map<BooksDto>(book));
-            }
-
-            return BadRequest("Erro ao atualizar livro.");
+            var result = await _service.UpdateAsync(model);
+            if (result.IsSucess) return Ok(result);
+            return BadRequest(result);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var book = await _repo.GetBookById(id);
-            if (book == null) return BadRequest("Livro não encontrado.");
-            _repo.Delete(book);
-
-            if (_repo.SaveChanges())
-            {
-                return Ok("Livro deletado com sucesso.");
-            }
-
-            return BadRequest("Erro ao deletar livro.");
+            var result = await _service.DeleteAsync(id);
+            if (result.IsSucess) return Ok(result);
+            return BadRequest(result);
         }
 
     }

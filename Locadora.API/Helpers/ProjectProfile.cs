@@ -5,19 +5,23 @@ using Locadora.API.Models;
 namespace Locadora.API.Helpers {
     public class ProjectProfile : Profile {
         public ProjectProfile() {
-            CreateMap<Users, UsersDto>().ReverseMap();
             CreateMap<Users, UserRentalDto>().ReverseMap();
+            CreateMap<Users, CreateUserDto>().ReverseMap();
 
             CreateMap<Books, BooksDto>().ReverseMap();
             CreateMap<Books, CreateBookDto>().ReverseMap();
             CreateMap<Books, BookRentalDto>().ReverseMap();
+            CreateMap<Books, UpdateBookDto>().ReverseMap();
+            CreateMap<BooksDto, UpdateBookDto>().ReverseMap();
 
             CreateMap<Publishers, PublisherBookDto>().ReverseMap();
-            CreateMap<Publishers, PublishersDto>().ReverseMap();
+            CreateMap<Publishers, CreatePublisherDto>().ReverseMap();
 
             CreateMap<Rentals, RentalsDto>().ReverseMap();  
             CreateMap<Rentals, RentalReturnDto>().ReverseMap();
             CreateMap<Rentals, CreateRentalDto>().ReverseMap();
+            CreateMap<Rentals, UpdatedRentalDto>().ReverseMap();
+            CreateMap<RentalReturnDto, CreateRentalDto>().ReverseMap();
         }
     }
 }

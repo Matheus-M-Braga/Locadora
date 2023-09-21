@@ -11,5 +11,7 @@ namespace Locadora.API.Dtos
         public UserRentalDto? User { get; set; }
         public string? RentalDate { get; set; }
         public string? ForecastDate { get; set; }
+        public string? ReturnDate { get; set; }
+        public string? Status { get; set; }
     }
 }

@@ -1,10 +1,7 @@
-﻿using AutoMapper;
-using Locadora.API.Data;
-using Locadora.API.Dtos;
+﻿using Locadora.API.Dtos;
 using Locadora.API.Models;
-using Locadora.API.Services;
+using Locadora.API.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Locadora.API.Controllers
 {
@@ -12,84 +9,51 @@ namespace Locadora.API.Controllers
     [Route("api/[controller]")]
     public class PublishersController : ControllerBase
     {
-        private readonly IRepository _repo;
-        private readonly IMapper _mapper;
-        private readonly PublishersServices _managePublishers;
+        private readonly IPublishersService _service;
 
-        public PublishersController(IRepository repo, IMapper mapper, PublishersServices managePublishers)
+        public PublishersController(IPublishersService service)
         {
-            _repo = repo;
-            _mapper = mapper;
-            _managePublishers = managePublishers;
+            _service = service;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var result = await _repo.GetAllPublishers();
-            return Ok(result);
+            var publishers = await _service.GetAsync();
+            if (publishers.IsSucess) return Ok(publishers);
+            return BadRequest(publishers);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var publisher = await _repo.GetPublisherById(id);
-            if (publisher == null) return BadRequest("Editora não encontrada");
-            return Ok(publisher);
+            var publisher = await _service.GetByIdAsync(id);
+            if (publisher.IsSucess) return Ok(publisher);
+            return BadRequest(publisher);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(PublishersDto model)
+        public async Task<IActionResult> Post([FromBody] CreatePublisherDto model)
         {
-            var existingPublisher = _managePublishers.VerifyName(model.Name);
-            if (existingPublisher == false)
-            {
-                return BadRequest("Uma editora com este nome já existe.");
-            }
-            
-            var publisher = _mapper.Map<Publishers>(model);
-            _repo.Add(publisher);
-            if (_repo.SaveChanges())
-            {
-                return Created($"/api/Publishers/{publisher.Id}", _mapper.Map<Publishers>(publisher));
-            }
-            return BadRequest("Erro ao cadastrar editora.");
+            var result = await _service.CreateAsync(model);
+            if (result.IsSucess) return Ok(result);
+            return BadRequest(result);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, PublishersDto model)
+        public async Task<IActionResult> Put([FromBody] Publishers model)
         {
-
-            var publisher = await _repo.GetPublisherById(id);
-            if (publisher == null) return BadRequest("Editora não encontrada.");
-
-            var existingPublisher = _managePublishers.VerifyName(model.Name);
-            if (existingPublisher != null)
-            {
-                return BadRequest("Uma editora com este nome já existe.");
-            }
-
-            _mapper.Map(model, publisher);
-            _repo.Update(publisher);
-            if (_repo.SaveChanges())
-            {
-                return Created($"/api/Publishers/{publisher.Id}", _mapper.Map<Publishers>(publisher));
-            }
-            return BadRequest("Erro ao atualizar editora.");
+            var result = await _service.UpdateAsync(model);
+            if (result.IsSucess) return Ok(result);
+            return BadRequest(result);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var publisher = await _repo.GetPublisherById(id);
-            if (publisher == null) return BadRequest("Editora não encontrada.");
-            _repo.Delete(publisher);
-
-            if (_repo.SaveChanges())
-            {
-                return Ok("Editora deletada com sucesso.");
-            }
-            return BadRequest("Erro ao deletar editora.");
+            var result = await _service.DeleteAsync(id);
+            if (result.IsSucess) return Ok(result);
+            return BadRequest(result);
         }
     }
 }

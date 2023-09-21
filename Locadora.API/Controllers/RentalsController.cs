@@ -1,9 +1,6 @@
-﻿using AutoMapper;
-using Locadora.API.Data;
-using Locadora.API.Dtos;
-using Locadora.API.Models;
+﻿using Locadora.API.Dtos;
+using Locadora.API.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Update.Internal;
 
 namespace Locadora.API.Controllers
 {
@@ -11,76 +8,51 @@ namespace Locadora.API.Controllers
     [ApiController]
     public class RentalsController : ControllerBase
     {
-        private readonly IRepository _repo;
-        private readonly IMapper _mapper;
+        private readonly IRentalsService _service;
 
-        public RentalsController(IRepository repo, IMapper mapper)
+        public RentalsController(IRentalsService service)
         {
-            _repo = repo;
-            _mapper = mapper;
+            _service = service;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var result = await _repo.GetAllRentals(true, true);
-            return Ok(_mapper.Map<IEnumerable<RentalsDto>>(result));
+            var rentals = await _service.GetAsync();
+            if (rentals.IsSucess) return Ok(rentals);
+            return BadRequest(rentals);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var rental = await _repo.GetRentalById(id, true, true);
-            if (rental == null) return BadRequest("Aluguel não encontrado");
-            var rentalDto = _mapper.Map<RentalsDto>(rental);
-            return Ok(rentalDto);
+            var rental = await _service.GetByIdAsync(id);
+            if (rental.IsSucess) return Ok(rental);
+            return BadRequest(rental);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(CreateRentalDto model)
+        public async Task<IActionResult> Post([FromBody]CreateRentalDto model)
         {
-
-            var user = await _repo.GetUserById(model.UserId);
-            if (user == null) return BadRequest("Usuário informado não existe no registro.");
-            var book = await _repo.GetBookById(model.BookId);
-            if (book == null) return BadRequest("Livro informado não existe no registro.");
-
-            var rental = _mapper.Map<Rentals>(model);
-            _repo.Add(rental);
-            if (_repo.SaveChanges())
-            {
-                return Created($"/api/Rentals/{rental.Id}", _mapper.Map<RentalsDto>(rental));
-            }
-            return BadRequest("Erro ao cadastrar aluguel.");
+            var result = await _service.CreateAsync(model);
+            if(result.IsSucess) return Ok(result);
+            return BadRequest(result);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, RentalReturnDto model)
+        public async Task<IActionResult> Put([FromBody] RentalReturnDto model)
         {
-            var rental = await _repo.GetRentalById(id, true, true);
-            if (rental == null) return BadRequest("Aluguel não encontrado.");
-
-            _mapper.Map(model, rental);
-            _repo.Update(rental);
-            if (_repo.SaveChanges())
-            {
-                return Created($"/api/Rentals/{rental.Id}", _mapper.Map<Rentals>(rental));
-            }
-            return BadRequest("Erro ao realizar devolução.");
+            var result = await  _service.UpdateAsync(model);
+            if(result.IsSucess) return Ok(result);
+            return BadRequest(result);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var rental = await _repo.GetRentalById(id);
-            if (rental == null) return BadRequest("Aluguel não encontrado.");
-            _repo.Delete(rental);
-
-            if (_repo.SaveChanges())
-            {
-                return Ok("Aluguel deletado com sucesso.");
-            }
-            return BadRequest("Erro ao deletar aluguel.");
+            var result = await _service.DeleteAsync(id);
+            if(result.IsSucess) return Ok(result);
+            return BadRequest(result);
         }
     }
 }

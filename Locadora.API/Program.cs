@@ -1,6 +1,8 @@
 using AutoMapper;
 using Locadora.API.Data;
+using Locadora.API.Repository;
 using Locadora.API.Services;
+using Locadora.API.Services.Interface;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
@@ -40,8 +42,14 @@ internal class Program {
         builder.Services.AddDbContext<DataContext>(options =>
             options.UseSqlite("Data Source=Locadora.db"));
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-        builder.Services.AddScoped<IRepository, Repository>();
-        builder.Services.AddScoped<PublishersServices>();
+        builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<IBookRepository, BookRepository>();
+        builder.Services.AddScoped<IPublisherRepository, PublisherRepository>();
+        builder.Services.AddScoped<IRentalRepository, RentalRepository>();
+        builder.Services.AddScoped<IPublishersService, PublishersService>();
+        builder.Services.AddScoped<IUsersService, UsersService>();
+        builder.Services.AddScoped<IRentalsService, RentalsService>();
+        builder.Services.AddScoped<IBooksService, BooksService>();
 
         var app = builder.Build();
 
