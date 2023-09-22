@@ -23,4 +23,8 @@
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0"></PackageReference>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Repository\Interfaces\" />
+	</ItemGroup>
+
 </Project>

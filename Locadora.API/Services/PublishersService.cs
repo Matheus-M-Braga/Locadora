@@ -4,7 +4,7 @@ using Locadora.API.Models;
 using Locadora.API.Data;
 using Locadora.API.Dtos;
 using Locadora.API.Dtos.Validations;
-using Locadora.API.Services.Interface;
+using Locadora.API.Services.Interfaces;
 using Locadora.API.Repository;
 
 namespace Locadora.API.Services

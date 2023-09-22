@@ -2,7 +2,7 @@
 using Locadora.API.Models;
 using Locadora.API.Dtos;
 using Locadora.API.Dtos.Validations;
-using Locadora.API.Services.Interface;
+using Locadora.API.Services.Interfaces;
 using Locadora.API.Repository;
 
 namespace Locadora.API.Services
@@ -14,9 +14,11 @@ namespace Locadora.API.Services
         private readonly IUserRepository _userRepo;
         private readonly IMapper _mapper;
 
-        public RentalsService(IRentalRepository repo, IMapper mapper)
+        public RentalsService(IRentalRepository repo, IBookRepository bookRepo, IUserRepository userRepo, IMapper mapper)
         {
             _repo = repo;
+            _bookRepo = bookRepo;
+            _userRepo = userRepo;
             _mapper = mapper;
         }
 
@@ -52,20 +54,18 @@ namespace Locadora.API.Services
             if (user == null)
                 return ResultService.Fail<CreateRentalDto>("Usuário não encontrado!");
 
-            // var delayedRental = await _repo.CheckDelayAsync(user.Id);
-
-            // if (delayedRental != null)
-            //     return ResultService.Fail<CreateRentalDto>("Usuário com aluguel em atraso!");
+            //var checkDate = _repo.CheckRentalDate(model.RentalDate);
+            //if (checkDate)
+            //    return ResultService.Fail<CreateRentalDto>("A data de aluguel só pode ser a data de hoje!");
 
 
             var rental = _mapper.Map<Rentals>(model);
 
             await _repo.Add(rental);
             await _repo.SaveChanges();
+            await _bookRepo.UpdateQuantity(rental.BookId);
 
-            // await _repo.UpdateBookQuantityAsync(true, book.Id);
-
-            return ResultService.Ok(rental);
+            return ResultService.Ok(_mapper.Map<RentalsDto>(rental));
         }
 
         public async Task<ResultService> UpdateAsync(RentalReturnDto model)

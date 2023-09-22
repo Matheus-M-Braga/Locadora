@@ -2,7 +2,7 @@
 using Locadora.API.Services;
 using Locadora.API.Models;
 
-namespace Locadora.API.Services.Interface
+namespace Locadora.API.Services.Interfaces
 {
     public interface IPublishersService
     {

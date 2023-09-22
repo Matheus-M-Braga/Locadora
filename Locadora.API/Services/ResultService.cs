@@ -1,8 +1,5 @@
 ﻿using FluentValidation.Results;
 
-//Representar resultados de operações, como sucesso ou falha, mensagens associadas e erros de validação
-//< T > parâmetro genérico
-
 namespace Locadora.API.Services
 {
     public class ResultService
@@ -37,7 +34,7 @@ namespace Locadora.API.Services
         public static ResultService Ok(string message) => new ResultService { IsSucess = true, Message = message };
         public static ResultService<T> Ok<T>(T data) => new ResultService<T> { IsSucess = true, Data = data };
     }
-   //retorna não apenas informações de sucesso, falha ou erros, mas também dados específicos relacionados à operação(requisitado)
+
     public class ResultService<T> : ResultService
     {
         public T? Data { get; set; }

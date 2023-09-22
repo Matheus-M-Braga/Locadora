@@ -1,7 +1,7 @@
 ﻿using Locadora.API.Dtos;
 using Locadora.API.Services;
 
-namespace Locadora.API.Services.Interface
+namespace Locadora.API.Services.Interfaces
 {
     public interface IBooksService
     {

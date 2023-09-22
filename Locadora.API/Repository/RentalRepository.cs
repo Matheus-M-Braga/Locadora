@@ -77,5 +77,10 @@ namespace Locadora.API.Repository
 
             return result;
         }
+
+        public Task<bool> CheckRentalDate(string rentalDate)
+        {
+            return null;
+        }
     }
 }

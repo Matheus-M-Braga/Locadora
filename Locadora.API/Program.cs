@@ -2,7 +2,7 @@ using AutoMapper;
 using Locadora.API.Data;
 using Locadora.API.Repository;
 using Locadora.API.Services;
-using Locadora.API.Services.Interface;
+using Locadora.API.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
