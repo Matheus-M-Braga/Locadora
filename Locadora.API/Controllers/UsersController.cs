@@ -1,6 +1,6 @@
 ﻿using Locadora.API.Dtos;
 using Locadora.API.Models;
-using Locadora.API.Services.Interface;
+using Locadora.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Locadora.API.Controllers

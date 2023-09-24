@@ -67,5 +67,14 @@ namespace Locadora.API.Repository
 
             return result;
         }
+
+        public async Task<Books> UpdateQuantity(int id)
+        {
+            IQueryable<Books> query = _context.Books;
+
+            query = query.AsNoTracking().Where(b => b.Id == id);
+
+            return null; 
+        }
     }
 }

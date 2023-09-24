@@ -2,7 +2,7 @@
 using Locadora.API.Models;
 using Locadora.API.Dtos;
 using Locadora.API.Dtos.Validations;
-using Locadora.API.Services.Interface;
+using Locadora.API.Services.Interfaces;
 using Locadora.API.Repository;
 
 namespace Locadora.API.Services
@@ -63,10 +63,9 @@ namespace Locadora.API.Services
 
             await _repo.Add(rental);
             await _repo.SaveChanges();
+            await _bookRepo.UpdateQuantity(rental.BookId);
 
-            // await _repo.UpdateBookQuantityAsync(true, book.Id);
-
-            return ResultService.Ok(rental);
+            return ResultService.Ok(_mapper.Map<RentalsDto>(rental));
         }
 
         public async Task<ResultService> UpdateAsync(RentalReturnDto model)
