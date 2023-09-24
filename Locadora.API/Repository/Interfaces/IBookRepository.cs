@@ -1,7 +1,9 @@
 using Locadora.API.Models;
 
-namespace Locadora.API.Repository{
-    public interface IBookRepository{
+namespace Locadora.API.Repository
+{
+    public interface IBookRepository
+    {
         Task Add<T>(T entity) where T : class;
         Task Update<T>(T entity) where T : class;
         Task<bool> SaveChanges();

@@ -1,6 +1,7 @@
 using Locadora.API.Models;
 using Locadora.API.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace Locadora.API.Repository
 {
@@ -77,5 +78,20 @@ namespace Locadora.API.Repository
 
             return result;
         }
+
+        public Task<bool> CheckRentalDate(string rentalDate)
+        {
+            DateTime today = DateTime.Now.Date;
+            string format = "yyyy-MM-dd";
+
+            if (DateTime.TryParseExact(rentalDate, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime rentalDateTime))
+            {
+                bool result = rentalDateTime != today;
+                return Task.FromResult(result);
+            }
+
+            return Task.FromResult(false);
+        }
+
     }
 }

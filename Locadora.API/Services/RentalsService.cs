@@ -14,9 +14,11 @@ namespace Locadora.API.Services
         private readonly IUserRepository _userRepo;
         private readonly IMapper _mapper;
 
-        public RentalsService(IRentalRepository repo, IMapper mapper)
+        public RentalsService(IRentalRepository repo, IBookRepository bookRepo, IUserRepository userRepo, IMapper mapper)
         {
             _repo = repo;
+            _bookRepo = bookRepo;
+            _userRepo = userRepo;
             _mapper = mapper;
         }
 
@@ -44,7 +46,7 @@ namespace Locadora.API.Services
             if (!result.IsValid)
                 return ResultService.RequestError<CreateRentalDto>("Problemas de validação", result);
 
-            var book = await _bookRepo.GetBookById(model.BookId);
+            var book = await _bookRepo.GetBookById(model.BookId, false);
             if (book == null)
                 return ResultService.Fail<CreateRentalDto>("Livro não encontrado!");
 
@@ -52,10 +54,9 @@ namespace Locadora.API.Services
             if (user == null)
                 return ResultService.Fail<CreateRentalDto>("Usuário não encontrado!");
 
-            // var delayedRental = await _repo.CheckDelayAsync(user.Id);
-
-            // if (delayedRental != null)
-            //     return ResultService.Fail<CreateRentalDto>("Usuário com aluguel em atraso!");
+            bool rentalDateValidate = await _repo.CheckRentalDate(model.RentalDate);
+            if (rentalDateValidate == true)
+                return ResultService.Fail<CreateRentalDto>("Data de aluguel não pode ser diferente Hoje!");
 
 
             var rental = _mapper.Map<Rentals>(model);
