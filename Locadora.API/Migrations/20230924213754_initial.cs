@@ -71,12 +71,11 @@ namespace Locadora.API.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    BookId = table.Column<int>(type: "INTEGER", nullable: true),
-                    UserId = table.Column<int>(type: "INTEGER", nullable: true),
+                    BookId = table.Column<int>(type: "INTEGER", nullable: false),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false),
                     RentalDate = table.Column<string>(type: "TEXT", nullable: true),
                     ForecastDate = table.Column<string>(type: "TEXT", nullable: true),
-                    ReturnDate = table.Column<string>(type: "TEXT", nullable: true),
-                    Status = table.Column<string>(type: "TEXT", nullable: true)
+                    ReturnDate = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -85,12 +84,14 @@ namespace Locadora.API.Migrations
                         name: "FK_Rentals_Books_BookId",
                         column: x => x.BookId,
                         principalTable: "Books",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Rentals_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -123,22 +124,10 @@ namespace Locadora.API.Migrations
                 values: new object[,]
                 {
                     { 1, "J.R.R. Tolkien", "O Senhor dos Anéis", 1, 10, "1954", 0 },
-                    { 2, "J.K. Rowling", "Harry Potter e a Pedra Filosofal", 2, 15, "1997", 0 },
-                    { 3, "Miguel de Cervantes", "Dom Quixote", 3, 8, "1605", 0 },
+                    { 2, "J.K. Rowling", "Harry Potter e a Pedra Filosofal", 2, 1, "1997", 0 },
+                    { 3, "Miguel de Cervantes", "Dom Quixote", 3, 1, "1605", 0 },
                     { 4, "Gabriel García Márquez", "Cem Anos de Solidão", 4, 12, "1967", 0 },
                     { 5, "George Orwell", "1984", 5, 7, "1949", 0 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Rentals",
-                columns: new[] { "Id", "BookId", "ForecastDate", "RentalDate", "ReturnDate", "Status", "UserId" },
-                values: new object[,]
-                {
-                    { 1, 1, "2023-09-21", "2023-09-10", null, "Pendente", 1 },
-                    { 2, 2, "2023-09-23", "2023-09-12", null, "No Prazo", 2 },
-                    { 3, 3, "2023-09-25", "2023-09-14", null, "Atrasado", 3 },
-                    { 4, 4, "2023-09-30", "2023-09-18", null, "Pendente", 4 },
-                    { 5, 5, "2023-09-30", "2023-09-20", null, "No Prazo", 5 }
                 });
 
             migrationBuilder.CreateIndex(

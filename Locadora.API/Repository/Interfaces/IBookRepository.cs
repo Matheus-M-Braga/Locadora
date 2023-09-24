@@ -13,6 +13,6 @@ namespace Locadora.API.Repository
         Task<Books> GetBookById(int bookId, bool includePublisher = false);
         Task<List<Books>> GetBookByName(string bookName);
         Task<List<Books[]>> GetAllBooksByPublisherId(int publisherId);
-        Task<Books> UpdateQuantity(int id);
+        Task<bool> UpdateQuantity(int id, bool IsUpdate = false);
     }
 }

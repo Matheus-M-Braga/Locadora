@@ -9,8 +9,10 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
 
-internal class Program {
-    private static void Main(string[] args) {
+internal class Program
+{
+    private static void Main(string[] args)
+    {
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
@@ -19,17 +21,21 @@ internal class Program {
             .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen(options => {
-            options.SwaggerDoc("v1", new OpenApiInfo {
+        builder.Services.AddSwaggerGen(options =>
+        {
+            options.SwaggerDoc("v1", new OpenApiInfo
+            {
                 Version = "1.0",
                 Title = "Locadora de Livros",
                 Description = "Locadora massa da WDA",
                 TermsOfService = new Uri("https://example.com/terms"),
-                Contact = new OpenApiContact {
+                Contact = new OpenApiContact
+                {
                     Name = "Example Contact",
                     Url = new Uri("https://example.com/contact")
                 },
-                License = new OpenApiLicense {
+                License = new OpenApiLicense
+                {
                     Name = "Example License",
                     Url = new Uri("https://example.com/license")
                 },
@@ -37,26 +43,34 @@ internal class Program {
             });
             var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlCommentsFile));
-            
+
         });
         builder.Services.AddDbContext<DataContext>(options =>
-            options.UseSqlite("Data Source=Locadora.db"));
+        {
+            options.UseSqlite("Data Source=Locadora.db");
+            // options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+        });
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        // Repos
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<IBookRepository, BookRepository>();
         builder.Services.AddScoped<IPublisherRepository, PublisherRepository>();
         builder.Services.AddScoped<IRentalRepository, RentalRepository>();
-        builder.Services.AddScoped<IPublishersService, PublishersService>();
+        // Services
         builder.Services.AddScoped<IUsersService, UsersService>();
-        builder.Services.AddScoped<IRentalsService, RentalsService>();
         builder.Services.AddScoped<IBooksService, BooksService>();
+        builder.Services.AddScoped<IPublishersService, PublishersService>();
+        builder.Services.AddScoped<IRentalsService, RentalsService>();
+
 
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment()) {
+        if (app.Environment.IsDevelopment())
+        {
             app.UseSwagger();
-            app.UseSwaggerUI(options => {
+            app.UseSwaggerUI(options =>
+            {
                 options.InjectStylesheet("/swagger-ui/custom.css");
                 options.DocExpansion(DocExpansion.None);
             });

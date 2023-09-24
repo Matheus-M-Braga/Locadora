@@ -61,20 +61,44 @@ namespace Locadora.API.Repository
             var result = new List<Books[]>();
 
             foreach (var book in books)
-            {
                 result.Add(new Books[] { book });
-            }
 
             return result;
         }
 
-        public async Task<Books> UpdateQuantity(int id)
+        public async Task<bool> UpdateQuantity(int id, bool IsUpdate = false)
         {
-            IQueryable<Books> query = _context.Books;
+            var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == id);
 
-            query = query.AsNoTracking().Where(b => b.Id == id);
+            if (book == null)
+            {
+                return false;
+            }
 
-            return null; 
+            if (IsUpdate)
+            {
+                book.Quantity++;
+                book.Rented--;
+
+                if (book.Rented < 0)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                book.Quantity--;
+                book.Rented++;
+
+                if (book.Quantity < 0)
+                {
+                    return false;
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            return true;
         }
+
     }
 }

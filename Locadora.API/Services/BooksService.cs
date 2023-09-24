@@ -75,9 +75,9 @@ namespace Locadora.API.Services
             if (book == null)
                 return ResultService.Fail<BooksDto>("Livro não encontrado!");
 
-            var bookExists = await _repo.GetBookByName(model.Name);
-            if (bookExists.Count > 0)
-                return ResultService.Fail<BooksDto>("Livro já cadastrado.");
+            // var bookExists = await _repo.GetBookByName(model.Name);
+            // if (bookExists.Count > 0)
+            //     return ResultService.Fail<BooksDto>("Livro já cadastrado.");
 
             book = _mapper.Map(model, book);
             await _repo.Update(book);
@@ -95,7 +95,7 @@ namespace Locadora.API.Services
             var rentalAssociation = await _rentalRepo.GetAllRentalsByBookId(id);
 
             if (rentalAssociation.Count > 0)
-                return ResultService.Fail<BooksDto>("A Livro não pode ser excluída, pois está associada a aluguéis.");
+                return ResultService.Fail<BooksDto>("Erro ao excluir livro: possui associação com aluguéis.");
             
             await _repo.Delete(book);
             await _repo.SaveChanges();
