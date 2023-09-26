@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Locadora.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230924213754_initial")]
+    [Migration("20230925182142_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -154,7 +154,7 @@ namespace Locadora.API.Migrations
 
             modelBuilder.Entity("Locadora.API.Models.Rentals", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -168,6 +168,9 @@ namespace Locadora.API.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ReturnDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Status")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")

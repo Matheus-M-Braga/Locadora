@@ -151,7 +151,7 @@ namespace Locadora.API.Migrations
 
             modelBuilder.Entity("Locadora.API.Models.Rentals", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -165,6 +165,9 @@ namespace Locadora.API.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ReturnDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Status")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")

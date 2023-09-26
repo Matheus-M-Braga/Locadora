@@ -54,20 +54,26 @@ namespace Locadora.API.Services
             if (user == null)
                 return ResultService.Fail<CreateRentalDto>("Usuário não encontrado!");
 
-            bool rentalDateValidate = await _repo.CheckRentalDate(model.RentalDate);
-            if (rentalDateValidate == true)
+            bool dateValidate = await _repo.CheckDate(model.RentalDate);
+            if (dateValidate)
                 return ResultService.Fail<CreateRentalDto>("Data de aluguel não pode ser diferente da data de Hoje!");
 
-            // var updateBook = await _bookRepo.UpdateQuantity(book.Id, false);
-            // if (updateBook == false)
-            //     return ResultService.Fail<RentalReturnDto>("Livro com estoque esgotado.");
+            var userRental = await _repo.GetRentalByUserIdandBookId(book.Id, user.Id);
+            if(userRental.Count > 0) 
+                return ResultService.Fail<RentalReturnDto>("Usuário já possui aluguel desse livro!");
+
+            var updateBook = await _bookRepo.UpdateQuantity(book.Id, false);
+            if (updateBook == false)
+                return ResultService.Fail<RentalReturnDto>("Livro com estoque esgotado.");
 
             var rental = _mapper.Map<Rentals>(model);
-
+            rental.Status = "Pendente";
             await _repo.Add(rental);
             await _repo.SaveChanges();
 
-            return ResultService.Ok(_mapper.Map<RentalsDto>(rental));
+            var created = await _repo.GetRentalById(rental.Id, true, true);
+
+            return ResultService.Ok(_mapper.Map<RentalsDto>(created));
         }
 
         public async Task<ResultService> UpdateAsync(RentalReturnDto model)
@@ -94,13 +100,19 @@ namespace Locadora.API.Services
             if (user == null)
                 return ResultService.Fail<RentalReturnDto>("Usuário não encontrado!");
 
-            // var userHasRental = await _repo.UserHasThisBookREented(user.Id);
-            // if(userHasRental.Count > 0)
-            //     return ResultService.Fail<RentalReturnDto>("Usuário já possui aluguel desse livro!");
+            bool dateValidate = await _repo.CheckDate(model.ReturnDate);
+            if (dateValidate)
+                return ResultService.Fail<CreateRentalDto>("Data de devolução não pode ser diferente da data de Hoje!");
 
-            // bool updateBook = await _bookRepo.UpdateQuantity(rental.BookId, true);
-            // if (updateBook == false)
-            //     return ResultService.Fail<RentalReturnDto>("Livro com estoque esgotado.");
+            bool status = await _repo.GetStatus(rental.ForecastDate, rental.ReturnDate);
+            if(status)
+                rental.Status = "No prazo";
+            else 
+                rental.Status = "Atrasado";
+
+            bool updateBook = await _bookRepo.UpdateQuantity(rental.BookId, true);
+            if (updateBook == false)
+                return ResultService.Fail<RentalReturnDto>("Livro com estoque esgotado.");
 
             rental = _mapper.Map(model, rental);
             await _repo.Update(rental);
@@ -114,6 +126,9 @@ namespace Locadora.API.Services
             var rental = await _repo.GetRentalById(id);
             if (rental == null)
                 return ResultService.Fail<RentalsDto>("Aluguel não encontrado!");
+
+            if (rental.ReturnDate != null)
+                return ResultService.Fail<RentalsDto>("Aluguel foi devolvido, não pode ser deletado.");
 
             await _repo.Delete(rental);
             await _repo.SaveChanges();

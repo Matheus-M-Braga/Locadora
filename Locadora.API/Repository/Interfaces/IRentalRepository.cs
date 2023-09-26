@@ -13,6 +13,8 @@ namespace Locadora.API.Repository
         Task<Rentals> GetRentalById(int rentalId, bool includeBook = false, bool includeUser = false);
         Task<List<Rentals[]>> GetAllRentalsByUserId(int userId);
         Task<List<Rentals[]>> GetAllRentalsByBookId(int bookId);
-        Task<bool> CheckRentalDate(string rentalDate);
+        Task<List<Rentals[]>> GetRentalByUserIdandBookId(int bookId, int userId);
+        Task<bool> CheckDate(string rentalDate);
+        Task<bool> GetStatus(string forecastDate, string returnDate);
     }
 }

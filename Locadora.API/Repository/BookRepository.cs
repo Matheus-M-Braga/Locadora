@@ -32,10 +32,12 @@ namespace Locadora.API.Repository
         public async Task<Books[]> GetAllBooks(bool includePublisher = false)
         {
             IQueryable<Books> query = _context.Books;
+
             if (includePublisher)
             {
                 query = query.Include(b => b.Publisher);
             }
+
             query = query.AsNoTracking().OrderBy(b => b.Id);
             return await query.ToArrayAsync();
         }
@@ -43,10 +45,12 @@ namespace Locadora.API.Repository
         public async Task<Books> GetBookById(int bookId, bool includePublisher = false)
         {
             IQueryable<Books> query = _context.Books;
+
             if (includePublisher)
             {
                 query = query.Include(b => b.Publisher);
             }
+
             query = query.AsNoTracking().OrderBy(b => b.Id).Where(book => book.Id == bookId);
             return await query.FirstOrDefaultAsync();
         }
@@ -68,37 +72,34 @@ namespace Locadora.API.Repository
 
         public async Task<bool> UpdateQuantity(int id, bool IsUpdate = false)
         {
-            var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == id);
-
-            if (book == null)
+            using (var separateContext = new DataContext())
             {
-                return false;
-            }
-
-            if (IsUpdate)
-            {
-                book.Quantity++;
-                book.Rented--;
-
-                if (book.Rented < 0)
+                if (IsUpdate)
                 {
-                    return false;
-                }
-            }
-            else
-            {
-                book.Quantity--;
-                book.Rented++;
+                    var book = await separateContext.Books.SingleOrDefaultAsync(b => b.Id == id);
+                    book.Quantity++;
+                    book.Rented--;
 
-                if (book.Quantity < 0)
+                    if (book.Rented < 0)
+                    {
+                        return false;
+                    }
+                }
+                else
                 {
-                    return false;
-                }
-            }
+                    var book = await separateContext.Books.AsNoTracking().SingleOrDefaultAsync(b => b.Id == id);
+                    book.Quantity--;
+                    book.Rented++;
 
-            await _context.SaveChangesAsync();
-            return true;
+                    if (book.Quantity < 0)
+                    {
+                        return false;
+                    }
+                }
+
+                await separateContext.SaveChangesAsync();
+                return true;
+            }
         }
-
     }
 }

@@ -14,7 +14,7 @@ namespace Locadora.API.Models
             this.ForecastDate = forecastDate;
             this.ReturnDate = returnDate;
         }
-        public int? Id { get; set; }
+        public int Id { get; set; }
         public int BookId { get; set; }
         public Books? Book { get; set; }
         public int UserId { get; set; }
@@ -22,6 +22,6 @@ namespace Locadora.API.Models
         public string? RentalDate { get; set; }
         public string? ForecastDate { get; set; }
         public string? ReturnDate { get; set; }
-        public string? Status { get { return StatusExtension.GetStatus(ForecastDate, ReturnDate); } }
+        public string? Status { get; set; }
     }
 }

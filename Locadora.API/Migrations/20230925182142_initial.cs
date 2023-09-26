@@ -75,7 +75,8 @@ namespace Locadora.API.Migrations
                     UserId = table.Column<int>(type: "INTEGER", nullable: false),
                     RentalDate = table.Column<string>(type: "TEXT", nullable: true),
                     ForecastDate = table.Column<string>(type: "TEXT", nullable: true),
-                    ReturnDate = table.Column<string>(type: "TEXT", nullable: true)
+                    ReturnDate = table.Column<string>(type: "TEXT", nullable: true),
+                    Status = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {

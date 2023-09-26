@@ -79,12 +79,25 @@ namespace Locadora.API.Repository
             return result;
         }
 
-        public Task<bool> CheckRentalDate(string rentalDate)
+        public async Task<List<Rentals[]>> GetRentalByUserIdandBookId(int bookId, int userId)
+        {
+            var rentals = await _context.Rentals.Where(r => r.BookId == bookId && r.UserId == userId && r.ReturnDate == null).ToListAsync();
+            var result = new List<Rentals[]>();
+
+            foreach (var rental in rentals)
+            {
+                result.Add(new Rentals[] { rental });
+            }
+
+            return result;
+        }
+
+        public Task<bool> CheckDate(string date)
         {
             DateTime today = DateTime.Now.Date;
             string format = "yyyy-MM-dd";
 
-            if (DateTime.TryParseExact(rentalDate, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime rentalDateTime))
+            if (DateTime.TryParseExact(date, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime rentalDateTime))
             {
                 bool result = rentalDateTime != today;
                 return Task.FromResult(result);
@@ -93,5 +106,21 @@ namespace Locadora.API.Repository
             return Task.FromResult(false);
         }
 
+        public async Task<bool> GetStatus(string forecastDateParam, string returnDateParam)
+        {
+            if (DateTime.TryParse(forecastDateParam, out DateTime forecastDate) && DateTime.TryParse(returnDateParam, out DateTime returnDate))
+            {
+                if (returnDate > forecastDate)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+
+            return true;
+        }
     }
 }
