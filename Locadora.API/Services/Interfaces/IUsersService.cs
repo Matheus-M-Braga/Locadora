@@ -6,10 +6,10 @@ namespace Locadora.API.Services.Interfaces
 {
     public interface IUsersService
     {
-        Task<ResultService<ICollection<Users>>> GetAsync();
-        Task<ResultService<Users>> GetByIdAsync(int id);
-        Task<ResultService> CreateAsync(CreateUserDto model);
-        Task<ResultService> UpdateAsync(Users model);
-        Task<ResultService> DeleteAsync(int id);
+        Task<ResultService<ICollection<Users>>> GetAll();
+        Task<ResultService<Users>> GetById(int id);
+        Task<ResultService> Create(CreateUserDto model);
+        Task<ResultService> Update(Users model);
+        Task<ResultService> Delete(int id);
     }
 }

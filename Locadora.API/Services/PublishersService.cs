@@ -22,13 +22,13 @@ namespace Locadora.API.Services
             _mapper = mapper;
         }
 
-        public async Task<ResultService<ICollection<Publishers>>> GetAsync()
+        public async Task<ResultService<ICollection<Publishers>>> GetAll()
         {
             var publishers = await _repo.GetAllPublishers();
             return ResultService.Ok(_mapper.Map<ICollection<Publishers>>(publishers));
         }
 
-        public async Task<ResultService<Publishers>> GetByIdAsync(int id)
+        public async Task<ResultService<Publishers>> GetById(int id)
         {
             var publishers = await _repo.GetPublisherById(id);
             if (publishers == null)
@@ -37,7 +37,7 @@ namespace Locadora.API.Services
             return ResultService.Ok(_mapper.Map<Publishers>(publishers));
         }
 
-        public async Task<ResultService> CreateAsync(CreatePublisherDto model)
+        public async Task<ResultService> Create(CreatePublisherDto model)
         {
             if (model == null)
                 return ResultService.Fail<CreatePublisherDto>("Objeto deve ser informado!");
@@ -58,7 +58,7 @@ namespace Locadora.API.Services
             return ResultService.Ok(publisher);
         }
 
-        public async Task<ResultService> UpdateAsync(Publishers model)
+        public async Task<ResultService> Update(Publishers model)
         {
             if (model == null)
                 return ResultService.Fail<Publishers>("Objeto deve ser informado!");
@@ -75,10 +75,10 @@ namespace Locadora.API.Services
             await _repo.Update(publishers);
             await _repo.SaveChanges();
 
-            return ResultService.Ok(publishers);
+            return ResultService.Ok("Editora atualizada com êxito!");
         }
 
-        public async Task<ResultService> DeleteAsync(int id)
+        public async Task<ResultService> Delete(int id)
         {
             var publisher = await _repo.GetPublisherById(id);
 
@@ -92,7 +92,7 @@ namespace Locadora.API.Services
             await _repo.Delete(publisher);
             await _repo.SaveChanges();
 
-            return ResultService.Ok("Editora excluída com sucesso.");
+            return ResultService.Ok("Editora deletada com êxito!");
         }
     }
 }

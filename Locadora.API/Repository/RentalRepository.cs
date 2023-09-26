@@ -68,7 +68,7 @@ namespace Locadora.API.Repository
 
         public async Task<List<Rentals[]>> GetAllRentalsByBookId(int bookId)
         {
-            var rentals = await _context.Rentals.Where(r => r.BookId == bookId).ToListAsync();
+            var rentals = await _context.Rentals.AsNoTracking().Where(r => r.BookId == bookId && r.Status == "Pendente").ToListAsync();
             var result = new List<Rentals[]>();
 
             foreach (var rental in rentals)
@@ -106,6 +106,20 @@ namespace Locadora.API.Repository
             return Task.FromResult(false);
         }
 
+        public async Task<bool?> CheckForecastDate(string forecastDateParam, string rentalDateParam)
+        {
+            if (DateTime.TryParse(forecastDateParam, out DateTime forecastDate) && DateTime.TryParse(rentalDateParam, out DateTime rentalDate))
+            {
+                if (forecastDate < rentalDate)
+                    return false;
+
+                var diff = forecastDate.Subtract(rentalDate);
+                if (diff.Days > 30)
+                    return true;
+            }
+            return null;
+        }
+
         public async Task<bool> GetStatus(string forecastDateParam, string returnDateParam)
         {
             if (DateTime.TryParse(forecastDateParam, out DateTime forecastDate) && DateTime.TryParse(returnDateParam, out DateTime returnDate))
@@ -119,8 +133,8 @@ namespace Locadora.API.Repository
                     return true;
                 }
             }
-
             return true;
         }
+
     }
 }

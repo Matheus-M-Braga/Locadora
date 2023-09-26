@@ -19,7 +19,7 @@ namespace Locadora.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var publishers = await _service.GetAsync();
+            var publishers = await _service.GetAll();
             if (publishers.IsSucess) return Ok(publishers);
             return BadRequest(publishers);
         }
@@ -27,7 +27,7 @@ namespace Locadora.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var publisher = await _service.GetByIdAsync(id);
+            var publisher = await _service.GetById(id);
             if (publisher.IsSucess) return Ok(publisher);
             return BadRequest(publisher);
         }
@@ -35,7 +35,7 @@ namespace Locadora.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreatePublisherDto model)
         {
-            var result = await _service.CreateAsync(model);
+            var result = await _service.Create(model);
             if (result.IsSucess) return Ok(result);
             return BadRequest(result);
         }
@@ -43,7 +43,7 @@ namespace Locadora.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put([FromBody] Publishers model)
         {
-            var result = await _service.UpdateAsync(model);
+            var result = await _service.Update(model);
             if (result.IsSucess) return Ok(result);
             return BadRequest(result);
         }
@@ -51,7 +51,7 @@ namespace Locadora.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var result = await _service.DeleteAsync(id);
+            var result = await _service.Delete(id);
             if (result.IsSucess) return Ok(result);
             return BadRequest(result);
         }

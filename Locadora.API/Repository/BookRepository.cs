@@ -72,34 +72,31 @@ namespace Locadora.API.Repository
 
         public async Task<bool> UpdateQuantity(int id, bool IsUpdate = false)
         {
-            using (var separateContext = new DataContext())
+            var book = await _context.Books.SingleOrDefaultAsync(b => b.Id == id);
+
+            if (IsUpdate)
             {
-                if (IsUpdate)
+                book.Quantity++;
+                book.Rented--;
+
+                if (book.Rented < 0)
                 {
-                    var book = await separateContext.Books.SingleOrDefaultAsync(b => b.Id == id);
-                    book.Quantity++;
-                    book.Rented--;
-
-                    if (book.Rented < 0)
-                    {
-                        return false;
-                    }
+                    return false;
                 }
-                else
-                {
-                    var book = await separateContext.Books.AsNoTracking().SingleOrDefaultAsync(b => b.Id == id);
-                    book.Quantity--;
-                    book.Rented++;
-
-                    if (book.Quantity < 0)
-                    {
-                        return false;
-                    }
-                }
-
-                await separateContext.SaveChangesAsync();
-                return true;
             }
+            else
+            {
+                book.Quantity--;
+                book.Rented++;
+
+                if (book.Quantity < 0)
+                {
+                    return false;
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

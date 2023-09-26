@@ -22,13 +22,13 @@ namespace Locadora.API.Services
             _mapper = mapper;
         }
 
-        public async Task<ResultService<ICollection<RentalsDto>>> GetAsync()
+        public async Task<ResultService<ICollection<RentalsDto>>> GetAll()
         {
             var rentals = await _repo.GetAllRentals(true, true);
             return ResultService.Ok(_mapper.Map<ICollection<RentalsDto>>(rentals));
         }
 
-        public async Task<ResultService<RentalsDto>> GetByIdAsync(int id)
+        public async Task<ResultService<RentalsDto>> GetById(int id)
         {
             var rental = await _repo.GetRentalById(id, true, true);
             if (rental == null)
@@ -37,7 +37,7 @@ namespace Locadora.API.Services
             return ResultService.Ok(_mapper.Map<RentalsDto>(rental));
         }
 
-        public async Task<ResultService> CreateAsync(CreateRentalDto model)
+        public async Task<ResultService> Create(CreateRentalDto model)
         {
             if (model == null)
                 return ResultService.Fail<CreateRentalDto>("Objeto deve ser informado!");
@@ -58,8 +58,14 @@ namespace Locadora.API.Services
             if (dateValidate)
                 return ResultService.Fail<CreateRentalDto>("Data de aluguel não pode ser diferente da data de Hoje!");
 
+            bool? forecastValidate = await _repo.CheckForecastDate(model.ForecastDate, model.RentalDate);
+            if (forecastValidate == true)
+                return ResultService.Fail<RentalReturnDto>("Prazo do aluguel não pode ser superior a 30 dias!");
+            else if (forecastValidate == false)
+                return ResultService.Fail<RentalReturnDto>("Data de Previsão não pode ser anterior à Data do Aluguel!");
+
             var userRental = await _repo.GetRentalByUserIdandBookId(book.Id, user.Id);
-            if(userRental.Count > 0) 
+            if (userRental.Count > 0)
                 return ResultService.Fail<RentalReturnDto>("Usuário já possui aluguel desse livro!");
 
             var updateBook = await _bookRepo.UpdateQuantity(book.Id, false);
@@ -76,7 +82,7 @@ namespace Locadora.API.Services
             return ResultService.Ok(_mapper.Map<RentalsDto>(created));
         }
 
-        public async Task<ResultService> UpdateAsync(RentalReturnDto model)
+        public async Task<ResultService> Update(RentalReturnDto model)
         {
             if (model == null)
                 return ResultService.Fail<RentalReturnDto>("Objeto deve ser informado!");
@@ -105,23 +111,23 @@ namespace Locadora.API.Services
                 return ResultService.Fail<CreateRentalDto>("Data de devolução não pode ser diferente da data de Hoje!");
 
             bool status = await _repo.GetStatus(rental.ForecastDate, rental.ReturnDate);
-            if(status)
+            if (status)
                 rental.Status = "No prazo";
-            else 
+            else
                 rental.Status = "Atrasado";
-
-            bool updateBook = await _bookRepo.UpdateQuantity(rental.BookId, true);
-            if (updateBook == false)
-                return ResultService.Fail<RentalReturnDto>("Livro com estoque esgotado.");
 
             rental = _mapper.Map(model, rental);
             await _repo.Update(rental);
             await _repo.SaveChanges();
 
+            bool updateBook = await _bookRepo.UpdateQuantity(rental.BookId, true);
+            if (updateBook == false)
+                return ResultService.Fail<RentalReturnDto>("Livro com estoque esgotado.");
+
             return ResultService.Ok(_mapper.Map<RentalsDto>(rental));
         }
 
-        public async Task<ResultService> DeleteAsync(int id)
+        public async Task<ResultService> Delete(int id)
         {
             var rental = await _repo.GetRentalById(id);
             if (rental == null)
@@ -133,7 +139,7 @@ namespace Locadora.API.Services
             await _repo.Delete(rental);
             await _repo.SaveChanges();
 
-            return ResultService.Ok("Aluguel deletado com sucesso");
+            return ResultService.Ok("Aluguel deletado com êxito!");
         }
     }
 }

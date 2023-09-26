@@ -19,7 +19,7 @@ namespace Locadora.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var users = await _service.GetAsync();
+            var users = await _service.GetAll();
             if (users.IsSucess) return Ok(users);
             return BadRequest(users);
         }
@@ -27,7 +27,7 @@ namespace Locadora.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var user = await _service.GetByIdAsync(id);
+            var user = await _service.GetById(id);
             if (user.IsSucess) return Ok(user);
             return BadRequest(user);
         }
@@ -35,7 +35,7 @@ namespace Locadora.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateUserDto model)
         {
-            var result = await _service.CreateAsync(model);
+            var result = await _service.Create(model);
             if (result.IsSucess) return Ok(result);
             return BadRequest(result);
         }
@@ -43,7 +43,7 @@ namespace Locadora.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put([FromBody] Users model)
         {
-            var result = await _service.UpdateAsync(model);
+            var result = await _service.Update(model);
             if (result.IsSucess) return Ok(result);
             return BadRequest(result);
         }
@@ -51,7 +51,7 @@ namespace Locadora.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var result = await _service.DeleteAsync(id);
+            var result = await _service.Delete(id);
             if (result.IsSucess) return Ok(result);
             return BadRequest(result);
         }

@@ -5,10 +5,10 @@ namespace Locadora.API.Services.Interfaces
 {
     public interface IRentalsService
     {
-        Task<ResultService<ICollection<RentalsDto>>> GetAsync();
-        Task<ResultService<RentalsDto>> GetByIdAsync(int id);
-        Task<ResultService> CreateAsync(CreateRentalDto model);
-        Task<ResultService> UpdateAsync(RentalReturnDto model);
-        Task<ResultService> DeleteAsync(int id);
+        Task<ResultService<ICollection<RentalsDto>>> GetAll();
+        Task<ResultService<RentalsDto>> GetById(int id);
+        Task<ResultService> Create(CreateRentalDto model);
+        Task<ResultService> Update(RentalReturnDto model);
+        Task<ResultService> Delete(int id);
     }
 }

@@ -27,7 +27,7 @@ internal class Program
             {
                 Version = "1.0",
                 Title = "Locadora de Livros",
-                Description = "Locadora massa da WDA",
+                Description = "Locadora 📚",
                 TermsOfService = new Uri("https://example.com/terms"),
                 Contact = new OpenApiContact
                 {
@@ -39,7 +39,6 @@ internal class Program
                     Name = "Example License",
                     Url = new Uri("https://example.com/license")
                 },
-
             });
             var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlCommentsFile));

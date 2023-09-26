@@ -20,7 +20,6 @@ namespace Locadora.API.Helpers {
             CreateMap<Rentals, RentalsDto>().ReverseMap();  
             CreateMap<Rentals, RentalReturnDto>().ReverseMap();
             CreateMap<Rentals, CreateRentalDto>().ReverseMap();
-            CreateMap<Rentals, UpdatedRentalDto>().ReverseMap();
             CreateMap<RentalReturnDto, CreateRentalDto>().ReverseMap();
         }
     }

@@ -22,13 +22,13 @@ namespace Locadora.API.Services
             _mapper = mapper;
         }
 
-        public async Task<ResultService<ICollection<Users>>> GetAsync()
+        public async Task<ResultService<ICollection<Users>>> GetAll()
         {
             var users = await _repo.GetAllUsers();
             return ResultService.Ok(_mapper.Map<ICollection<Users>>(users));
         }
 
-        public async Task<ResultService<Users>> GetByIdAsync(int id)
+        public async Task<ResultService<Users>> GetById(int id)
         {
             var user = await _repo.GetUserById(id);
             if (user == null)
@@ -37,7 +37,7 @@ namespace Locadora.API.Services
             return ResultService.Ok(_mapper.Map<Users>(user));
         }
 
-        public async Task<ResultService> CreateAsync(CreateUserDto model)
+        public async Task<ResultService> Create(CreateUserDto model)
         {
             if (model == null)
                 return ResultService.Fail<CreateUserDto>("Objeto deve ser informado!");
@@ -59,7 +59,7 @@ namespace Locadora.API.Services
             return ResultService.Ok(user);
         }
 
-        public async Task<ResultService> UpdateAsync(Users model)
+        public async Task<ResultService> Update(Users model)
         {
             if (model == null)
                 return ResultService.Fail<Users>("Objeto deve ser informado!");
@@ -76,10 +76,10 @@ namespace Locadora.API.Services
             await _repo.Update(user);
             await _repo.SaveChanges();
 
-            return ResultService.Ok(user);
+            return ResultService.Ok("Usuário atualizado com êxito!");
         }
 
-        public async Task<ResultService> DeleteAsync(int id)
+        public async Task<ResultService> Delete(int id)
         {
             var user = await _repo.GetUserById(id);
             if (user == null)
@@ -93,7 +93,7 @@ namespace Locadora.API.Services
             await _repo.Delete(user);
             await _repo.SaveChanges();
             
-            return ResultService.Ok("Usuário excluído com êxito.");
+            return ResultService.Ok("Usuário deletado com êxito!");
         }
     }
 }
