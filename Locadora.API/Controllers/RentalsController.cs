@@ -40,7 +40,7 @@ namespace Locadora.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromBody] RentalReturnDto model)
+        public async Task<IActionResult> Put([FromBody] UpdateRentalDto model)
         {
             var result = await  _service.Update(model);
             if(result.IsSucess) return Ok(result);

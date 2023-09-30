@@ -11,9 +11,10 @@ namespace Locadora.API.Repository
         {
             _context = context;
         }
-        async Task IUserRepository.Add<T>(T entity)
+        public async Task<Users> Add(Users entity)
         {
-            await _context.Set<T>().AddAsync(entity);
+            await _context.AddAsync(entity);
+            return entity;
         }
         async Task IUserRepository.Update<T>(T entity)
         {

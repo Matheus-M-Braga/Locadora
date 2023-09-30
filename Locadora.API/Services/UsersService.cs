@@ -48,7 +48,6 @@ namespace Locadora.API.Services
             if (!result.IsValid)
                 return ResultService.RequestError<CreateUserDto>("Problemas de validação", result);
 
-
             var emailExists = await _repo.GetUserByEmail(model.Email);
             if (emailExists.Count > 0)
                 return ResultService.Fail<Users>("Email já cadastrado.");

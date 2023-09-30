@@ -23,7 +23,21 @@ namespace Locadora.API.Dtos.Validations
                 .NotEmpty()
                 .NotNull()
                 .WithMessage("Campo Data Previsão não informado.");
+        }
+    }
 
+    public class UpdateRentalDtoValidator : AbstractValidator<UpdateRentalDto>
+    {
+        public UpdateRentalDtoValidator()
+        {
+            RuleFor(x => x.Id)
+                .NotEmpty()
+                .NotNull()
+                .WithMessage("Campo Id não informado.");
+            RuleFor(x => x.ReturnDate)
+                .NotEmpty()
+                .NotNull()
+                .WithMessage("Campo Data de Devolução não informado.");
         }
     }
 }

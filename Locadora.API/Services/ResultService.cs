@@ -5,8 +5,8 @@ namespace Locadora.API.Services
     public class ResultService
     {
         public bool IsSucess { get; set; }
-        public string? Message { get; set; }
-        public ICollection<ErrorValidation>? Errors { get; set; }
+        public string Message { get; set; }
+        public ICollection<ErrorValidation> Errors { get; set; }
 
         public static ResultService RequestError(string message, ValidationResult validationResult)
         {
@@ -14,7 +14,7 @@ namespace Locadora.API.Services
             {
                 IsSucess = false,
                 Message = message,
-                Errors = validationResult.Errors.Select(x => new ErrorValidation { Field = x.PropertyName, Message = x.ErrorMessage }).ToList(),
+                Errors = validationResult.Errors.Select(x => new ErrorValidation { Field = x.PropertyName, Message = x.ErrorMessage }).ToList()
             };
         }
 
@@ -24,7 +24,7 @@ namespace Locadora.API.Services
             {
                 IsSucess = false,
                 Message = message,
-                Errors = validationResult.Errors.Select(x => new ErrorValidation { Field = x.PropertyName, Message = x.ErrorMessage }).ToList(),
+                Errors = validationResult.Errors.Select(x => new ErrorValidation { Field = x.PropertyName, Message = x.ErrorMessage }).ToList()
             };
         }
 
@@ -37,6 +37,12 @@ namespace Locadora.API.Services
 
     public class ResultService<T> : ResultService
     {
-        public T? Data { get; set; }
+        public T Data { get; set; }
+    }
+
+    public class ErrorValidation
+    {
+        public string Field { get; set; }
+        public string Message { get; set; }
     }
 }

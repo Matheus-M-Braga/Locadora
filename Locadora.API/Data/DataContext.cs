@@ -1,22 +1,27 @@
 ﻿using Locadora.API.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Locadora.API.Data {
+namespace Locadora.API.Data
+{
 
-    public class DataContext : DbContext {
+    public class DataContext : DbContext
+    {
         public DataContext() { }
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
         public DbSet<Users> Users { get; set; }
         public DbSet<Books> Books { get; set; }
         public DbSet<Publishers> Publishers { get; set; }
         public DbSet<Rentals> Rentals { get; set; }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-            if (!optionsBuilder.IsConfigured) {
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
                 optionsBuilder.UseSqlite("Data Source=Locadora.db");
             }
             optionsBuilder.EnableSensitiveDataLogging();
         }
-        protected override void OnModelCreating(ModelBuilder builder) {
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
             builder.Entity<Users>()
                 .HasData(new List<Users>(){
                     new Users(1, "Lauro", "Fortaleza", "Rua A", "lauro@yahoo.com"),
