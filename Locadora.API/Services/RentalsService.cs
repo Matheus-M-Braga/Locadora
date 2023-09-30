@@ -74,6 +74,7 @@ namespace Locadora.API.Services
 
             var rental = _mapper.Map<Rentals>(model);
             rental.Status = "Pendente";
+
             await _repo.Add(rental);
             await _repo.SaveChanges();
 

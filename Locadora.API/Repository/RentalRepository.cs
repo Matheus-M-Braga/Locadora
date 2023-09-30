@@ -97,9 +97,9 @@ namespace Locadora.API.Repository
             DateTime today = DateTime.Now.Date;
             string format = "yyyy-MM-dd";
 
-            if (DateTime.TryParseExact(date, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime rentalDateTime))
+            if (DateTime.TryParseExact(date, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateTime))
             {
-                bool result = rentalDateTime != today;
+                bool result = dateTime != today;
                 return Task.FromResult(result);
             }
 

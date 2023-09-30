@@ -18,7 +18,7 @@ namespace Locadora.API.Repository
         }
         async Task IBookRepository.Update<T>(T entity)
         {
-            _context.Set<T>().Update(entity);
+           _context.Set<T>().Update(entity);
         }
         async Task<bool> IBookRepository.SaveChanges()
         {
