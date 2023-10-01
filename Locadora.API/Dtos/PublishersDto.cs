@@ -1,9 +1,5 @@
 ﻿namespace Locadora.API.Dtos
 {
-    public class PublishersDto
-    {
-    }
-
     public class CreatePublisherDto
     {
         public string Name { get; set; }

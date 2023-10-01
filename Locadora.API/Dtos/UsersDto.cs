@@ -1,10 +1,5 @@
 ﻿namespace Locadora.API.Dtos
 {
-    public class UsersDto
-    {
-        
-    }
-
     public class CreateUserDto
     {
         public string Name { get; set; }

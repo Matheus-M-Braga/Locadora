@@ -16,12 +16,12 @@ namespace Locadora.API.Models
         }
         public int Id { get; set; }
         public int BookId { get; set; }
-        public Books? Book { get; set; }
+        public Books Book { get; set; }
         public int UserId { get; set; }
-        public Users? User { get; set; }
-        public string? RentalDate { get; set; }
-        public string? ForecastDate { get; set; }
+        public Users User { get; set; }
+        public string RentalDate { get; set; }
+        public string ForecastDate { get; set; }
         public string? ReturnDate { get; set; }
-        public string? Status { get; set; }
+        public string Status { get; set; }
     }
 }
