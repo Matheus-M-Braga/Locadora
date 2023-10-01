@@ -1,9 +1,12 @@
 using Locadora.API.Models;
 using Locadora.API.Data;
 using Microsoft.EntityFrameworkCore;
+using Locadora.API.Helpers;
 
-namespace Locadora.API.Repository{
-    public class PublisherRepository : IPublisherRepository{
+namespace Locadora.API.Repository
+{
+    public class PublisherRepository : IPublisherRepository
+    {
         private readonly DataContext _context;
         public PublisherRepository(DataContext context)
         {
@@ -23,15 +26,15 @@ namespace Locadora.API.Repository{
         }
         async Task IPublisherRepository.Delete<T>(T entity)
         {
-           _context.Set<T>().Remove(entity);
+            _context.Set<T>().Remove(entity);
         }
 
-        public async Task<Publishers[]> GetAllPublishers()
+        public async Task<PageList<Publishers>> GetAllPublishers(PageParams pageParams)
         {
             IQueryable<Publishers> query = _context.Publishers;
 
             query = query.AsNoTracking().OrderBy(publisher => publisher.Id);
-            return await query.ToArrayAsync();
+            return await PageList<Publishers>.Create(query, pageParams.PageNumber, pageParams.PageSize);
         }
 
         public async Task<Publishers> GetPublisherById(int publisherId)
@@ -41,9 +44,10 @@ namespace Locadora.API.Repository{
             query = query.AsNoTracking().OrderBy(publisher => publisher.Id).Where(publisher => publisher.Id == publisherId);
             return await query.FirstOrDefaultAsync();
         }
+
         public async Task<List<Publishers>> GetPublisherByName(string publisherName)
         {
-           return await _context.Publishers.Where(p => p.Name == publisherName).ToListAsync();
+            return await _context.Publishers.Where(p => p.Name == publisherName).ToListAsync();
         }
     }
 }

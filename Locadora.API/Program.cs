@@ -50,6 +50,16 @@ internal class Program
             // options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         });
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowLocalhost8080",
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:8080")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+                });
+        });
         // Repos
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<IBookRepository, BookRepository>();
@@ -80,6 +90,8 @@ internal class Program
         app.UseAuthorization();
 
         app.MapControllers();
+
+        app.UseCors("AllowLocalhost8080");
 
         app.Run();
     }

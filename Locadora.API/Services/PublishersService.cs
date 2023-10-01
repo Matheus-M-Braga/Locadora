@@ -6,6 +6,7 @@ using Locadora.API.Dtos;
 using Locadora.API.Dtos.Validations;
 using Locadora.API.Services.Interfaces;
 using Locadora.API.Repository;
+using Locadora.API.Helpers;
 
 namespace Locadora.API.Services
 {
@@ -24,7 +25,7 @@ namespace Locadora.API.Services
 
         public async Task<ResultService<ICollection<Publishers>>> GetAll()
         {
-            var publishers = await _repo.GetAllPublishers();
+            var publishers = await _repo.GetAllPublishers(PageParams pageParams);
             return ResultService.Ok(_mapper.Map<ICollection<Publishers>>(publishers));
         }
 
@@ -37,9 +38,9 @@ namespace Locadora.API.Services
             return ResultService.Ok(_mapper.Map<Publishers>(publishers));
         }
 
-        public async Task<ResultService<ICollection<PublisherBookDto>>> GetAllSelect()
+        public async Task<ResultService<ICollection<PublisherBookDto>>> GetAllSelect(PageParams pageParams)
         {
-            var publishers = await _repo.GetAllPublishers();
+            var publishers = await _repo.GetAllPublishers(pageParams);
             return ResultService.Ok(_mapper.Map<ICollection<PublisherBookDto>>(publishers));
         }
 

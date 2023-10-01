@@ -1,4 +1,5 @@
 ﻿using Locadora.API.Dtos;
+using Locadora.API.Helpers;
 using Locadora.API.Models;
 using Locadora.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -33,9 +34,9 @@ namespace Locadora.API.Controllers
         }
 
         [HttpGet("GetAllSelect")]
-        public async Task<IActionResult> GetAllSelect()
+        public async Task<IActionResult> GetAllSelect([FromBody]PageParams pageParams)
         {
-            var publishers = await _service.GetAllSelect();
+            var publishers = await _service.GetAllSelect(pageParams);
             if(publishers.IsSucess) return Ok(publishers);
             return BadRequest(publishers);
         }
