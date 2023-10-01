@@ -8,6 +8,7 @@ namespace Locadora.API.Services.Interfaces
     {
         Task<ResultService<ICollection<Users>>> GetAll();
         Task<ResultService<Users>> GetById(int id);
+        Task<ResultService<ICollection<UserRentalDto>>> GetAllSelect();
         Task<ResultService> Create(CreateUserDto model);
         Task<ResultService> Update(Users model);
         Task<ResultService> Delete(int id);

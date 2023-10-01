@@ -32,6 +32,14 @@ namespace Locadora.API.Controllers
             return BadRequest(user);
         }
 
+        [HttpGet("GetAllSelect")]
+        public async Task<IActionResult> GetAllSelect()
+        {
+            var users = await _service.GetAllSelect();
+            if (users.IsSucess) return Ok(users);
+            return BadRequest(users);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateUserDto model)
         {

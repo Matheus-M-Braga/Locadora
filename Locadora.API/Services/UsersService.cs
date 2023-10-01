@@ -37,6 +37,12 @@ namespace Locadora.API.Services
             return ResultService.Ok(_mapper.Map<Users>(user));
         }
 
+        public async Task<ResultService<ICollection<UserRentalDto>>> GetAllSelect()
+        {
+            var users = await _repo.GetAllUsers();
+            return ResultService.Ok(_mapper.Map<ICollection<UserRentalDto>>(users));
+        }
+
         public async Task<ResultService> Create(CreateUserDto model)
         {
             if (model == null)

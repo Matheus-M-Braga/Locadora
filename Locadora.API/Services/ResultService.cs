@@ -28,11 +28,11 @@ namespace Locadora.API.Services
             };
         }
 
-        public static ResultService Fail(string message) => new ResultService { IsSucess = false, Message = message };
-        public static ResultService<T> Fail<T>(string message) => new ResultService<T> { IsSucess = false, Message = message };
+        public static ResultService Fail(string message) => new() { IsSucess = false, Message = message };
+        public static ResultService<T> Fail<T>(string message) => new() { IsSucess = false, Message = message };
 
-        public static ResultService Ok(string message) => new ResultService { IsSucess = true, Message = message };
-        public static ResultService<T> Ok<T>(T data) => new ResultService<T> { IsSucess = true, Data = data };
+        public static ResultService Ok(string message) => new() { IsSucess = true, Message = message };
+        public static ResultService<T> Ok<T>(T data) => new() { IsSucess = true, Data = data };
     }
 
     public class ResultService<T> : ResultService

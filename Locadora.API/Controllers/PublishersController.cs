@@ -32,6 +32,14 @@ namespace Locadora.API.Controllers
             return BadRequest(publisher);
         }
 
+        [HttpGet("GetAllSelect")]
+        public async Task<IActionResult> GetAllSelect()
+        {
+            var publishers = await _service.GetAllSelect();
+            if(publishers.IsSucess) return Ok(publishers);
+            return BadRequest(publishers);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreatePublisherDto model)
         {

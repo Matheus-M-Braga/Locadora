@@ -4,7 +4,7 @@ namespace Locadora.API.Repository
 {
     public interface IUserRepository
     {
-        Task<Users> Add(Users entity);
+        Task Add<T>(T entity) where T : class;
         Task Update<T>(T entity) where T : class;
         Task<bool> SaveChanges();
         Task Delete<T>(T entity) where T : class;

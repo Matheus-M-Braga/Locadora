@@ -33,6 +33,14 @@ namespace Locadora.API.Controllers
             return BadRequest(book);
         }
 
+        [HttpGet("GetAllSelect")]
+        public async Task<IActionResult> GetAllSelect()
+        {
+            var books = await _service.GetAllSelect();
+            if (books.IsSucess) return Ok(books);
+            return BadRequest(books);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateBookDto model)
         {

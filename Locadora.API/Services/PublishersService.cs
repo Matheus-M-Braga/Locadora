@@ -37,6 +37,12 @@ namespace Locadora.API.Services
             return ResultService.Ok(_mapper.Map<Publishers>(publishers));
         }
 
+        public async Task<ResultService<ICollection<PublisherBookDto>>> GetAllSelect()
+        {
+            var publishers = await _repo.GetAllPublishers();
+            return ResultService.Ok(_mapper.Map<ICollection<PublisherBookDto>>(publishers));
+        }
+
         public async Task<ResultService> Create(CreatePublisherDto model)
         {
             if (model == null)
