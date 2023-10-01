@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿#pragma warning disable CS8604
+using AutoMapper;
 using Locadora.API.Models;
 using Locadora.API.Dtos;
 using Locadora.API.Dtos.Validations;

@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
+﻿#pragma warning disable CS8618
 namespace Locadora.API.Dtos
 {
     public class BooksDto

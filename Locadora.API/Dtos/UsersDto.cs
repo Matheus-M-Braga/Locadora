@@ -1,4 +1,5 @@
-﻿namespace Locadora.API.Dtos
+﻿#pragma warning disable CS8618
+namespace Locadora.API.Dtos
 {
     public class CreateUserDto
     {

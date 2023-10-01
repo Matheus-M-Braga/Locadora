@@ -1,4 +1,5 @@
-﻿using Locadora.API.Models;
+﻿#pragma warning disable CS8618
+using Locadora.API.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Locadora.API.Data

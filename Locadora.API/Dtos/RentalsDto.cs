@@ -1,5 +1,4 @@
-﻿using Locadora.API.Models;
-
+﻿#pragma warning disable CS8618
 namespace Locadora.API.Dtos
 {
     public class RentalsDto

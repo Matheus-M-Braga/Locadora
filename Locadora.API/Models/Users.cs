@@ -1,4 +1,5 @@
-﻿namespace Locadora.API.Models
+﻿#pragma warning disable CS8618
+namespace Locadora.API.Models
 {
     public class Users
     {

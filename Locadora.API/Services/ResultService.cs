@@ -1,4 +1,5 @@
-﻿using FluentValidation.Results;
+﻿#pragma warning disable CS8618
+using FluentValidation.Results;
 
 namespace Locadora.API.Services
 {

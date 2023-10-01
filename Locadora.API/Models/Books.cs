@@ -1,5 +1,4 @@
-﻿using Locadora.API.Dtos;
-
+﻿#pragma warning disable CS8618
 namespace Locadora.API.Models
 {
     public class Books
