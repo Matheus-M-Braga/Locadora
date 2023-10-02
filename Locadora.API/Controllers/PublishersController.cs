@@ -1,4 +1,5 @@
 ﻿using Locadora.API.Dtos;
+using Locadora.API.FiltersDb;
 using Locadora.API.Helpers;
 using Locadora.API.Models;
 using Locadora.API.Services.Interfaces;
@@ -25,6 +26,15 @@ namespace Locadora.API.Controllers
             return BadRequest(publishers);
         }
 
+        [HttpGet("paged")]
+        public async Task<IActionResult> GetPaged([FromQuery] PublisherFilterDb publisherFilterDb) {
+            var result = await _service.GetPaged(publisherFilterDb);
+            if(result.IsSucess)
+                return Ok(result);
+
+            return BadRequest(result);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -34,9 +44,9 @@ namespace Locadora.API.Controllers
         }
 
         [HttpGet("GetAllSelect")]
-        public async Task<IActionResult> GetAllSelect([FromBody]PageParams pageParams)
+        public async Task<IActionResult> GetAllSelect()
         {
-            var publishers = await _service.GetAllSelect(pageParams);
+            var publishers = await _service.GetAllSelect();
             if(publishers.IsSucess) return Ok(publishers);
             return BadRequest(publishers);
         }

@@ -7,6 +7,7 @@ using Locadora.API.Dtos.Validations;
 using Locadora.API.Services.Interfaces;
 using Locadora.API.Repository;
 using Locadora.API.Helpers;
+using Locadora.API.FiltersDb;
 
 namespace Locadora.API.Services
 {
@@ -25,8 +26,15 @@ namespace Locadora.API.Services
 
         public async Task<ResultService<ICollection<Publishers>>> GetAll()
         {
-            var publishers = await _repo.GetAllPublishers(PageParams pageParams);
+            var publishers = await _repo.GetAllPublishers();
             return ResultService.Ok(_mapper.Map<ICollection<Publishers>>(publishers));
+        }
+
+        public async Task<ResultService<PagedBaseResponseDto<Publishers>>> GetPaged(PublisherFilterDb publisherFilterDb) {
+            var publisherPaged = await _repo.GetPaged(publisherFilterDb);
+            var result = new PagedBaseResponseDto<Publishers>(publisherPaged.TotalRegisters, publisherPaged.TotalPages, _mapper.Map<List<Publishers>>(publisherPaged.Data));
+
+            return ResultService.Ok(result);
         }
 
         public async Task<ResultService<Publishers>> GetById(int id)
@@ -38,9 +46,9 @@ namespace Locadora.API.Services
             return ResultService.Ok(_mapper.Map<Publishers>(publishers));
         }
 
-        public async Task<ResultService<ICollection<PublisherBookDto>>> GetAllSelect(PageParams pageParams)
+        public async Task<ResultService<ICollection<PublisherBookDto>>> GetAllSelect()
         {
-            var publishers = await _repo.GetAllPublishers(pageParams);
+            var publishers = await _repo.GetAllPublishers();
             return ResultService.Ok(_mapper.Map<ICollection<PublisherBookDto>>(publishers));
         }
 
@@ -52,8 +60,9 @@ namespace Locadora.API.Services
             var publisher = _mapper.Map<Publishers>(model);
 
             var result = new PublisherDtoValidator().Validate(publisher);
+
             if (!result.IsValid)
-                return ResultService.RequestError<CreatePublisherDto>("Problemas de validação", result);
+                return ResultService.RequestError<PublisherDtoValidator>("Problmeas", result);
 
             var publisherExists = await _repo.GetPublisherByName(model.Name);
             if (publisherExists.Count > 0)
@@ -72,7 +81,7 @@ namespace Locadora.API.Services
 
             var validation = new PublisherDtoValidator().Validate(model);
             if (!validation.IsValid)
-                return ResultService.RequestError<Publishers>("Problemas de validação", validation);
+                return ResultService.RequestError<Publishers>("Problmeas", validation);
 
             var publishers = await _repo.GetPublisherById(model.Id);
             if (publishers == null)

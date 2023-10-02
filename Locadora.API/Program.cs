@@ -26,19 +26,19 @@ internal class Program
             options.SwaggerDoc("v1", new OpenApiInfo
             {
                 Version = "1.0",
-                Title = "Locadora de Livros",
-                Description = "Locadora 📚",
-                TermsOfService = new Uri("https://example.com/terms"),
-                Contact = new OpenApiContact
-                {
-                    Name = "Example Contact",
-                    Url = new Uri("https://example.com/contact")
-                },
-                License = new OpenApiLicense
-                {
-                    Name = "Example License",
-                    Url = new Uri("https://example.com/license")
-                },
+                Title = "BookStore",
+                Description = "Books 📚",
+                //TermsOfService = new Uri("https://example.com/terms"),
+                //Contact = new OpenApiContact
+                //{
+                //    Name = "Example Contact",
+                //    Url = new Uri("https://example.com/contact")
+                //},
+                //License = new OpenApiLicense
+                //{
+                //    Name = "Example License",
+                //    Url = new Uri("https://example.com/license")
+                //},
             });
             var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlCommentsFile));

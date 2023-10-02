@@ -52,7 +52,7 @@ namespace Locadora.API.Services
 
             var result = new UserDtoValidator().Validate(user);
             if (!result.IsValid)
-                return ResultService.RequestError<CreateUserDto>("Problemas de validação", result);
+                return ResultService.RequestError<CreateUserDto>("Problmeas", result);
 
             var emailExists = await _repo.GetUserByEmail(model.Email);
             if (emailExists.Count > 0)
@@ -71,7 +71,7 @@ namespace Locadora.API.Services
 
             var validation = new UserDtoValidator().Validate(model);
             if (!validation.IsValid)
-                return ResultService.RequestError<Users>("Problemas de validação", validation);
+                return ResultService.RequestError<Users>("Problmeas", validation);
 
             var user = await _repo.GetUserById(model.Id);
             if (user == null)

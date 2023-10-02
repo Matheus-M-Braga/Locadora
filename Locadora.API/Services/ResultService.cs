@@ -1,5 +1,5 @@
-﻿#pragma warning disable CS8618
 using FluentValidation.Results;
+// using static Locadora.API.Services.ResultService2<T>;
 
 namespace Locadora.API.Services
 {
@@ -15,7 +15,7 @@ namespace Locadora.API.Services
             {
                 IsSucess = false,
                 Message = message,
-                Errors = validationResult.Errors.Select(x => new ErrorValidation { Field = x.PropertyName, Message = x.ErrorMessage }).ToList()
+                Errors = validationResult.Errors.Select(x => new ErrorValidation { Message = x.ErrorMessage }).ToList(),
             };
         }
 
@@ -25,7 +25,7 @@ namespace Locadora.API.Services
             {
                 IsSucess = false,
                 Message = message,
-                Errors = validationResult.Errors.Select(x => new ErrorValidation { Field = x.PropertyName, Message = x.ErrorMessage }).ToList()
+                Errors = validationResult.Errors.Select(x => new ErrorValidation { Message = x.ErrorMessage }).ToList(),
             };
         }
 
@@ -35,15 +35,12 @@ namespace Locadora.API.Services
         public static ResultService Ok(string message) => new() { IsSucess = true, Message = message };
         public static ResultService<T> Ok<T>(T data) => new() { IsSucess = true, Data = data };
     }
-
     public class ResultService<T> : ResultService
     {
         public T Data { get; set; }
     }
-
     public class ErrorValidation
     {
-        public string Field { get; set; }
         public string Message { get; set; }
     }
 }

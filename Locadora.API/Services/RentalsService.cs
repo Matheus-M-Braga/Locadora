@@ -45,7 +45,7 @@ namespace Locadora.API.Services
 
             var result = new RentalDtoValidator().Validate(model);
             if (!result.IsValid)
-                return ResultService.RequestError<CreateRentalDto>("Problemas de validação", result);
+                return ResultService.RequestError<CreateRentalDto>("Problmeas", result);
 
             var book = await _bookRepo.GetBookById(model.BookId, false);
             if (book == null)
@@ -91,7 +91,7 @@ namespace Locadora.API.Services
 
             var validation = new UpdateRentalDtoValidator().Validate(model);
             if (!validation.IsValid)
-                return ResultService.RequestError<UpdateRentalDto>("Problemas de validação", validation);
+                return ResultService.RequestError<UpdateRentalDto>("Problmeas", validation);
 
             var rental = await _repo.GetRentalById(model.Id, true, true);
             if (rental == null)

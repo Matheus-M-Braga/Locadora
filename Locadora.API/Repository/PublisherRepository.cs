@@ -2,6 +2,8 @@ using Locadora.API.Models;
 using Locadora.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Locadora.API.Helpers;
+using Locadora.API.Repository.Pagination;
+using Locadora.API.FiltersDb;
 
 namespace Locadora.API.Repository
 {
@@ -29,12 +31,12 @@ namespace Locadora.API.Repository
             _context.Set<T>().Remove(entity);
         }
 
-        public async Task<PageList<Publishers>> GetAllPublishers(PageParams pageParams)
+        public async Task<List<Publishers>> GetAllPublishers()
         {
             IQueryable<Publishers> query = _context.Publishers;
 
             query = query.AsNoTracking().OrderBy(publisher => publisher.Id);
-            return await PageList<Publishers>.Create(query, pageParams.PageNumber, pageParams.PageSize);
+            return await query.ToListAsync();
         }
 
         public async Task<Publishers> GetPublisherById(int publisherId)
@@ -48,6 +50,14 @@ namespace Locadora.API.Repository
         public async Task<List<Publishers>> GetPublisherByName(string publisherName)
         {
             return await _context.Publishers.Where(p => p.Name == publisherName).ToListAsync();
+        }
+
+        public async Task<PagedBaseResponse<Publishers>> GetPaged(PublisherFilterDb request) {
+            var publisher = _context.Publishers.AsQueryable();
+            if (string.IsNullOrEmpty(request.Name))
+                publisher = publisher.Where(p => p.Name.Contains(request.Name));
+
+            return await PagedBaseResponseHelper.GetResponseAsync<PagedBaseResponse<Publishers>, Publishers>(publisher, request);
         }
     }
 }
