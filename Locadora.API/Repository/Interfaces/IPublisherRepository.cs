@@ -1,3 +1,4 @@
+using Locadora.API.Dtos;
 using Locadora.API.FiltersDb;
 using Locadora.API.Helpers;
 using Locadora.API.Models;
@@ -7,10 +8,9 @@ namespace Locadora.API.Repository
 {
     public interface IPublisherRepository
     {
-        Task Add<T>(T entity) where T : class;
-        Task Update<T>(T entity) where T : class;
-        Task<bool> SaveChanges();
-        Task Delete<T>(T entity) where T : class;
+        Task<Publishers> Add(Publishers entity);
+        Task Update(Publishers entity);
+        Task Delete(Publishers entity);
 
         Task<List<Publishers>> GetAllPublishers();
         Task<PagedBaseResponse<Publishers>> GetPaged(PublisherFilterDb request);

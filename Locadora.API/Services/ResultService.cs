@@ -1,5 +1,4 @@
 using FluentValidation.Results;
-// using static Locadora.API.Services.ResultService2<T>;
 
 namespace Locadora.API.Services
 {
@@ -7,7 +6,7 @@ namespace Locadora.API.Services
     {
         public bool IsSucess { get; set; }
         public string Message { get; set; }
-        public ICollection<ErrorValidation> Errors { get; set; }
+        public ICollection<ErrorValidation> Errors { get; set; } 
 
         public static ResultService RequestError(string message, ValidationResult validationResult)
         {

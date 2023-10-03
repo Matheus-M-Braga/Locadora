@@ -69,7 +69,6 @@ namespace Locadora.API.Services
                 return ResultService.Fail<CreatePublisherDto>("Editora já cadastrada!");
 
             await _repo.Add(publisher);
-            await _repo.SaveChanges();
 
             return ResultService.Ok(publisher);
         }
@@ -89,7 +88,6 @@ namespace Locadora.API.Services
 
             publishers = _mapper.Map(model, publishers);
             await _repo.Update(publishers);
-            await _repo.SaveChanges();
 
             return ResultService.Ok("Editora atualizada com êxito!");
         }
@@ -106,7 +104,6 @@ namespace Locadora.API.Services
                 return ResultService.Fail<Publishers>("A editora não pode ser excluída, pois está associada a livros.");
 
             await _repo.Delete(publisher);
-            await _repo.SaveChanges();
 
             return ResultService.Ok("Editora deletada com êxito!");
         }

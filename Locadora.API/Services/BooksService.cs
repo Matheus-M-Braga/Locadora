@@ -3,8 +3,6 @@ using Locadora.API.Dtos;
 using Locadora.API.Dtos.Validations;
 using Locadora.API.Services.Interfaces;
 using Locadora.API.Repository;
-using static Locadora.API.Services.ResultService2<T>;
-using Locadora.API.Models;
 
 namespace Locadora.API.Services
 {
@@ -23,14 +21,13 @@ namespace Locadora.API.Services
             _mapper = mapper;
         }
 
-        public async Task<ResultService2<ICollection<BooksDto>>> GetAll()
+        public async Task<ResultService<ICollection<BooksDto>>> GetAll()
         {
             var books = await _repo.GetAllBooks(true);
-            var booksDto = _mapper.Map<ICollection<BooksDto>>(books);
-            return OkResponse<ICollection<BooksDto>>.Ok(booksDto);
+            return ResultService.Ok(_mapper.Map<ICollection<BooksDto>>(books));
         }
 
-        public async Task<ResultService2<BooksDto>> GetById(int id)
+        public async Task<ResultService<BooksDto>> GetById(int id)
         {
             var book = await _repo.GetBookById(id, true);
             if (book == null)
@@ -39,13 +36,13 @@ namespace Locadora.API.Services
             return ResultService.Ok(_mapper.Map<BooksDto>(book));
         }
 
-        public async Task<ResultService2<ICollection<BookRentalDto>>> GetAllSelect()
+        public async Task<ResultService<ICollection<BookRentalDto>>> GetAllSelect()
         {
             var books = await _repo.GetAllBooks(false);
             return ResultService.Ok(_mapper.Map<ICollection<BookRentalDto>>(books));
         }
 
-        public async Task<ResultService2<Books>> Create(CreateBookDto model)
+        public async Task<ResultService> Create(CreateBookDto model)
         {
             if (model == null)
                 return ResultService.Fail<CreateBookDto>("Objeto deve ser informado!");
@@ -54,7 +51,7 @@ namespace Locadora.API.Services
 
             var result = new BookDtoValidator().Validate(book);
             if (!result.IsValid)
-                return ResultService.RequestError<BooksDto>(result);
+                return ResultService.RequestError<BooksDto>("Problemas de validação", result);
 
             var bookExists = await _repo.GetBookByName(model.Name);
             if (bookExists.Count > 0)
@@ -65,12 +62,12 @@ namespace Locadora.API.Services
                 return ResultService.Fail<BooksDto>("Editora não encontrada!");
 
             await _repo.Add(book);
-            await _repo.SaveChanges();
+            var data = await _repo.SaveChanges();
 
-            return ResultService.Ok(book);
+            return ResultService.Ok<BooksDto>(book);
         }
 
-        public async Task<ResultService2<Books>> Update(UpdateBookDto model)
+        public async Task<ResultService> Update(UpdateBookDto model)
         {
             if (model == null)
                 return ResultService.Fail<BooksDto>("Objeto deve ser informado!");
@@ -79,7 +76,7 @@ namespace Locadora.API.Services
 
             var validation = new BookDtoValidator().Validate(bookValidate);
             if (!validation.IsValid)
-                return ResultService.RequestError<BooksDto>(validation);
+                return ResultService.RequestError<BooksDto>("Problemas de validação", validation);
 
             var book = await _repo.GetBookById(model.Id);
             if (book == null)
@@ -96,7 +93,7 @@ namespace Locadora.API.Services
             return ResultService.Ok("Livro atualizado com êxito!");
         }
 
-        public async Task<ResultService2<Books>> Delete(int id)
+        public async Task<ResultService> Delete(int id)
         {
             var book = await _repo.GetBookById(id);
             if (book == null)
