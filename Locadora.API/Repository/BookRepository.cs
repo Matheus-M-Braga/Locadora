@@ -1,6 +1,9 @@
 using Locadora.API.Models;
 using Locadora.API.Data;
 using Microsoft.EntityFrameworkCore;
+using Locadora.API.Repository.Pagination;
+using Locadora.API.FiltersDb;
+using AutoMapper;
 
 namespace Locadora.API.Repository
 {
@@ -12,48 +15,38 @@ namespace Locadora.API.Repository
             _context = context;
         }
 
-        async Task IBookRepository.Add<T>(T entity)
+        public async Task<Books> Add(Books entity)
         {
-            await _context.Set<T>().AddAsync(entity);
+            await _context.AddAsync(entity);
+            await _context.SaveChangesAsync();
+            return entity;
         }
-        async Task IBookRepository.Update<T>(T entity)
+        public async Task Update(Books entity)
         {
-           _context.Set<T>().Update(entity);
-        }
-        async Task<bool> IBookRepository.SaveChanges()
-        {
-            return (await _context.SaveChangesAsync()) > 0;
-        }
-        async Task IBookRepository.Delete<T>(T entity)
-        {
-            _context.Set<T>().Remove(entity);
+            _context.Update(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<Books[]> GetAllBooks(bool includePublisher = false)
+        public async Task Delete(Books entity)
         {
-            IQueryable<Books> query = _context.Books;
-
-            if (includePublisher)
-            {
-                query = query.Include(b => b.Publisher);
-            }
-
-            query = query.AsNoTracking().OrderBy(b => b.Id);
-            return await query.ToArrayAsync();
+            _context.Remove(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<Books> GetBookById(int bookId, bool includePublisher = false)
+        public async Task<PagedBaseResponse<Books>> GetAllBooks(BookFilterDb request)
         {
-            IQueryable<Books> query = _context.Books;
+            var books = _context.Books.Include(b => b.Publisher).AsQueryable();
+            if (!string.IsNullOrEmpty(request.Name))
+                books = books.Where(b => b.Name.Contains(request.Name));
 
-            if (includePublisher)
-            {
-                query = query.Include(b => b.Publisher);
-            }
-
-            query = query.AsNoTracking().OrderBy(b => b.Id).Where(book => book.Id == bookId);
-            return await query.FirstOrDefaultAsync();
+            return await PagedBaseResponseHelper.GetResponseAsync<PagedBaseResponse<Books>, Books>(books, request);
         }
+
+        public async Task<Books> GetBookById(int bookId)
+        {
+            return await _context.Books.Include(b => b.Publisher).FirstOrDefaultAsync(b => b.Id == bookId);
+        }
+        
         public async Task<List<Books>> GetBookByName(string bookName)
         {
             return await _context.Books.Where(b => b.Name == bookName).ToListAsync();
@@ -80,19 +73,15 @@ namespace Locadora.API.Repository
                 book.Rented--;
 
                 if (book.Rented < 0)
-                {
                     return false;
-                }
+                
             }
             else
             {
                 book.Quantity--;
                 book.Rented++;
-
                 if (book.Quantity < 0)
-                {
                     return false;
-                }
             }
 
             await _context.SaveChangesAsync();

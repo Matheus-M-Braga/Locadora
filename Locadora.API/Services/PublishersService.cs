@@ -24,15 +24,10 @@ namespace Locadora.API.Services
             _mapper = mapper;
         }
 
-        public async Task<ResultService<ICollection<Publishers>>> GetAll()
+        public async Task<ResultService<PagedBaseResponseDto<Publishers>>> GetAll(PublisherFilterDb publisherFilterDb)
         {
-            var publishers = await _repo.GetAllPublishers();
-            return ResultService.Ok(_mapper.Map<ICollection<Publishers>>(publishers));
-        }
-
-        public async Task<ResultService<PagedBaseResponseDto<Publishers>>> GetPaged(PublisherFilterDb publisherFilterDb) {
-            var publisherPaged = await _repo.GetPaged(publisherFilterDb);
-            var result = new PagedBaseResponseDto<Publishers>(publisherPaged.TotalRegisters, publisherPaged.TotalPages, _mapper.Map<List<Publishers>>(publisherPaged.Data));
+            var publishers = await _repo.GetAllPublishers(publisherFilterDb);
+            var result = new PagedBaseResponseDto<Publishers>(publishers.TotalRegisters, publishers.TotalPages, _mapper.Map<List<Publishers>>(publishers.Data));
 
             return ResultService.Ok(result);
         }
@@ -46,9 +41,9 @@ namespace Locadora.API.Services
             return ResultService.Ok(_mapper.Map<Publishers>(publishers));
         }
 
-        public async Task<ResultService<ICollection<PublisherBookDto>>> GetAllSelect()
+        public async Task<ResultService<ICollection<PublisherBookDto>>> GetAllSelect(PublisherFilterDb publisherFilterDb)
         {
-            var publishers = await _repo.GetAllPublishers();
+            var publishers = await _repo.GetAllPublishers(publisherFilterDb);
             return ResultService.Ok(_mapper.Map<ICollection<PublisherBookDto>>(publishers));
         }
 
@@ -80,7 +75,7 @@ namespace Locadora.API.Services
 
             var validation = new PublisherDtoValidator().Validate(model);
             if (!validation.IsValid)
-                return ResultService.RequestError<Publishers>("Problmeas", validation);
+                return ResultService.RequestError<Publishers>("Problemas de validação", validation);
 
             var publishers = await _repo.GetPublisherById(model.Id);
             if (publishers == null)

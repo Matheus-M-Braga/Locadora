@@ -21,6 +21,7 @@ namespace Locadora.API.Dtos
         public string Release { get; set; }
         public int Quantity { get; set; }
     }
+    
     public class UpdateBookDto
     {
         public int Id { get; set; }

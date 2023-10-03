@@ -3,6 +3,8 @@ using Locadora.API.Dtos;
 using Locadora.API.Dtos.Validations;
 using Locadora.API.Services.Interfaces;
 using Locadora.API.Repository;
+using Locadora.API.FiltersDb;
+using Locadora.API.Models;
 
 namespace Locadora.API.Services
 {
@@ -21,24 +23,25 @@ namespace Locadora.API.Services
             _mapper = mapper;
         }
 
-        public async Task<ResultService<ICollection<BooksDto>>> GetAll()
+        public async Task<ResultService<PagedBaseResponseDto<Books>>> GetAll(BookFilterDb bookFilterDb)
         {
-            var books = await _repo.GetAllBooks(true);
-            return ResultService.Ok(_mapper.Map<ICollection<BooksDto>>(books));
+            var books = await _repo.GetAllBooks(bookFilterDb);
+            var result = new PagedBaseResponseDto<Books>(books.TotalRegisters, books.TotalPages, _mapper.Map<List<Books>>(books.Data));
+            return ResultService.Ok(result);
         }
 
         public async Task<ResultService<BooksDto>> GetById(int id)
         {
-            var book = await _repo.GetBookById(id, true);
+            var book = await _repo.GetBookById(id);
             if (book == null)
                 return ResultService.Fail<BooksDto>("Livro não encontrado!");
 
             return ResultService.Ok(_mapper.Map<BooksDto>(book));
         }
 
-        public async Task<ResultService<ICollection<BookRentalDto>>> GetAllSelect()
+        public async Task<ResultService<ICollection<BookRentalDto>>> GetAllSelect(BookFilterDb bookFilterDb)
         {
-            var books = await _repo.GetAllBooks(false);
+            var books = await _repo.GetAllBooks(bookFilterDb);
             return ResultService.Ok(_mapper.Map<ICollection<BookRentalDto>>(books));
         }
 
@@ -47,11 +50,9 @@ namespace Locadora.API.Services
             if (model == null)
                 return ResultService.Fail<CreateBookDto>("Objeto deve ser informado!");
 
-            var book = _mapper.Map<BooksDto>(model);
-
-            var result = new BookDtoValidator().Validate(book);
-            if (!result.IsValid)
-                return ResultService.RequestError<BooksDto>("Problemas de validação", result);
+            var validation = new CreateBookDtoValidator().Validate(model);
+            if (!validation.IsValid)
+                return ResultService.RequestError<BooksDto>("Problemas de validação", validation);
 
             var bookExists = await _repo.GetBookByName(model.Name);
             if (bookExists.Count > 0)
@@ -61,10 +62,10 @@ namespace Locadora.API.Services
             if (publisher == null)
                 return ResultService.Fail<BooksDto>("Editora não encontrada!");
 
-            await _repo.Add(book);
-            var data = await _repo.SaveChanges();
+            var book = _mapper.Map<Books>(model);
+            var data = await _repo.Add(book);
 
-            return ResultService.Ok<BooksDto>(book);
+            return ResultService.Ok(data);
         }
 
         public async Task<ResultService> Update(UpdateBookDto model)
@@ -72,9 +73,7 @@ namespace Locadora.API.Services
             if (model == null)
                 return ResultService.Fail<BooksDto>("Objeto deve ser informado!");
 
-            var bookValidate = _mapper.Map<BooksDto>(model);
-
-            var validation = new BookDtoValidator().Validate(bookValidate);
+            var validation = new UpdateBookDtoValidator().Validate(model);
             if (!validation.IsValid)
                 return ResultService.RequestError<BooksDto>("Problemas de validação", validation);
 
@@ -88,7 +87,6 @@ namespace Locadora.API.Services
 
             book = _mapper.Map(model, book);
             await _repo.Update(book);
-            await _repo.SaveChanges();
 
             return ResultService.Ok("Livro atualizado com êxito!");
         }
@@ -105,7 +103,6 @@ namespace Locadora.API.Services
                 return ResultService.Fail<BooksDto>("Erro ao excluir livro: possui associação com aluguéis.");
 
             await _repo.Delete(book);
-            await _repo.SaveChanges();
 
             return ResultService.Ok("Livro deletado com êxito!");
         }

@@ -47,7 +47,7 @@ namespace Locadora.API.Services
             if (!result.IsValid)
                 return ResultService.RequestError<CreateRentalDto>("Problmeas", result);
 
-            var book = await _bookRepo.GetBookById(model.BookId, false);
+            var book = await _bookRepo.GetBookById(model.BookId);
             if (book == null)
                 return ResultService.Fail<CreateRentalDto>("Livro não encontrado!");
 

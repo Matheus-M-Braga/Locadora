@@ -1,16 +1,17 @@
+using Locadora.API.FiltersDb;
 using Locadora.API.Models;
+using Locadora.API.Repository.Pagination;
 
 namespace Locadora.API.Repository
 {
     public interface IBookRepository
     {
-        Task Add<T>(T entity) where T : class;
-        Task Update<T>(T entity) where T : class;
-        Task<bool> SaveChanges();
-        Task Delete<T>(T entity) where T : class;
+        Task<Books> Add(Books entity);
+        Task Update(Books entity);
+        Task Delete(Books entity);
 
-        Task<Books[]> GetAllBooks(bool includePublisher = false);
-        Task<Books> GetBookById(int bookId, bool includePublisher = false);
+        Task<PagedBaseResponse<Books>> GetAllBooks(BookFilterDb request);
+        Task<Books> GetBookById(int bookId);
         Task<List<Books>> GetBookByName(string bookName);
         Task<List<Books[]>> GetAllBooksByPublisherId(int publisherId);
         Task<bool> UpdateQuantity(int id, bool IsUpdate = false);

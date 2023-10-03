@@ -1,4 +1,5 @@
 ﻿using Locadora.API.Dtos;
+using Locadora.API.FiltersDb;
 using Locadora.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,9 +19,9 @@ namespace Locadora.API.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery] BookFilterDb bookFilterDb)
         {
-            var books = await _service.GetAll();
+            var books = await _service.GetAll(bookFilterDb);
             if (books.IsSucess) return Ok(books);
             return BadRequest(books);
         }
@@ -34,9 +35,9 @@ namespace Locadora.API.Controllers
         }
 
         [HttpGet("GetAllSelect")]
-        public async Task<IActionResult> GetAllSelect()
+        public async Task<IActionResult> GetAllSelect([FromQuery] BookFilterDb bookFilterDb)
         {
-            var books = await _service.GetAllSelect();
+            var books = await _service.GetAllSelect(bookFilterDb);
             if (books.IsSucess) return Ok(books);
             return BadRequest(books);
         }

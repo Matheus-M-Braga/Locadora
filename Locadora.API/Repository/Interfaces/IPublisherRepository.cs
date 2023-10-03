@@ -12,8 +12,7 @@ namespace Locadora.API.Repository
         Task Update(Publishers entity);
         Task Delete(Publishers entity);
 
-        Task<List<Publishers>> GetAllPublishers();
-        Task<PagedBaseResponse<Publishers>> GetPaged(PublisherFilterDb request);
+        Task<PagedBaseResponse<Publishers>> GetAllPublishers(PublisherFilterDb request);
         Task<Publishers> GetPublisherById(int publisherId);
         Task<List<Publishers>> GetPublisherByName(string publisherName);
     }

@@ -19,20 +19,11 @@ namespace Locadora.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery] PublisherFilterDb publisherFilterDb)
         {
-            var publishers = await _service.GetAll();
+            var publishers = await _service.GetAll(publisherFilterDb);
             if (publishers.IsSucess) return Ok(publishers);
             return BadRequest(publishers);
-        }
-
-        [HttpGet("paged")]
-        public async Task<IActionResult> GetPaged([FromQuery] PublisherFilterDb publisherFilterDb) {
-            var result = await _service.GetPaged(publisherFilterDb);
-            if(result.IsSucess)
-                return Ok(result);
-
-            return BadRequest(result);
         }
 
         [HttpGet("{id}")]
@@ -44,9 +35,9 @@ namespace Locadora.API.Controllers
         }
 
         [HttpGet("GetAllSelect")]
-        public async Task<IActionResult> GetAllSelect()
+        public async Task<IActionResult> GetAllSelect([FromQuery] PublisherFilterDb publisherFilterDb)
         {
-            var publishers = await _service.GetAllSelect();
+            var publishers = await _service.GetAllSelect(publisherFilterDb);
             if(publishers.IsSucess) return Ok(publishers);
             return BadRequest(publishers);
         }
