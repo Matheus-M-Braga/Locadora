@@ -26,20 +26,24 @@ namespace Locadora.API.Repository
             _context.Update(entity);
             await _context.SaveChangesAsync();
         }
-        
+
         public async Task Delete(Publishers entity)
         {
             _context.Remove(entity);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<PagedBaseResponse<Publishers>> GetAllPublishers(PublisherFilterDb request)
+        public async Task<PagedBaseResponse<Publishers>> GetAllPublishersPaged(PublisherFilterDb request)
         {
             var publishers = _context.Publishers.AsQueryable();
             if (!string.IsNullOrEmpty(request.Name))
                 publishers = publishers.Where(p => p.Name.Contains(request.Name));
 
             return await PagedBaseResponseHelper.GetResponseAsync<PagedBaseResponse<Publishers>, Publishers>(publishers, request);
+        }
+        public async Task<List<Publishers>> GetAllPublishers()
+        {
+            return await _context.Publishers.ToListAsync();
         }
 
         public async Task<Publishers> GetPublisherById(int publisherId)

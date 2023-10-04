@@ -7,7 +7,6 @@ namespace Locadora.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Produces("application/json")]
     public class BooksController : ControllerBase
     {
         private readonly IBooksService _service;
@@ -16,7 +15,6 @@ namespace Locadora.API.Controllers
         {
             _service = service;
         }
-
 
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] BookFilterDb bookFilterDb)
@@ -35,9 +33,9 @@ namespace Locadora.API.Controllers
         }
 
         [HttpGet("GetAllSelect")]
-        public async Task<IActionResult> GetAllSelect([FromQuery] BookFilterDb bookFilterDb)
+        public async Task<IActionResult> GetAllSelect()
         {
-            var books = await _service.GetAllSelect(bookFilterDb);
+            var books = await _service.GetAllSelect();
             if (books.IsSucess) return Ok(books);
             return BadRequest(books);
         }

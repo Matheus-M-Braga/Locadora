@@ -5,6 +5,7 @@ using Locadora.API.Dtos;
 using Locadora.API.Dtos.Validations;
 using Locadora.API.Services.Interfaces;
 using Locadora.API.Repository;
+using Locadora.API.FiltersDb;
 
 namespace Locadora.API.Services
 {
@@ -23,15 +24,16 @@ namespace Locadora.API.Services
             _mapper = mapper;
         }
 
-        public async Task<ResultService<ICollection<RentalsDto>>> GetAll()
+        public async Task<ResultService<PagedBaseResponseDto<RentalsDto>>> GetAll(RentalFilterDb rentalFilterDb)
         {
-            var rentals = await _repo.GetAllRentals(true, true);
-            return ResultService.Ok(_mapper.Map<ICollection<RentalsDto>>(rentals));
+            var rentals = await _repo.GetAllRentals(rentalFilterDb);
+            var result = new PagedBaseResponseDto<RentalsDto>(rentals.TotalRegisters, rentals.TotalPages, _mapper.Map<List<RentalsDto>>(rentals.Data));
+            return ResultService.Ok(result);
         }
 
         public async Task<ResultService<RentalsDto>> GetById(int id)
         {
-            var rental = await _repo.GetRentalById(id, true, true);
+            var rental = await _repo.GetRentalById(id);
             if (rental == null)
                 return ResultService.Fail<RentalsDto>("Aluguel não encontrado!");
 
@@ -77,9 +79,8 @@ namespace Locadora.API.Services
             rental.Status = "Pendente";
 
             await _repo.Add(rental);
-            await _repo.SaveChanges();
 
-            var created = await _repo.GetRentalById(rental.Id, true, true);
+            var created = await _repo.GetRentalById(rental.Id);
 
             return ResultService.Ok(_mapper.Map<RentalsDto>(created));
         }
@@ -93,7 +94,7 @@ namespace Locadora.API.Services
             if (!validation.IsValid)
                 return ResultService.RequestError<UpdateRentalDto>("Problmeas", validation);
 
-            var rental = await _repo.GetRentalById(model.Id, true, true);
+            var rental = await _repo.GetRentalById(model.Id);
             if (rental == null)
                 return ResultService.Fail<UpdateRentalDto>("Aluguel não encontrado!");
 
@@ -120,7 +121,6 @@ namespace Locadora.API.Services
 
             rental = _mapper.Map(model, rental);
             await _repo.Update(rental);
-            await _repo.SaveChanges();
 
             bool updateBook = await _bookRepo.UpdateQuantity(rental.BookId, true);
             if (updateBook == false)
@@ -139,7 +139,6 @@ namespace Locadora.API.Services
                 return ResultService.Fail<RentalsDto>("Aluguel foi devolvido, não pode ser deletado.");
 
             await _repo.Delete(rental);
-            await _repo.SaveChanges();
 
             return ResultService.Ok("Aluguel deletado com êxito!");
         }

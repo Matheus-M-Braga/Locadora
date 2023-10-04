@@ -1,15 +1,17 @@
-﻿using Locadora.API.Models;
+﻿using Locadora.API.FiltersDb;
+using Locadora.API.Models;
+using Locadora.API.Repository.Pagination;
 
 namespace Locadora.API.Repository
 {
     public interface IUserRepository
     {
-        Task Add<T>(T entity) where T : class;
-        Task Update<T>(T entity) where T : class;
-        Task<bool> SaveChanges();
-        Task Delete<T>(T entity) where T : class;
+        Task<Users> Add(Users entity);
+        Task Update(Users entity);
+        Task Delete(Users entity);
 
-        Task<Users[]> GetAllUsers();
+        Task<PagedBaseResponse<Users>> GetAllUsersPaged(UserFilterDb request);
+        Task<List<Users>> GetAllUsers();
         Task<Users> GetUserById(int userId);
         Task<List<Users>> GetUserByEmail(string email);
     }

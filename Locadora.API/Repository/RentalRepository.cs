@@ -2,6 +2,8 @@ using Locadora.API.Models;
 using Locadora.API.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using Locadora.API.FiltersDb;
+using Locadora.API.Repository.Pagination;
 
 namespace Locadora.API.Repository
 {
@@ -12,45 +14,36 @@ namespace Locadora.API.Repository
         {
             _context = context;
         }
-        async Task IRentalRepository.Add<T>(T entity)
+
+        public async Task<Rentals> Add(Rentals entity)
         {
-            await _context.Set<T>().AddAsync(entity);
+            await _context.AddAsync(entity);
+            await _context.SaveChangesAsync();
+            return entity;
         }
-        async Task IRentalRepository.Update<T>(T entity)
+        public async Task Update(Rentals entity)
         {
-            _context.Set<T>().Update(entity);
+            _context.Update(entity);
+            await _context.SaveChangesAsync();
         }
-        async Task<bool> IRentalRepository.SaveChanges()
+        public async Task Delete(Rentals entity)
         {
-            return (await _context.SaveChangesAsync()) > 0;
-        }
-        async Task IRentalRepository.Delete<T>(T entity)
-        {
-            _context.Set<T>().Remove(entity);
+            _context.Remove(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<Rentals[]> GetAllRentals(bool includeBook = false, bool includeUser = false)
+        public async Task<PagedBaseResponse<Rentals>> GetAllRentals(RentalFilterDb request)
         {
-            IQueryable<Rentals> query = _context.Rentals;
-            if (includeUser && includeBook)
-            {
-                query = query.Include(r => r.User).Include(r => r.Book);
-            }
+            var rentals = _context.Rentals.Include(r => r.User).Include(r => r.Book).AsQueryable();
+            if (!string.IsNullOrEmpty(request.Name))
+                rentals = rentals.Where(r => r.User.Name.Contains(request.Name));
 
-            query = query.AsNoTracking().OrderBy(r => r.Id);
-            return await query.ToArrayAsync();
+            return await PagedBaseResponseHelper.GetResponseAsync<PagedBaseResponse<Rentals>, Rentals>(rentals, request);
         }
 
-        public async Task<Rentals> GetRentalById(int rentalId, bool includeBook = false, bool includeUser = false)
+        public async Task<Rentals> GetRentalById(int rentalId)
         {
-            IQueryable<Rentals> query = _context.Rentals;
-            if (includeUser && includeBook)
-            {
-                query = query.Include(r => r.User).Include(r => r.Book);
-            }
-
-            query = query.AsNoTracking().OrderBy(r => r.Id).Where(rental => rental.Id == rentalId);
-            return await query.FirstOrDefaultAsync();
+            return await _context.Rentals.Include(r => r.User).Include(r => r.Book).FirstOrDefaultAsync(r => r.Id == rentalId);
         }
 
         public async Task<List<Rentals[]>> GetAllRentalsByUserId(int userId)
@@ -135,6 +128,5 @@ namespace Locadora.API.Repository
             }
             return true;
         }
-
     }
 }

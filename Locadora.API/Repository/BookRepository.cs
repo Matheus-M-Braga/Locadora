@@ -33,7 +33,7 @@ namespace Locadora.API.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<PagedBaseResponse<Books>> GetAllBooks(BookFilterDb request)
+        public async Task<PagedBaseResponse<Books>> GetAllBooksPaged(BookFilterDb request)
         {
             var books = _context.Books.Include(b => b.Publisher).AsQueryable();
             if (!string.IsNullOrEmpty(request.Name))
@@ -42,11 +42,16 @@ namespace Locadora.API.Repository
             return await PagedBaseResponseHelper.GetResponseAsync<PagedBaseResponse<Books>, Books>(books, request);
         }
 
+        public async Task<List<Books>> GetAllBooks()
+        {
+            return await _context.Books.Include(b => b.Publisher).ToListAsync();
+        }
+
         public async Task<Books> GetBookById(int bookId)
         {
             return await _context.Books.Include(b => b.Publisher).FirstOrDefaultAsync(b => b.Id == bookId);
         }
-        
+
         public async Task<List<Books>> GetBookByName(string bookName)
         {
             return await _context.Books.Where(b => b.Name == bookName).ToListAsync();
@@ -74,7 +79,7 @@ namespace Locadora.API.Repository
 
                 if (book.Rented < 0)
                     return false;
-                
+
             }
             else
             {

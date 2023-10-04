@@ -25,7 +25,7 @@ internal class Program
         {
             options.SwaggerDoc("v1", new OpenApiInfo
             {
-                Version = "1.0",
+                Version = "v1",
                 Title = "BookStore",
                 Description = "Books 📚",
                 //TermsOfService = new Uri("https://example.com/terms"),
@@ -47,7 +47,6 @@ internal class Program
         builder.Services.AddDbContext<DataContext>(options =>
         {
             options.UseSqlite("Data Source=Locadora.db");
-            // options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         });
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         builder.Services.AddCors(options =>

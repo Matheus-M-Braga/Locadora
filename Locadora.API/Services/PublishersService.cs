@@ -26,7 +26,7 @@ namespace Locadora.API.Services
 
         public async Task<ResultService<PagedBaseResponseDto<Publishers>>> GetAll(PublisherFilterDb publisherFilterDb)
         {
-            var publishers = await _repo.GetAllPublishers(publisherFilterDb);
+            var publishers = await _repo.GetAllPublishersPaged(publisherFilterDb);
             var result = new PagedBaseResponseDto<Publishers>(publishers.TotalRegisters, publishers.TotalPages, _mapper.Map<List<Publishers>>(publishers.Data));
 
             return ResultService.Ok(result);
@@ -41,9 +41,9 @@ namespace Locadora.API.Services
             return ResultService.Ok(_mapper.Map<Publishers>(publishers));
         }
 
-        public async Task<ResultService<ICollection<PublisherBookDto>>> GetAllSelect(PublisherFilterDb publisherFilterDb)
+        public async Task<ResultService<ICollection<PublisherBookDto>>> GetAllSelect()
         {
-            var publishers = await _repo.GetAllPublishers(publisherFilterDb);
+            var publishers = await _repo.GetAllPublishers();
             return ResultService.Ok(_mapper.Map<ICollection<PublisherBookDto>>(publishers));
         }
 

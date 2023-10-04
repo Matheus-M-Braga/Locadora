@@ -39,6 +39,7 @@ namespace Locadora.API.Services
     {
         public T Response { get; set; }
     }
+    
     public class ErrorValidation
     {
         public string Message { get; set; }

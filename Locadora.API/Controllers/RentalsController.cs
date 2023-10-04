@@ -1,4 +1,5 @@
 ﻿using Locadora.API.Dtos;
+using Locadora.API.FiltersDb;
 using Locadora.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,9 +17,9 @@ namespace Locadora.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery] RentalFilterDb rentalFilterDb)
         {
-            var rentals = await _service.GetAll();
+            var rentals = await _service.GetAll(rentalFilterDb);
             if (rentals.IsSucess) return Ok(rentals);
             return BadRequest(rentals);
         }

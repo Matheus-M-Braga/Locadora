@@ -6,6 +6,7 @@ using Locadora.API.Dtos;
 using Locadora.API.Dtos.Validations;
 using Locadora.API.Services.Interfaces;
 using Locadora.API.Repository;
+using Locadora.API.FiltersDb;
 
 namespace Locadora.API.Services
 {
@@ -22,10 +23,12 @@ namespace Locadora.API.Services
             _mapper = mapper;
         }
 
-        public async Task<ResultService<ICollection<Users>>> GetAll()
+        public async Task<ResultService<PagedBaseResponseDto<Users>>> GetAll(UserFilterDb userFilterDb)
         {
-            var users = await _repo.GetAllUsers();
-            return ResultService.Ok(_mapper.Map<ICollection<Users>>(users));
+            var users = await _repo.GetAllUsersPaged(userFilterDb);
+            var result = new PagedBaseResponseDto<Users>(users.TotalRegisters, users.TotalPages, _mapper.Map<List<Users>>(users.Data));
+
+            return ResultService.Ok(result);
         }
 
         public async Task<ResultService<Users>> GetById(int id)
@@ -59,7 +62,6 @@ namespace Locadora.API.Services
                 return ResultService.Fail<Users>("Email já cadastrado.");
 
             await _repo.Add(user);
-            await _repo.SaveChanges(); 
 
             return ResultService.Ok(user);
         }
@@ -79,7 +81,6 @@ namespace Locadora.API.Services
 
             user = _mapper.Map(model, user);
             await _repo.Update(user);
-            await _repo.SaveChanges();
 
             return ResultService.Ok("Usuário atualizado com êxito!");
         }
@@ -96,7 +97,6 @@ namespace Locadora.API.Services
                 return ResultService.Fail<Publishers>("Erro ao excluir usuário: Possui associação com aluguéis.");
 
             await _repo.Delete(user);
-            await _repo.SaveChanges();
             
             return ResultService.Ok("Usuário deletado com êxito!");
         }

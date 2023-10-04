@@ -35,10 +35,10 @@ namespace Locadora.API.Controllers
         }
 
         [HttpGet("GetAllSelect")]
-        public async Task<IActionResult> GetAllSelect([FromQuery] PublisherFilterDb publisherFilterDb)
+        public async Task<IActionResult> GetAllSelect()
         {
-            var publishers = await _service.GetAllSelect(publisherFilterDb);
-            if(publishers.IsSucess) return Ok(publishers);
+            var publishers = await _service.GetAllSelect();
+            if (publishers.IsSucess) return Ok(publishers);
             return BadRequest(publishers);
         }
 
