@@ -1,5 +1,5 @@
 ﻿using Locadora.API.Models;
-using Locadora.API.Data;
+using Locadora.API.Context;
 using Microsoft.EntityFrameworkCore;
 using Locadora.API.Repository.Pagination;
 using Locadora.API.FiltersDb;

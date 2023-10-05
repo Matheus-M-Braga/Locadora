@@ -2,7 +2,7 @@
 using Locadora.API.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Locadora.API.Data
+namespace Locadora.API.Context
 {
 
     public class DataContext : DbContext
