@@ -10,7 +10,7 @@ namespace Locadora.API.Repository
         Task Update(Books entity);
         Task Delete(Books entity);
 
-        Task<PagedBaseResponse<Books>> GetAllBooksPaged(BookFilterDb request);
+        Task<PagedBaseResponse<Books>> GetAllBooksPaged(FilterDb request);
         Task<List<Books>> GetAllBooks();
         Task<Books> GetBookById(int bookId);
         Task<List<Books>> GetBookByName(string bookName);

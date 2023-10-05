@@ -10,7 +10,7 @@ namespace Locadora.API.Repository
         Task Update(Users entity);
         Task Delete(Users entity);
 
-        Task<PagedBaseResponse<Users>> GetAllUsersPaged(UserFilterDb request);
+        Task<PagedBaseResponse<Users>> GetAllUsersPaged(FilterDb request);
         Task<List<Users>> GetAllUsers();
         Task<Users> GetUserById(int userId);
         Task<List<Users>> GetUserByEmail(string email);

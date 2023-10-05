@@ -33,7 +33,7 @@ namespace Locadora.API.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<PagedBaseResponse<Books>> GetAllBooksPaged(BookFilterDb request)
+        public async Task<PagedBaseResponse<Books>> GetAllBooksPaged(FilterDb request)
         {
             var books = _context.Books.Include(b => b.Publisher).AsQueryable();
             if (request.FilterValue != null)

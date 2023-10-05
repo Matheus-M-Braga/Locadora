@@ -24,9 +24,9 @@ namespace Locadora.API.Services
             _mapper = mapper;
         }
 
-        public async Task<ResultService<PagedBaseResponseDto<RentalsDto>>> GetAll(RentalFilterDb rentalFilterDb)
+        public async Task<ResultService<PagedBaseResponseDto<RentalsDto>>> GetAll(FilterDb filterDb)
         {
-            var rentals = await _repo.GetAllRentals(rentalFilterDb);
+            var rentals = await _repo.GetAllRentals(filterDb);
             var result = new PagedBaseResponseDto<RentalsDto>(rentals.TotalRegisters, rentals.TotalPages, _mapper.Map<List<RentalsDto>>(rentals.Data));
 
             if(result.Data.Count == 0)

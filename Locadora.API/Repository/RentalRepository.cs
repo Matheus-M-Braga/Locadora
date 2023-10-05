@@ -32,7 +32,7 @@ namespace Locadora.API.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<PagedBaseResponse<Rentals>> GetAllRentals(RentalFilterDb request)
+        public async Task<PagedBaseResponse<Rentals>> GetAllRentals(FilterDb request)
         {
             var rentals = _context.Rentals.Include(r => r.User).Include(r => r.Book).AsQueryable();
             if (request.FilterValue != null)

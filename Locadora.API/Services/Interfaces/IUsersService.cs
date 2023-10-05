@@ -7,7 +7,7 @@ namespace Locadora.API.Services.Interfaces
 {
     public interface IUsersService
     {
-        Task<ResultService<PagedBaseResponseDto<Users>>> GetAll(UserFilterDb userFilterDb);
+        Task<ResultService<PagedBaseResponseDto<Users>>> GetAll(FilterDb filterDb);
         Task<ResultService<Users>> GetById(int id);
         Task<ResultService<ICollection<UserRentalDto>>> GetAllSelect();
         Task<ResultService> Create(CreateUserDto model);

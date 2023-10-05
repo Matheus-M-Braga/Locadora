@@ -18,9 +18,9 @@ namespace Locadora.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] UserFilterDb userFilterDb)
+        public async Task<IActionResult> Get([FromQuery] FilterDb filterDb)
         {
-            var users = await _service.GetAll(userFilterDb);
+            var users = await _service.GetAll(filterDb);
             if (users.IsSucess) return Ok(users);
             return BadRequest(users);
         }
