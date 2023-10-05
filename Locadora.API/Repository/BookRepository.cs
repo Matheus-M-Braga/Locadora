@@ -49,7 +49,7 @@ namespace Locadora.API.Repository
 
         public async Task<Books> GetBookById(int bookId)
         {
-            return await _context.Books.Include(b => b.Publisher).FirstOrDefaultAsync(b => b.Id == bookId);
+            return await _context.Books.Include(b => b.Publisher).SingleAsync(b => b.Id == bookId);
         }
 
         public async Task<List<Books>> GetBookByName(string bookName)
@@ -71,6 +71,10 @@ namespace Locadora.API.Repository
         public async Task<bool> UpdateQuantity(int id, bool IsUpdate = false)
         {
             var book = await _context.Books.SingleOrDefaultAsync(b => b.Id == id);
+
+            if(book == null){
+                return false;
+            }
 
             if (IsUpdate)
             {

@@ -1,4 +1,6 @@
-﻿using Locadora.API.Repository.Pagination;
+﻿using System.Linq.Expressions;
+using Locadora.API.Models;
+using Locadora.API.Repository.Pagination;
 using Microsoft.EntityFrameworkCore;
 
 namespace Locadora.API.Repository
@@ -25,6 +27,4 @@ namespace Locadora.API.Repository
             return query.OrderBy(x => x.GetType().GetProperty(propertyName).GetValue(x, null));
         }
     }
-
-
 }

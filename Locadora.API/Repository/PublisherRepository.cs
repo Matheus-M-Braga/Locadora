@@ -36,8 +36,8 @@ namespace Locadora.API.Repository
         public async Task<PagedBaseResponse<Publishers>> GetAllPublishersPaged(PublisherFilterDb request)
         {
             var publishers = _context.Publishers.AsQueryable();
-            if (!string.IsNullOrEmpty(request.Name))
-                publishers = publishers.Where(p => p.Name.Contains(request.Name));
+            if (request.FilterValue != null)
+                publishers = FilterHelper.ApplyFilter(request.FilterValue, publishers);
 
             return await PagedBaseResponseHelper.GetResponseAsync<PagedBaseResponse<Publishers>, Publishers>(publishers, request);
         }
@@ -48,7 +48,7 @@ namespace Locadora.API.Repository
 
         public async Task<Publishers> GetPublisherById(int publisherId)
         {
-            return await _context.Publishers.FirstOrDefaultAsync(p => p.Id == publisherId);
+            return await _context.Publishers.SingleAsync(p => p.Id == publisherId);
         }
 
         public async Task<List<Publishers>> GetPublisherByName(string publisherName)

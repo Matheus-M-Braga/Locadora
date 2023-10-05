@@ -49,10 +49,7 @@ namespace Locadora.API.Repository
 
         public async Task<Users> GetUserById(int userId)
         {
-            IQueryable<Users> query = _context.Users;
-
-            query = query.AsNoTracking().OrderBy(user => user.Id).Where(user => user.Id == userId);
-            return await query.FirstOrDefaultAsync();
+            return await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
         }
 
         public async Task<List<Users>> GetUserByEmail(string email)

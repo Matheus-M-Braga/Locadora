@@ -75,8 +75,8 @@ namespace Locadora.API.Services
             if (!validation.IsValid)
                 return ResultService.RequestError<Users>("Problmeas", validation);
 
-            var user = await _repo.GetUserById(model.Id);
-            if (user == null)
+             var user = await _repo.GetUserById(model.Id);
+             if (user == null)
                 return ResultService.Fail("Usuário não encontrado!");
 
             user = _mapper.Map(model, user);
