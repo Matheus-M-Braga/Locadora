@@ -28,6 +28,10 @@ namespace Locadora.API.Services
         {
             var rentals = await _repo.GetAllRentals(rentalFilterDb);
             var result = new PagedBaseResponseDto<RentalsDto>(rentals.TotalRegisters, rentals.TotalPages, _mapper.Map<List<RentalsDto>>(rentals.Data));
+
+            if(result.Data.Count == 0)
+                return ResultService.Fail<PagedBaseResponseDto<RentalsDto>>("Nenhum registro encontrado.");
+
             return ResultService.Ok(result);
         }
 

@@ -28,6 +28,9 @@ namespace Locadora.API.Services
             var users = await _repo.GetAllUsersPaged(userFilterDb);
             var result = new PagedBaseResponseDto<Users>(users.TotalRegisters, users.TotalPages, _mapper.Map<List<Users>>(users.Data));
 
+            if(result.Data.Count == 0)
+                return ResultService.Fail<PagedBaseResponseDto<Users>>("Nenhum registro encontrado.");
+
             return ResultService.Ok(result);
         }
 

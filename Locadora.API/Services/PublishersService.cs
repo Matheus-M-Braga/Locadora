@@ -29,6 +29,9 @@ namespace Locadora.API.Services
             var publishers = await _repo.GetAllPublishersPaged(publisherFilterDb);
             var result = new PagedBaseResponseDto<Publishers>(publishers.TotalRegisters, publishers.TotalPages, _mapper.Map<List<Publishers>>(publishers.Data));
 
+            if(result.Data.Count == 0)
+                return ResultService.Fail<PagedBaseResponseDto<Publishers>>("Nenhum registro encontrado.");
+
             return ResultService.Ok(result);
         }
 

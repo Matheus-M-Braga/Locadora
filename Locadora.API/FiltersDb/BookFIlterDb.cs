@@ -4,6 +4,6 @@ namespace Locadora.API.FiltersDb
 {
     public class BookFilterDb : PagedBaseRequest
     {
-        public string Name { get; set; } = "";
+        public string? FilterValue { get; set; }
     }
 }

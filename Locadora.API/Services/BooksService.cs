@@ -27,6 +27,10 @@ namespace Locadora.API.Services
         {
             var books = await _repo.GetAllBooksPaged(bookFilterDb);
             var result = new PagedBaseResponseDto<Books>(books.TotalRegisters, books.TotalPages, _mapper.Map<List<Books>>(books.Data));
+
+            if(result.Data.Count == 0)
+                return ResultService.Fail<PagedBaseResponseDto<Books>>("Nenhum registro encontrado.");
+
             return ResultService.Ok(result);
         }
 

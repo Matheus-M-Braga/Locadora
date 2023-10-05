@@ -36,8 +36,8 @@ namespace Locadora.API.Repository
         public async Task<PagedBaseResponse<Users>> GetAllUsersPaged(UserFilterDb request)
         {
             var users = _context.Users.AsQueryable();
-            if (!string.IsNullOrEmpty(request.Name))
-                users = users.Where(u => u.Name.Contains(request.Name));
+            if (request.FilterValue != null)
+                users = FilterHelper.ApplyFilter(users, request.FilterValue);
 
             return await PagedBaseResponseHelper.GetResponseAsync<PagedBaseResponse<Users>, Users>(users, request);
         }

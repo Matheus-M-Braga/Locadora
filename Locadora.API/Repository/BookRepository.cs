@@ -36,8 +36,8 @@ namespace Locadora.API.Repository
         public async Task<PagedBaseResponse<Books>> GetAllBooksPaged(BookFilterDb request)
         {
             var books = _context.Books.Include(b => b.Publisher).AsQueryable();
-            if (!string.IsNullOrEmpty(request.Name))
-                books = books.Where(b => b.Name.Contains(request.Name));
+            if (request.FilterValue != null)
+                books = FilterHelper.ApplyFilter(books, request.FilterValue);
 
             return await PagedBaseResponseHelper.GetResponseAsync<PagedBaseResponse<Books>, Books>(books, request);
         }

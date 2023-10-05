@@ -35,8 +35,8 @@ namespace Locadora.API.Repository
         public async Task<PagedBaseResponse<Rentals>> GetAllRentals(RentalFilterDb request)
         {
             var rentals = _context.Rentals.Include(r => r.User).Include(r => r.Book).AsQueryable();
-            if (!string.IsNullOrEmpty(request.Name))
-                rentals = rentals.Where(r => r.User.Name.Contains(request.Name));
+            if (request.FilterValue != null)
+                rentals = FilterHelper.ApplyFilter(rentals, request.FilterValue);
 
             return await PagedBaseResponseHelper.GetResponseAsync<PagedBaseResponse<Rentals>, Rentals>(rentals, request);
         }
