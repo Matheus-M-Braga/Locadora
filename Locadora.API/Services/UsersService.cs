@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using System.Xml.Linq;
 using Locadora.API.Models;
-using Locadora.API.Data;
+using Locadora.API.Context;
 using Locadora.API.Dtos;
 using Locadora.API.Dtos.Validations;
 using Locadora.API.Services.Interfaces;

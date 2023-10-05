@@ -1,5 +1,5 @@
 using AutoMapper;
-using Locadora.API.Data;
+using Locadora.API.Context;
 using Locadora.API.Repository;
 using Locadora.API.Services;
 using Locadora.API.Services.Interfaces;

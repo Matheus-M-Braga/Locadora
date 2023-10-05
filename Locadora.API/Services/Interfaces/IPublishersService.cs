@@ -1,7 +1,7 @@
 ﻿using Locadora.API.Dtos;
 using Locadora.API.Services;
 using Locadora.API.Models;
-using Locadora.API.Helpers;
+using Locadora.API.Mappings;
 using Locadora.API.FiltersDb;
 
 namespace Locadora.API.Services.Interfaces

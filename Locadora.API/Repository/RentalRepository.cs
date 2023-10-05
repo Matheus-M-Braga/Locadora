@@ -43,7 +43,7 @@ namespace Locadora.API.Repository
 
         public async Task<Rentals> GetRentalById(int rentalId)
         {
-            return await _context.Rentals.Include(r => r.User).Include(r => r.Book).SingleAsync(r => r.Id == rentalId);
+            return await _context.Rentals.AsNoTracking().Include(r => r.User).Include(r => r.Book).SingleAsync(r => r.Id == rentalId);
         }
 
         public async Task<List<Rentals[]>> GetAllRentalsByUserId(int userId)

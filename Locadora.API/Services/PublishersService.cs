@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using System.Xml.Linq;
 using Locadora.API.Models;
-using Locadora.API.Data;
+using Locadora.API.Context;
 using Locadora.API.Dtos;
 using Locadora.API.Dtos.Validations;
 using Locadora.API.Services.Interfaces;
 using Locadora.API.Repository;
-using Locadora.API.Helpers;
+using Locadora.API.Mappings;
 using Locadora.API.FiltersDb;
 
 namespace Locadora.API.Services
@@ -84,8 +84,8 @@ namespace Locadora.API.Services
             if (publishers == null)
                 return ResultService.Fail("Editora não encontrada!");
 
-            publishers = _mapper.Map(model, publishers);
-            await _repo.Update(publishers);
+            var publisher = _mapper.Map<Publishers>(model);
+            await _repo.Update(publisher);
 
             return ResultService.Ok("Editora atualizada com êxito!");
         }

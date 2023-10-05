@@ -48,7 +48,7 @@ namespace Locadora.API.Repository
 
         public async Task<Books> GetBookById(int bookId)
         {
-            return await _context.Books.Include(b => b.Publisher).SingleAsync(b => b.Id == bookId);
+            return await _context.Books.AsNoTracking().Include(b => b.Publisher).SingleAsync(b => b.Id == bookId);
         }
 
         public async Task<List<Books>> GetBookByName(string bookName)

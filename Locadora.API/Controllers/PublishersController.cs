@@ -1,6 +1,6 @@
 ﻿using Locadora.API.Dtos;
 using Locadora.API.FiltersDb;
-using Locadora.API.Helpers;
+using Locadora.API.Mappings;
 using Locadora.API.Models;
 using Locadora.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
