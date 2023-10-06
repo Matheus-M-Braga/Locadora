@@ -29,7 +29,7 @@ namespace Locadora.API.Services
             var publishers = await _repo.GetAllPublishersPaged(filterDb);
             var result = new PagedBaseResponseDto<Publishers>(publishers.TotalRegisters, publishers.TotalPages, _mapper.Map<List<Publishers>>(publishers.Data));
 
-            if(result.Data.Count == 0)
+            if (result.Data.Count == 0)
                 return ResultService.Fail<PagedBaseResponseDto<Publishers>>("Nenhum registro encontrado.");
 
             return ResultService.Ok(result);
@@ -98,7 +98,7 @@ namespace Locadora.API.Services
                 return ResultService.Fail<Publishers>("Editora não encontrada!");
 
             var booksAssociatedWithPublisher = await _bookRepo.GetAllBooksByPublisherId(id);
-            if (booksAssociatedWithPublisher.Count > 0) 
+            if (booksAssociatedWithPublisher.Count > 0)
                 return ResultService.Fail<Publishers>("A editora não pode ser excluída, pois está associada a livros.");
 
             await _repo.Delete(publisher);
