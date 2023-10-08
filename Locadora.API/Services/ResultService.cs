@@ -40,6 +40,7 @@ namespace Locadora.API.Services
 
     public class ResultService<T> : ResultService
     {
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public T? Response { get; set; }
     }
     

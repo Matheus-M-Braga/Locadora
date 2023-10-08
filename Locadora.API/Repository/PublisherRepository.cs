@@ -46,7 +46,7 @@ namespace Locadora.API.Repository
 
         public async Task<Publishers> GetPublisherById(int publisherId)
         {
-            return await _context.Publishers.AsNoTracking().SingleAsync(p => p.Id == publisherId);
+            return await _context.Publishers.AsNoTracking().FirstOrDefaultAsync(p => p.Id == publisherId);
         }
 
         public async Task<List<Publishers>> GetPublisherByName(string publisherName)

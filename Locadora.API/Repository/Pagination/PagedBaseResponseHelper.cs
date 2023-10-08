@@ -13,10 +13,10 @@ namespace Locadora.API.Repository
             var count = await query.CountAsync();
             response.TotalPages = (int)Math.Ceiling((double)count / request.PageSize);
             response.TotalRegisters = count;
-            if (string.IsNullOrEmpty(request.OrderByProperty))
+            if (string.IsNullOrEmpty(request.OrderBy))
                 response.Data = await query.ToListAsync();
             else
-                response.Data = query.OrderByDynamic(request.OrderByProperty)
+                response.Data = query.OrderByDynamic(request.OrderBy)
                                      .Skip((request.Page - 1) * request.PageSize)
                                      .Take(request.PageSize)
                                      .ToList();
