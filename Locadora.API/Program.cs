@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
+using System.Text.Json.Serialization;
 
 internal class Program
 {
@@ -18,7 +19,10 @@ internal class Program
         // Add services to the container.
 
         builder.Services.AddControllers()
-            .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+            });
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen(options =>
@@ -28,17 +32,6 @@ internal class Program
                 Version = "v1",
                 Title = "BookStore",
                 Description = "Books 📚",
-                //TermsOfService = new Uri("https://example.com/terms"),
-                //Contact = new OpenApiContact
-                //{
-                //    Name = "Example Contact",
-                //    Url = new Uri("https://example.com/contact")
-                //},
-                //License = new OpenApiLicense
-                //{
-                //    Name = "Example License",
-                //    Url = new Uri("https://example.com/license")
-                //},
             });
             var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlCommentsFile));
