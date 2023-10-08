@@ -1,4 +1,6 @@
 ﻿#pragma warning disable CS8618
+using System.Text.Json.Serialization;
+
 namespace Locadora.API.Dtos
 {
     public class RentalsDto

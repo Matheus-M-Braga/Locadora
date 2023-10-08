@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using FluentValidation.Results;
 
 namespace Locadora.API.Services
@@ -5,8 +6,10 @@ namespace Locadora.API.Services
     public class ResultService
     {
         public bool IsSucess { get; set; }
-        public string Message { get; set; }
-        public ICollection<ErrorValidation> Errors { get; init; } 
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? Message { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public ICollection<ErrorValidation>? Errors { get; init; } 
 
         public static ResultService RequestError(string message, ValidationResult validationResult)
         {
@@ -37,11 +40,12 @@ namespace Locadora.API.Services
 
     public class ResultService<T> : ResultService
     {
-        public T Response { get; set; }
+        public T? Response { get; set; }
     }
     
     public class ErrorValidation
     {
-        public string Message { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? Message { get; set; }
     }   
 }
