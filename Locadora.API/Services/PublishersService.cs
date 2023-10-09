@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
-using System.Xml.Linq;
 using Locadora.API.Models;
-using Locadora.API.Context;
 using Locadora.API.Dtos;
 using Locadora.API.Dtos.Validations;
 using Locadora.API.Services.Interfaces;
 using Locadora.API.Repository;
-using Locadora.API.Mappings;
-using Locadora.API.FiltersDb;
+using Locadora.API.Repository.Pagination;
 
 namespace Locadora.API.Services
 {
@@ -55,9 +52,7 @@ namespace Locadora.API.Services
             if (model == null)
                 return ResultService.Fail<CreatePublisherDto>("Objeto deve ser informado!");
 
-            var publisher = _mapper.Map<Publishers>(model);
-
-            var result = new PublisherDtoValidator().Validate(publisher);
+            var result = new PublisherDtoValidator().Validate(model);
 
             if (!result.IsValid)
                 return ResultService.RequestError<PublisherDtoValidator>("Problmeas", result);
@@ -65,7 +60,8 @@ namespace Locadora.API.Services
             var publisherExists = await _repo.GetPublisherByName(model.Name);
             if (publisherExists.Count > 0)
                 return ResultService.Fail<CreatePublisherDto>("Editora já cadastrada!");
-
+            
+            var publisher = _mapper.Map<Publishers>(model);
             await _repo.Add(publisher);
 
             return ResultService.Ok(publisher);
@@ -76,7 +72,7 @@ namespace Locadora.API.Services
             if (model == null)
                 return ResultService.Fail<Publishers>("Objeto deve ser informado!");
 
-            var validation = new PublisherDtoValidator().Validate(model);
+            var validation = new UpdatePublisherDtoValidator().Validate(model);
             if (!validation.IsValid)
                 return ResultService.RequestError<Publishers>("Problemas de validação", validation);
 

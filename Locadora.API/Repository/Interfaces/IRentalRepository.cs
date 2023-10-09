@@ -1,9 +1,7 @@
-using Locadora.API.FiltersDb;
 using Locadora.API.Models;
 using Locadora.API.Repository.Pagination;
 
-namespace Locadora.API.Repository
-{
+namespace Locadora.API.Repository {
     public interface IRentalRepository
     {
         Task<Rentals> Add(Rentals entity);

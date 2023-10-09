@@ -16,7 +16,7 @@ namespace Locadora.API.Services
         private readonly IRentalRepository _rentalRepo;
         private readonly IMapper _mapper;
 
-        public UsersService(IUserRepository repo, IRentalRepository rentalRepo,IMapper mapper)
+        public UsersService(IUserRepository repo, IRentalRepository rentalRepo, IMapper mapper)
         {
             _repo = repo;
             _rentalRepo = rentalRepo;
@@ -28,7 +28,7 @@ namespace Locadora.API.Services
             var users = await _repo.GetAllUsersPaged(filterDb);
             var result = new PagedBaseResponseDto<Users>(users.TotalRegisters, users.TotalPages, _mapper.Map<List<Users>>(users.Data));
 
-            if(result.Data.Count == 0)
+            if (result.Data.Count == 0)
                 return ResultService.Fail<PagedBaseResponseDto<Users>>("Nenhum registro encontrado.");
 
             return ResultService.Ok(result);
@@ -54,9 +54,7 @@ namespace Locadora.API.Services
             if (model == null)
                 return ResultService.Fail<CreateUserDto>("Objeto deve ser informado!");
 
-            var user = _mapper.Map<Users>(model);
-
-            var result = new UserDtoValidator().Validate(user);
+            var result = new UserDtoValidator().Validate(model);
             if (!result.IsValid)
                 return ResultService.RequestError<CreateUserDto>("Problmeas", result);
 
@@ -64,6 +62,7 @@ namespace Locadora.API.Services
             if (emailExists.Count > 0)
                 return ResultService.Fail<Users>("Email já cadastrado.");
 
+            var user = _mapper.Map<Users>(model);
             await _repo.Add(user);
 
             return ResultService.Ok(user);
@@ -74,12 +73,12 @@ namespace Locadora.API.Services
             if (model == null)
                 return ResultService.Fail<Users>("Objeto deve ser informado!");
 
-            var validation = new UserDtoValidator().Validate(model);
+            var validation = new UpdateUserDtoValidator().Validate(model);
             if (!validation.IsValid)
                 return ResultService.RequestError<Users>("Problmeas", validation);
 
-             var user = await _repo.GetUserById(model.Id);
-             if (user == null)
+            var user = await _repo.GetUserById(model.Id);
+            if (user == null)
                 return ResultService.Fail("Usuário não encontrado!");
 
             user = _mapper.Map(model, user);
@@ -100,7 +99,7 @@ namespace Locadora.API.Services
                 return ResultService.Fail<Publishers>("Erro ao excluir usuário: Possui associação com aluguéis.");
 
             await _repo.Delete(user);
-            
+
             return ResultService.Ok("Usuário deletado com êxito!");
         }
     }

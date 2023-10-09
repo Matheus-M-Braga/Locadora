@@ -1,11 +1,7 @@
-using Locadora.API.Dtos;
-using Locadora.API.FiltersDb;
-using Locadora.API.Mappings;
 using Locadora.API.Models;
 using Locadora.API.Repository.Pagination;
 
-namespace Locadora.API.Repository
-{
+namespace Locadora.API.Repository {
     public interface IPublisherRepository
     {
         Task<Publishers> Add(Publishers entity);

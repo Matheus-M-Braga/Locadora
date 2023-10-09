@@ -2,10 +2,8 @@
 using Locadora.API.Context;
 using Microsoft.EntityFrameworkCore;
 using Locadora.API.Repository.Pagination;
-using Locadora.API.FiltersDb;
 
-namespace Locadora.API.Repository
-{
+namespace Locadora.API.Repository {
     public class UserRepository : IUserRepository
     {
         private readonly DataContext _context;
