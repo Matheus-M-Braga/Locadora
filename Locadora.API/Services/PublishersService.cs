@@ -100,7 +100,7 @@ namespace Locadora.API.Services
             var booksAssociatedWithPublisher = await _bookRepo.GetAllBooksByPublisherId(id);
             if (booksAssociatedWithPublisher.Count > 0)
                 return ResultService.Fail<Publishers>("A editora não pode ser excluída, pois está associada a livros.");
-
+            
             await _repo.Delete(publisher);
 
             return ResultService.Ok("Editora deletada com êxito!");

@@ -37,7 +37,7 @@ namespace Locadora.API.Repository
         {
             var users = _context.Users.AsQueryable();
             if (request.FilterValue != null)
-                users = FilterHelper.ApplyFilter(users, request.FilterValue);
+               users = FilterHelper.ApplyFilter(users, request.FilterValue);
 
             return await PagedBaseResponseHelper.GetResponseAsync<PagedBaseResponse<Users>, Users>(users, request);
         }

@@ -36,7 +36,7 @@ namespace Locadora.API.Repository
         {
             var rentals = _context.Rentals.Include(r => r.User).Include(r => r.Book).AsQueryable();
             if (request.FilterValue != null)
-                rentals = FilterHelper.ApplyFilter(rentals, request.FilterValue);
+               rentals = FilterHelper.ApplyFilter(rentals, request.FilterValue);
 
             return await PagedBaseResponseHelper.GetResponseAsync<PagedBaseResponse<Rentals>, Rentals>(rentals, request);
         }

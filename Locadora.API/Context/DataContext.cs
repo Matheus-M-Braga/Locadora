@@ -19,7 +19,7 @@ namespace Locadora.API.Context
             {
                 optionsBuilder.UseSqlite("Data Source=Locadora.db");
             }
-            optionsBuilder.EnableSensitiveDataLogging();
+            //optionsBuilder.EnableSensitiveDataLogging();
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
