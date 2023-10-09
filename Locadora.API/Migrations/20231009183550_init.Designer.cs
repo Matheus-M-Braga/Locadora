@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Locadora.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231009160546_init")]
+    [Migration("20231009183550_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -102,6 +102,56 @@ namespace Locadora.API.Migrations
                             Quantity = 7,
                             Release = "1949",
                             Rented = 0
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Author = "George Orwell",
+                            Name = "A Revolução dos Bichos",
+                            PublisherId = 1,
+                            Quantity = 5,
+                            Release = "1945",
+                            Rented = 0
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Author = "Fiódor Dostoiévski",
+                            Name = "Crime e Castigo",
+                            PublisherId = 2,
+                            Quantity = 3,
+                            Release = "1866",
+                            Rented = 0
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Author = "Antoine de Saint-Exupéry",
+                            Name = "O Pequeno Príncipe",
+                            PublisherId = 3,
+                            Quantity = 8,
+                            Release = "1943",
+                            Rented = 0
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Author = "Machado de Assis",
+                            Name = "Memórias Póstumas de Brás Cubas",
+                            PublisherId = 4,
+                            Quantity = 6,
+                            Release = "1881",
+                            Rented = 0
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Author = "Franz Kafka",
+                            Name = "A Metamorfose",
+                            PublisherId = 5,
+                            Quantity = 4,
+                            Release = "1915",
+                            Rented = 0
                         });
                 });
 
@@ -153,6 +203,36 @@ namespace Locadora.API.Migrations
                             Id = 5,
                             City = "Porto Alegre",
                             Name = "Editora do Sul"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            City = "São Paulo",
+                            Name = "Editora Nacional 2"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            City = "Rio de Janeiro",
+                            Name = "Editora Regional 2"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            City = "Belo Horizonte",
+                            Name = "Editora Local 2"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            City = "Brasília",
+                            Name = "Editora Central 2"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            City = "Porto Alegre",
+                            Name = "Editora do Sul 2"
                         });
                 });
 
@@ -258,6 +338,46 @@ namespace Locadora.API.Migrations
                             City = "Rio de Janeiro",
                             Email = "alexandre@yahoo.com",
                             Name = "Alexandre"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Address = "Rua F",
+                            City = "Fortaleza",
+                            Email = "isabela@gmail.com",
+                            Name = "Isabela"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Address = "Rua G",
+                            City = "São Paulo",
+                            Email = "pedro@hotmail.com",
+                            Name = "Pedro"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Address = "Rua H",
+                            City = "Rio de Janeiro",
+                            Email = "mariana@yahoo.com",
+                            Name = "Mariana"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Address = "Rua I",
+                            City = "Belo Horizonte",
+                            Email = "lucas@gmail.com",
+                            Name = "Lucas"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Address = "Rua J",
+                            City = "Recife",
+                            Email = "amanda@hotmail.com",
+                            Name = "Amanda"
                         });
                 });
 

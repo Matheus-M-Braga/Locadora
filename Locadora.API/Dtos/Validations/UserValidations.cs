@@ -22,6 +22,7 @@ namespace Locadora.API.Dtos.Validations
                 .MaximumLength(50).WithMessage("Limite é de 50 caracteres.");
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("Campo Email não informado.")
+                .EmailAddress().WithMessage("Endereço Email inválido.")
                 .MinimumLength(3).WithMessage("Necessário pelo menos 3 caracteres.")
                 .MaximumLength(50).WithMessage("Limite é de 50 caracteres.");
         }
@@ -49,6 +50,7 @@ namespace Locadora.API.Dtos.Validations
                 .MaximumLength(50).WithMessage("Limite é de 50 caracteres.");
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("Campo Email não informado.")
+                .EmailAddress().WithMessage("Endereço Email inválido.")
                 .MinimumLength(5).WithMessage("Necessário pelo menos 5 caracteres.")
                 .MaximumLength(65).WithMessage("Limite é de 60 caracteres.");
         }

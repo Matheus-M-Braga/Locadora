@@ -14,6 +14,7 @@ namespace Locadora.API.Dtos.Validations
                 .NotEmpty().WithMessage("Campo Livro não informado.")
                 .GreaterThanOrEqualTo(1).WithMessage("Campo Usuário não informado.");
             RuleFor(x => x.RentalDate)
+            
                 .NotEmpty().WithMessage("Campo Data Aluguel não informado.");
             RuleFor(x => x.ForecastDate)
                 .NotEmpty().WithMessage("Campo Data Previsão não informado.");
