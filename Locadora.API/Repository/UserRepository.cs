@@ -3,7 +3,8 @@ using Locadora.API.Context;
 using Microsoft.EntityFrameworkCore;
 using Locadora.API.Repository.Pagination;
 
-namespace Locadora.API.Repository {
+namespace Locadora.API.Repository
+{
     public class UserRepository : IUserRepository
     {
         private readonly DataContext _context;
@@ -12,11 +13,10 @@ namespace Locadora.API.Repository {
             _context = context;
         }
 
-        public async Task<Users> Add(Users entity)
+        public async Task Add(Users entity)
         {
             await _context.AddAsync(entity);
             await _context.SaveChangesAsync();
-            return entity;
         }
 
         public async Task Update(Users entity)

@@ -67,9 +67,9 @@ namespace Locadora.API.Services
                 return ResultService.Fail<BooksDto>("Editora não encontrada!");
 
             var book = _mapper.Map<Books>(model);
-            var data = await _repo.Add(book);
+            await _repo.Add(book);
 
-            return ResultService.Ok(data);
+            return ResultService.Ok("Livro adicionado com êxito.");
         }
 
         public async Task<ResultService> Update(UpdateBookDto model)

@@ -64,7 +64,7 @@ namespace Locadora.API.Services
             var publisher = _mapper.Map<Publishers>(model);
             await _repo.Add(publisher);
 
-            return ResultService.Ok(publisher);
+            return ResultService.Ok("Editora adicionada com êxito.");
         }
 
         public async Task<ResultService> Update(Publishers model)

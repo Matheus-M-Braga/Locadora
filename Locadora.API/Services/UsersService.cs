@@ -65,7 +65,7 @@ namespace Locadora.API.Services
             var user = _mapper.Map<Users>(model);
             await _repo.Add(user);
 
-            return ResultService.Ok(user);
+            return ResultService.Ok("Usuário adicionado com êxito.");
         }
 
         public async Task<ResultService> Update(Users model)

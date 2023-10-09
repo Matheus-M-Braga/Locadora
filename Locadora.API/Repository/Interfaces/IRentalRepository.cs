@@ -4,7 +4,7 @@ using Locadora.API.Repository.Pagination;
 namespace Locadora.API.Repository {
     public interface IRentalRepository
     {
-        Task<Rentals> Add(Rentals entity);
+        Task Add(Rentals entity);
         Task Update(Rentals entity);
         Task Delete(Rentals entity);
 

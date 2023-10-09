@@ -4,7 +4,7 @@ using Locadora.API.Repository.Pagination;
 namespace Locadora.API.Repository {
     public interface IUserRepository
     {
-        Task<Users> Add(Users entity);
+        Task Add(Users entity);
         Task Update(Users entity);
         Task Delete(Users entity);
 

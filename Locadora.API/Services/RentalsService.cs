@@ -84,9 +84,7 @@ namespace Locadora.API.Services
 
             await _repo.Add(rental);
 
-            var created = await _repo.GetRentalById(rental.Id);
-
-            return ResultService.Ok(_mapper.Map<RentalsDto>(created));
+            return ResultService.Ok("Aluguel adicionado com êxito.");
         }
 
         public async Task<ResultService> Update(UpdateRentalDto model)
@@ -130,7 +128,7 @@ namespace Locadora.API.Services
             if (updateBook == false)
                 return ResultService.Fail<UpdateRentalDto>("Livro com estoque esgotado.");
 
-            return ResultService.Ok(_mapper.Map<RentalsDto>(rental));
+            return ResultService.Ok("Devolução realizada com êxito!");
         }
 
         public async Task<ResultService> Delete(int id)

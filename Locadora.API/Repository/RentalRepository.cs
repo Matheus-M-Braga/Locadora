@@ -14,11 +14,10 @@ namespace Locadora.API.Repository
             _context = context;
         }
 
-        public async Task<Rentals> Add(Rentals entity)
+        public async Task Add(Rentals entity)
         {
             await _context.AddAsync(entity);
             await _context.SaveChangesAsync();
-            return entity;
         }
         public async Task Update(Rentals entity)
         {
