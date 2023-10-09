@@ -5,7 +5,7 @@ using Locadora.API.Dtos;
 using Locadora.API.Dtos.Validations;
 using Locadora.API.Services.Interfaces;
 using Locadora.API.Repository;
-using Locadora.API.FiltersDb;
+using Locadora.API.Repository.Pagination;
 
 namespace Locadora.API.Services
 {

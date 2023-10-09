@@ -1,5 +1,5 @@
 ﻿using Locadora.API.Dtos;
-using Locadora.API.FiltersDb;
+using Locadora.API.Repository.Pagination;
 
 namespace Locadora.API.Services.Interfaces
 {

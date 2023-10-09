@@ -2,7 +2,6 @@ using Locadora.API.Models;
 using Locadora.API.Context;
 using Microsoft.EntityFrameworkCore;
 using Locadora.API.Repository.Pagination;
-using Locadora.API.FiltersDb;
 
 namespace Locadora.API.Repository
 {
@@ -35,7 +34,11 @@ namespace Locadora.API.Repository
         {
             var publishers = _context.Publishers.AsQueryable();
             if (request.FilterValue != null)
-                publishers = FilterHelper.ApplyFilter(publishers, request.FilterValue);
+                publishers = publishers.Where(
+                    p => p.Id.ToString().Contains(request.FilterValue) ||
+                    p.Name.Contains(request.FilterValue) ||
+                    p.City.Contains(request.FilterValue)
+                );
 
             return await PagedBaseResponseHelper.GetResponseAsync<PagedBaseResponse<Publishers>, Publishers>(publishers, request);
         }

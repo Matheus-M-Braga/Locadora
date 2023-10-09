@@ -37,7 +37,13 @@ namespace Locadora.API.Repository
         {
             var users = _context.Users.AsQueryable();
             if (request.FilterValue != null)
-               users = FilterHelper.ApplyFilter(users, request.FilterValue);
+                users = users.Where(
+                    u => u.Id.ToString().Contains(request.FilterValue) ||
+                    u.Name.Contains(request.FilterValue) ||
+                    u.City.Contains(request.FilterValue) ||
+                    u.Address.Contains(request.FilterValue) ||
+                    u.Email.Contains(request.FilterValue)
+                );
 
             return await PagedBaseResponseHelper.GetResponseAsync<PagedBaseResponse<Users>, Users>(users, request);
         }

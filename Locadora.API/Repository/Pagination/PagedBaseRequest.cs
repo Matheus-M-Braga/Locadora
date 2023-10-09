@@ -13,4 +13,8 @@
             OrderBy = "Id";
         }
     }
+    public class FilterDb : PagedBaseRequest
+    {
+        public string? FilterValue { get; set; }
+    }
 }
