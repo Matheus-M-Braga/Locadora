@@ -1,11 +1,10 @@
 ﻿using Locadora.API.Dtos;
 using Locadora.API.Models;
 using Locadora.API.Pagination;
+using Locadora.API.Services;
 
-namespace Locadora.API.Services.Interfaces
-{
-    public interface IPublishersService
-    {
+namespace Locadora.API.Services.Interfaces {
+    public interface IPublishersService {
         Task<ResultService<PagedBaseResponseDto<Publishers>>> GetAll(FilterDb filterDb);
         Task<ResultService<Publishers>> GetById(int id);
         Task<ResultService<ICollection<PublisherBookDto>>> GetAllSelect();

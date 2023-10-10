@@ -3,10 +3,8 @@ using Locadora.API.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
-namespace Locadora.API.Context
-{
-    public class DataContext : DbContext
-    {
+namespace Locadora.API.Context {
+    public class DataContext : DbContext {
         public DataContext() { }
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
@@ -15,17 +13,14 @@ namespace Locadora.API.Context
         public DbSet<Publishers> Publishers { get; set; }
         public DbSet<Rentals> Rentals { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
+            if (!optionsBuilder.IsConfigured) {
                 optionsBuilder.UseSqlite("Data Source=Locadora.db");
             }
             //optionsBuilder.EnableSensitiveDataLogging();
         }
 
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
+        protected override void OnModelCreating(ModelBuilder builder) {
             builder.Entity<Users>()
                 .HasData(new List<Users>{
                     new Users(1, "Lauro", "Fortaleza", "Rua A", "lauro@yahoo.com"),

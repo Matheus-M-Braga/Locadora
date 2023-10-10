@@ -1,30 +1,26 @@
 ﻿using AutoMapper;
-using Locadora.API.Dtos;
 using Locadora.API.Dtos.Validations;
+using Locadora.API.Repository.Interfaces;
+using Locadora.API.Dtos;
+using Locadora.API.Pagination;
 using Locadora.API.Services.Interfaces;
 using Locadora.API.Models;
-using Locadora.API.Pagination;
-using Locadora.API.Repository.Interfaces;
 
-namespace Locadora.API.Services
-{
-    public class BooksService : IBooksService
-    {
+namespace Locadora.API.Services {
+    public class BooksService : IBooksService {
         private readonly IBookRepository _repo;
         private readonly IPublisherRepository _publiRepo;
         private readonly IRentalRepository _rentalRepo;
         private readonly IMapper _mapper;
 
-        public BooksService(IBookRepository repo, IPublisherRepository publiRepo, IRentalRepository rentalRepo, IMapper mapper)
-        {
+        public BooksService(IBookRepository repo, IPublisherRepository publiRepo, IRentalRepository rentalRepo, IMapper mapper) {
             _repo = repo;
             _publiRepo = publiRepo;
             _rentalRepo = rentalRepo;
             _mapper = mapper;
         }
 
-        public async Task<ResultService<PagedBaseResponseDto<BooksDto>>> GetAll(FilterDb filterDb)
-        {
+        public async Task<ResultService<PagedBaseResponseDto<BooksDto>>> GetAll(FilterDb filterDb) {
             var books = await _repo.GetAllBooksPaged(filterDb);
             var result = new PagedBaseResponseDto<BooksDto>(books.TotalRegisters, books.TotalPages, _mapper.Map<List<BooksDto>>(books.Data));
 
@@ -34,8 +30,7 @@ namespace Locadora.API.Services
             return ResultService.Ok(result);
         }
 
-        public async Task<ResultService<BooksDto>> GetById(int id)
-        {
+        public async Task<ResultService<BooksDto>> GetById(int id) {
             var book = await _repo.GetBookById(id);
             if (book == null)
                 return ResultService.Fail<BooksDto>("Livro não encontrado!");
@@ -43,14 +38,12 @@ namespace Locadora.API.Services
             return ResultService.Ok(_mapper.Map<BooksDto>(book));
         }
 
-        public async Task<ResultService<ICollection<BookRentalDto>>> GetAllSelect()
-        {
+        public async Task<ResultService<ICollection<BookRentalDto>>> GetAllSelect() {
             var books = await _repo.GetAllBooks();
             return ResultService.Ok(_mapper.Map<ICollection<BookRentalDto>>(books));
         }
 
-        public async Task<ResultService> Create(CreateBookDto model)
-        {
+        public async Task<ResultService> Create(CreateBookDto model) {
             if (model == null)
                 return ResultService.Fail<CreateBookDto>("Objeto deve ser informado!");
 
@@ -72,8 +65,7 @@ namespace Locadora.API.Services
             return ResultService.Ok("Livro adicionado com êxito.");
         }
 
-        public async Task<ResultService> Update(UpdateBookDto model)
-        {
+        public async Task<ResultService> Update(UpdateBookDto model) {
             if (model == null)
                 return ResultService.Fail<BooksDto>("Objeto deve ser informado!");
 
@@ -95,8 +87,7 @@ namespace Locadora.API.Services
             return ResultService.Ok("Livro atualizado com êxito!");
         }
 
-        public async Task<ResultService> Delete(int id)
-        {
+        public async Task<ResultService> Delete(int id) {
             var book = await _repo.GetBookById(id);
             if (book == null)
                 return ResultService.Fail<BooksDto>("Livro não encontrado!");

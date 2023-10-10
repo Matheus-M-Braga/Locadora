@@ -1,19 +1,18 @@
 ﻿#pragma warning disable CS8618
-namespace Locadora.API.Models
-{
-    public class Books
-    {
+
+
+namespace Locadora.API.Models {
+    public class Books {
 
         public Books() { }
-        public Books(int id, string name, string author, int publisherId, string release, int quantity, int rented)
-        {
-            this.Id = id;
-            this.Name = name;
-            this.Author = author;
-            this.PublisherId = publisherId;
-            this.Release = release;
-            this.Quantity = quantity;
-            this.Rented = rented;
+        public Books(int id, string name, string author, int publisherId, string release, int quantity, int rented) {
+            Id = id;
+            Name = name;
+            Author = author;
+            PublisherId = publisherId;
+            Release = release;
+            Quantity = quantity;
+            Rented = rented;
         }
         public int Id { get; set; }
         public string Name { get; set; }

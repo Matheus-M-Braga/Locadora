@@ -2,12 +2,9 @@
 using Locadora.API.Dtos;
 using Locadora.API.Models;
 
-namespace Locadora.API.Mapper
-{
-    public class ProjectProfile : Profile
-    {
-        public ProjectProfile()
-        {
+namespace Locadora.API.Mapper {
+    public class ProjectProfile : Profile {
+        public ProjectProfile() {
             CreateMap<Users, UserRentalDto>().ReverseMap();
             CreateMap<Users, CreateUserDto>().ReverseMap();
 

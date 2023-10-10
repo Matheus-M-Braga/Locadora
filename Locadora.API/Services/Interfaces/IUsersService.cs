@@ -1,11 +1,10 @@
 ﻿using Locadora.API.Dtos;
 using Locadora.API.Models;
 using Locadora.API.Pagination;
+using Locadora.API.Services;
 
-namespace Locadora.API.Services.Interfaces
-{
-    public interface IUsersService
-    {
+namespace Locadora.API.Services.Interfaces {
+    public interface IUsersService {
         Task<ResultService<PagedBaseResponseDto<Users>>> GetAll(FilterDb filterDb);
         Task<ResultService<Users>> GetById(int id);
         Task<ResultService<ICollection<UserRentalDto>>> GetAllSelect();

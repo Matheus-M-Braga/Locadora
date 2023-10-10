@@ -1,27 +1,24 @@
 ﻿using AutoMapper;
-using Locadora.API.Models;
-using Locadora.API.Dtos;
-using Locadora.API.Dtos.Validations;
 using Locadora.API.Services.Interfaces;
-using Locadora.API.Pagination;
 using Locadora.API.Repository.Interfaces;
+using Locadora.API.Dtos;
+using Locadora.API.Models;
+using Locadora.API.Pagination;
+using Locadora.API.Dtos.Validations;
 
 namespace Locadora.API.Services {
-    public class PublishersService : IPublishersService
-    {
+    public class PublishersService : IPublishersService {
         private readonly IPublisherRepository _repo;
         private readonly IBookRepository _bookRepo;
         private readonly IMapper _mapper;
 
-        public PublishersService(IPublisherRepository repo, IBookRepository bookRepo, IMapper mapper)
-        {
+        public PublishersService(IPublisherRepository repo, IBookRepository bookRepo, IMapper mapper) {
             _repo = repo;
             _bookRepo = bookRepo;
             _mapper = mapper;
         }
 
-        public async Task<ResultService<PagedBaseResponseDto<Publishers>>> GetAll(FilterDb filterDb)
-        {
+        public async Task<ResultService<PagedBaseResponseDto<Publishers>>> GetAll(FilterDb filterDb) {
             var publishers = await _repo.GetAllPublishersPaged(filterDb);
             var result = new PagedBaseResponseDto<Publishers>(publishers.TotalRegisters, publishers.TotalPages, _mapper.Map<List<Publishers>>(publishers.Data));
 
@@ -31,8 +28,7 @@ namespace Locadora.API.Services {
             return ResultService.Ok(result);
         }
 
-        public async Task<ResultService<Publishers>> GetById(int id)
-        {
+        public async Task<ResultService<Publishers>> GetById(int id) {
             var publishers = await _repo.GetPublisherById(id);
             if (publishers == null)
                 return ResultService.Fail<Publishers>("Editora não encontrada!");
@@ -40,14 +36,12 @@ namespace Locadora.API.Services {
             return ResultService.Ok(_mapper.Map<Publishers>(publishers));
         }
 
-        public async Task<ResultService<ICollection<PublisherBookDto>>> GetAllSelect()
-        {
+        public async Task<ResultService<ICollection<PublisherBookDto>>> GetAllSelect() {
             var publishers = await _repo.GetAllPublishers();
             return ResultService.Ok(_mapper.Map<ICollection<PublisherBookDto>>(publishers));
         }
 
-        public async Task<ResultService> Create(CreatePublisherDto model)
-        {
+        public async Task<ResultService> Create(CreatePublisherDto model) {
             if (model == null)
                 return ResultService.Fail<CreatePublisherDto>("Objeto deve ser informado!");
 
@@ -59,15 +53,14 @@ namespace Locadora.API.Services {
             var publisherExists = await _repo.GetPublisherByName(model.Name);
             if (publisherExists.Count > 0)
                 return ResultService.Fail<CreatePublisherDto>("Editora já cadastrada!");
-            
+
             var publisher = _mapper.Map<Publishers>(model);
             await _repo.Add(publisher);
 
             return ResultService.Ok("Editora adicionada com êxito.");
         }
 
-        public async Task<ResultService> Update(Publishers model)
-        {
+        public async Task<ResultService> Update(Publishers model) {
             if (model == null)
                 return ResultService.Fail<Publishers>("Objeto deve ser informado!");
 
@@ -85,8 +78,7 @@ namespace Locadora.API.Services {
             return ResultService.Ok("Editora atualizada com êxito!");
         }
 
-        public async Task<ResultService> Delete(int id)
-        {
+        public async Task<ResultService> Delete(int id) {
             var publisher = await _repo.GetPublisherById(id);
 
             if (publisher == null)
@@ -95,7 +87,7 @@ namespace Locadora.API.Services {
             var booksAssociatedWithPublisher = await _bookRepo.GetAllBooksByPublisherId(id);
             if (booksAssociatedWithPublisher.Count > 0)
                 return ResultService.Fail<Publishers>("A editora não pode ser excluída, pois está associada a livros.");
-            
+
             await _repo.Delete(publisher);
 
             return ResultService.Ok("Editora deletada com êxito!");

@@ -2,12 +2,9 @@ using System;
 using FluentValidation;
 using Locadora.API.Models;
 
-namespace Locadora.API.Dtos.Validations
-{
-    public class UserDtoValidator : AbstractValidator<CreateUserDto>
-    {
-        public UserDtoValidator()
-        {
+namespace Locadora.API.Dtos.Validations {
+    public class UserDtoValidator : AbstractValidator<CreateUserDto> {
+        public UserDtoValidator() {
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage("Campo Nome não informado.")
                 .MinimumLength(3).WithMessage("Necessário pelo menos 3 caracteres.")
@@ -27,10 +24,8 @@ namespace Locadora.API.Dtos.Validations
                 .MaximumLength(50).WithMessage("Limite é de 50 caracteres.");
         }
     }
-    public class UpdateUserDtoValidator : AbstractValidator<Users>
-    {
-        public UpdateUserDtoValidator()
-        {
+    public class UpdateUserDtoValidator : AbstractValidator<Users> {
+        public UpdateUserDtoValidator() {
             RuleFor(x => x.Id)
                .NotEmpty().WithMessage("Campo Id não informado.")
                .GreaterThanOrEqualTo(1).WithMessage("Campo Id não informado");

@@ -1,31 +1,27 @@
 ﻿#pragma warning disable CS8604
 using AutoMapper;
-using Locadora.API.Models;
-using Locadora.API.Dtos;
 using Locadora.API.Dtos.Validations;
-using Locadora.API.Services.Interfaces;
-using Locadora.API.Pagination;
 using Locadora.API.Repository.Interfaces;
+using Locadora.API.Services.Interfaces;
+using Locadora.API.Dtos;
+using Locadora.API.Pagination;
+using Locadora.API.Models;
 
-namespace Locadora.API.Services
-{
-    public class RentalsService : IRentalsService
-    {
+namespace Locadora.API.Services {
+    public class RentalsService : IRentalsService {
         private readonly IRentalRepository _repo;
         private readonly IBookRepository _bookRepo;
         private readonly IUserRepository _userRepo;
         private readonly IMapper _mapper;
 
-        public RentalsService(IRentalRepository repo, IBookRepository bookRepo, IUserRepository userRepo, IMapper mapper)
-        {
+        public RentalsService(IRentalRepository repo, IBookRepository bookRepo, IUserRepository userRepo, IMapper mapper) {
             _repo = repo;
             _bookRepo = bookRepo;
             _userRepo = userRepo;
             _mapper = mapper;
         }
 
-        public async Task<ResultService<PagedBaseResponseDto<RentalsDto>>> GetAll(FilterDb filterDb)
-        {
+        public async Task<ResultService<PagedBaseResponseDto<RentalsDto>>> GetAll(FilterDb filterDb) {
             var rentals = await _repo.GetAllRentals(filterDb);
             var result = new PagedBaseResponseDto<RentalsDto>(rentals.TotalRegisters, rentals.TotalPages, _mapper.Map<List<RentalsDto>>(rentals.Data));
 
@@ -35,8 +31,7 @@ namespace Locadora.API.Services
             return ResultService.Ok(result);
         }
 
-        public async Task<ResultService<RentalsDto>> GetById(int id)
-        {
+        public async Task<ResultService<RentalsDto>> GetById(int id) {
             var rental = await _repo.GetRentalById(id);
             if (rental == null)
                 return ResultService.Fail<RentalsDto>("Aluguel não encontrado!");
@@ -44,8 +39,7 @@ namespace Locadora.API.Services
             return ResultService.Ok(_mapper.Map<RentalsDto>(rental));
         }
 
-        public async Task<ResultService> Create(CreateRentalDto model)
-        {
+        public async Task<ResultService> Create(CreateRentalDto model) {
             if (model == null)
                 return ResultService.Fail<CreateRentalDto>("Objeto deve ser informado!");
 
@@ -87,8 +81,7 @@ namespace Locadora.API.Services
             return ResultService.Ok("Aluguel adicionado com êxito.");
         }
 
-        public async Task<ResultService> Update(UpdateRentalDto model)
-        {
+        public async Task<ResultService> Update(UpdateRentalDto model) {
             if (model == null)
                 return ResultService.Fail<UpdateRentalDto>("Objeto deve ser informado!");
 
@@ -102,14 +95,6 @@ namespace Locadora.API.Services
 
             if (rental.ReturnDate != null)
                 return ResultService.Fail<UpdateRentalDto>("Aluguel já devolvido!");
-
-            var book = await _bookRepo.GetBookById(rental.BookId);
-            if (book == null)
-                return ResultService.Fail<UpdateRentalDto>("Livro não encontrado!");
-
-            var user = await _userRepo.GetUserById(rental.UserId);
-            if (user == null)
-                return ResultService.Fail<UpdateRentalDto>("Usuário não encontrado!");
 
             bool dateValidate = await _repo.CheckDate(model.ReturnDate);
             if (dateValidate)
@@ -131,8 +116,7 @@ namespace Locadora.API.Services
             return ResultService.Ok("Devolução realizada com êxito!");
         }
 
-        public async Task<ResultService> Delete(int id)
-        {
+        public async Task<ResultService> Delete(int id) {
             var rental = await _repo.GetRentalById(id);
             if (rental == null)
                 return ResultService.Fail<RentalsDto>("Aluguel não encontrado!");

@@ -1,38 +1,32 @@
-﻿using Locadora.API.Models;
+﻿using Microsoft.EntityFrameworkCore;
 using Locadora.API.Context;
-using Microsoft.EntityFrameworkCore;
+using Locadora.API.Models;
 using Locadora.API.Pagination;
 using Locadora.API.Repository.Interfaces;
 
 namespace Locadora.API.Repository {
-    public class UserRepository : IUserRepository
-    {
+    public class UserRepository : IUserRepository {
         private readonly DataContext _context;
-        public UserRepository(DataContext context)
-        {
+        public UserRepository(DataContext context) {
             _context = context;
         }
 
-        public async Task Add(Users entity)
-        {
+        public async Task Add(Users entity) {
             await _context.AddAsync(entity);
             await _context.SaveChangesAsync();
         }
 
-        public async Task Update(Users entity)
-        {
+        public async Task Update(Users entity) {
             _context.Update(entity);
             await _context.SaveChangesAsync();
         }
 
-        public async Task Delete(Users entity)
-        {
+        public async Task Delete(Users entity) {
             _context.Remove(entity);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<PagedBaseResponse<Users>> GetAllUsersPaged(FilterDb request)
-        {
+        public async Task<PagedBaseResponse<Users>> GetAllUsersPaged(FilterDb request) {
             var users = _context.Users.AsQueryable();
             if (request.FilterValue != null)
                 users = users.Where(
@@ -46,18 +40,15 @@ namespace Locadora.API.Repository {
             return await PagedBaseResponseHelper.GetResponseAsync<PagedBaseResponse<Users>, Users>(users, request);
         }
 
-        public async Task<List<Users>> GetAllUsers()
-        {
+        public async Task<List<Users>> GetAllUsers() {
             return await _context.Users.ToListAsync();
         }
 
-        public async Task<Users> GetUserById(int userId)
-        {
+        public async Task<Users> GetUserById(int userId) {
             return await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == userId);
         }
 
-        public async Task<List<Users>> GetUserByEmail(string email)
-        {
+        public async Task<List<Users>> GetUserByEmail(string email) {
             return await _context.Users.Where(u => u.Email == email).ToListAsync();
         }
     }

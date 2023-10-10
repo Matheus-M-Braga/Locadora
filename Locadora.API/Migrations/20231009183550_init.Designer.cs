@@ -7,8 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Locadora.API.Migrations
-{
+namespace Locadora.API.Migrations {
     [DbContext(typeof(DataContext))]
     [Migration("20231009183550_init")]
     partial class init

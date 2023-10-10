@@ -1,19 +1,16 @@
 ﻿#pragma warning disable CS8618
 using System.Text.Json.Serialization;
 
-namespace Locadora.API.Models
-{
-    public class Rentals
-    {
+namespace Locadora.API.Models {
+    public class Rentals {
         public Rentals() { }
-        public Rentals(int id, int bookId, int userId, string rentalDate, string forecastDate, string? returnDate)
-        {
-            this.Id = id;
-            this.BookId = bookId;
-            this.UserId = userId;
-            this.RentalDate = rentalDate;
-            this.ForecastDate = forecastDate;
-            this.ReturnDate = returnDate;
+        public Rentals(int id, int bookId, int userId, string rentalDate, string forecastDate, string? returnDate) {
+            Id = id;
+            BookId = bookId;
+            UserId = userId;
+            RentalDate = rentalDate;
+            ForecastDate = forecastDate;
+            ReturnDate = returnDate;
         }
         public int Id { get; set; }
         public int BookId { get; set; }
