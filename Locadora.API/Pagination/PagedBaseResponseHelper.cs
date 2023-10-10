@@ -1,10 +1,6 @@
-﻿using System.Linq.Expressions;
-using Locadora.API.Models;
-using Locadora.API.Repository.Pagination;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace Locadora.API.Repository
-{
+namespace Locadora.API.Pagination {
     public static class PagedBaseResponseHelper
     {
         public static async Task<TResponse> GetResponseAsync<TResponse, T>(IQueryable<T> query, PagedBaseRequest request) where TResponse : PagedBaseResponse<T>, new()

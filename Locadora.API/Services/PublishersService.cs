@@ -3,11 +3,10 @@ using Locadora.API.Models;
 using Locadora.API.Dtos;
 using Locadora.API.Dtos.Validations;
 using Locadora.API.Services.Interfaces;
-using Locadora.API.Repository;
-using Locadora.API.Repository.Pagination;
+using Locadora.API.Pagination;
+using Locadora.API.Repository.Interfaces;
 
-namespace Locadora.API.Services
-{
+namespace Locadora.API.Services {
     public class PublishersService : IPublishersService
     {
         private readonly IPublisherRepository _repo;

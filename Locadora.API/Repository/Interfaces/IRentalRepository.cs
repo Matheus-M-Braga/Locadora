@@ -1,9 +1,8 @@
 using Locadora.API.Models;
-using Locadora.API.Repository.Pagination;
+using Locadora.API.Pagination;
 
-namespace Locadora.API.Repository {
-    public interface IRentalRepository
-    {
+namespace Locadora.API.Repository.Interfaces {
+    public interface IRentalRepository {
         Task Add(Rentals entity);
         Task Update(Rentals entity);
         Task Delete(Rentals entity);

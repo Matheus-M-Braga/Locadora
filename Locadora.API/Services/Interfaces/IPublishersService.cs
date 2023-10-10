@@ -1,6 +1,6 @@
 ﻿using Locadora.API.Dtos;
 using Locadora.API.Models;
-using Locadora.API.Repository.Pagination;
+using Locadora.API.Pagination;
 
 namespace Locadora.API.Services.Interfaces
 {

@@ -2,9 +2,9 @@
 using Locadora.API.Dtos;
 using Locadora.API.Dtos.Validations;
 using Locadora.API.Services.Interfaces;
-using Locadora.API.Repository;
 using Locadora.API.Models;
-using Locadora.API.Repository.Pagination;
+using Locadora.API.Pagination;
+using Locadora.API.Repository.Interfaces;
 
 namespace Locadora.API.Services
 {
@@ -23,13 +23,13 @@ namespace Locadora.API.Services
             _mapper = mapper;
         }
 
-        public async Task<ResultService<PagedBaseResponseDto<Books>>> GetAll(FilterDb filterDb)
+        public async Task<ResultService<PagedBaseResponseDto<BooksDto>>> GetAll(FilterDb filterDb)
         {
             var books = await _repo.GetAllBooksPaged(filterDb);
-            var result = new PagedBaseResponseDto<Books>(books.TotalRegisters, books.TotalPages, _mapper.Map<List<Books>>(books.Data));
+            var result = new PagedBaseResponseDto<BooksDto>(books.TotalRegisters, books.TotalPages, _mapper.Map<List<BooksDto>>(books.Data));
 
-            if(result.Data.Count == 0)
-                return ResultService.Fail<PagedBaseResponseDto<Books>>("Nenhum registro encontrado.");
+            if (result.Data.Count == 0)
+                return ResultService.Fail<PagedBaseResponseDto<BooksDto>>("Nenhum registro encontrado.");
 
             return ResultService.Ok(result);
         }

@@ -1,6 +1,7 @@
 using AutoMapper;
 using Locadora.API.Context;
 using Locadora.API.Repository;
+using Locadora.API.Repository.Interfaces;
 using Locadora.API.Services;
 using Locadora.API.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;

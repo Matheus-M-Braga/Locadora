@@ -4,8 +4,8 @@ using Locadora.API.Models;
 using Locadora.API.Dtos;
 using Locadora.API.Dtos.Validations;
 using Locadora.API.Services.Interfaces;
-using Locadora.API.Repository;
-using Locadora.API.Repository.Pagination;
+using Locadora.API.Pagination;
+using Locadora.API.Repository.Interfaces;
 
 namespace Locadora.API.Services
 {
@@ -29,7 +29,7 @@ namespace Locadora.API.Services
             var rentals = await _repo.GetAllRentals(filterDb);
             var result = new PagedBaseResponseDto<RentalsDto>(rentals.TotalRegisters, rentals.TotalPages, _mapper.Map<List<RentalsDto>>(rentals.Data));
 
-            if(result.Data.Count == 0)
+            if (result.Data.Count == 0)
                 return ResultService.Fail<PagedBaseResponseDto<RentalsDto>>("Nenhum registro encontrado.");
 
             return ResultService.Ok(result);

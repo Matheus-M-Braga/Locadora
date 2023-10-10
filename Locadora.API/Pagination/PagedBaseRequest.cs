@@ -1,4 +1,4 @@
-﻿namespace Locadora.API.Repository.Pagination
+﻿namespace Locadora.API.Pagination
 {
     public class PagedBaseRequest
     {

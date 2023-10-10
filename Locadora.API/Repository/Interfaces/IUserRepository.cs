@@ -1,9 +1,8 @@
 ﻿using Locadora.API.Models;
-using Locadora.API.Repository.Pagination;
+using Locadora.API.Pagination;
 
-namespace Locadora.API.Repository {
-    public interface IUserRepository
-    {
+namespace Locadora.API.Repository.Interfaces {
+    public interface IUserRepository {
         Task Add(Users entity);
         Task Update(Users entity);
         Task Delete(Users entity);
