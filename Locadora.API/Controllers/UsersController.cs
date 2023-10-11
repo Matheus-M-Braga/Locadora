@@ -1,6 +1,7 @@
 ﻿using Locadora.API.Dtos;
 using Locadora.API.Models;
 using Locadora.API.Pagination;
+using Locadora.API.Services;
 using Locadora.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,7 +44,7 @@ namespace Locadora.API.Controllers {
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromBody] Users model) {
+        public async Task<IActionResult> Put([FromBody] UpdateUserDto model) {
             var result = await _service.Update(model);
             if (result.IsSucess) return Ok(result);
             return BadRequest(result);

@@ -8,37 +8,34 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
-using System.Text.Json.Serialization;
-using FluentValidation.AspNetCore;
 using Locadora.API.Dtos.Validations;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc;
 using FluentValidation;
+using FluentValidation.AspNetCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers(options => {
-    options.Filters.Add<ResultService>();
+builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
 });
 //builder.Services.AddSingleton<IActionResultExecutor<ObjectResult>, CustomTest>();
-// builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
-builder.Services.AddValidatorsFromAssemblyContaining<UserDtoValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<UpdateUserDtoValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<CreateBookDtoValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<UpdateBookDtoValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<PublisherDtoValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<UpdatePublisherDtoValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<RentalDtoValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<UpdateRentalDtoValidator>();
+//builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+//builder.Services.AddValidatorsFromAssemblyContaining<UserDtoValidator>();
+//builder.Services.AddValidatorsFromAssemblyContaining<UpdateUserDtoValidator>();
+//builder.Services.AddValidatorsFromAssemblyContaining<CreateBookDtoValidator>();
+//builder.Services.AddValidatorsFromAssemblyContaining<UpdateBookDtoValidator>();
+//builder.Services.AddValidatorsFromAssemblyContaining<PublisherDtoValidator>();
+//builder.Services.AddValidatorsFromAssemblyContaining<UpdatePublisherDtoValidator>();
+//builder.Services.AddValidatorsFromAssemblyContaining<RentalDtoValidator>();
+//builder.Services.AddValidatorsFromAssemblyContaining<UpdateRentalDtoValidator>();
 
-
-
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options => {
-    options.SwaggerDoc("v1", new OpenApiInfo {
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
         Version = "v1",
         Title = "BookStore",
         Description = "Books 📚",
@@ -47,13 +44,16 @@ builder.Services.AddSwaggerGen(options => {
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlCommentsFile));
 
 });
-builder.Services.AddDbContext<DataContext>(options => {
+builder.Services.AddDbContext<DataContext>(options =>
+{
     options.UseSqlite("Data Source=Locadora.db");
 });
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddCors(options => {
+builder.Services.AddCors(options =>
+{
     options.AddPolicy("AllowLocalhost8080",
-        builder => {
+        builder =>
+        {
             builder.WithOrigins("http://localhost:8080")
             .AllowAnyHeader()
             .AllowAnyMethod();
@@ -74,9 +74,11 @@ builder.Services.AddScoped<IRentalsService, RentalsService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment()) {
+if (app.Environment.IsDevelopment())
+{
     app.UseSwagger();
-    app.UseSwaggerUI(options => {
+    app.UseSwaggerUI(options =>
+    {
         options.InjectStylesheet("/swagger-ui/custom.css");
         options.DocExpansion(DocExpansion.None);
     });

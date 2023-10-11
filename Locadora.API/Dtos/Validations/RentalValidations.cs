@@ -1,31 +1,37 @@
-using System;
 using FluentValidation;
-using Locadora.API.Dtos;
 
-namespace Locadora.API.Dtos.Validations {
-    public class RentalDtoValidator : AbstractValidator<CreateRentalDto> {
-        public RentalDtoValidator() {
+namespace Locadora.API.Dtos.Validations
+{
+    public class RentalDtoValidator : AbstractValidator<CreateRentalDto>
+    {
+        public RentalDtoValidator()
+        {
             RuleFor(x => x.BookId)
-                .NotEmpty().WithMessage("Campo Livro não informado.")
-                .GreaterThanOrEqualTo(1).WithMessage("Campo Livro não informado.");
-            RuleFor(x => x.UserId)
-                .NotEmpty().WithMessage("Campo Livro não informado.")
-                .GreaterThanOrEqualTo(1).WithMessage("Campo Usuário não informado.");
-            RuleFor(x => x.RentalDate)
+                .NotEmpty().WithMessage("{PropertyName}: Nâo informado.")
+                .GreaterThanOrEqualTo(1).WithMessage("{PropetyName}: Não informado.");
 
-                .NotEmpty().WithMessage("Campo Data Aluguel não informado.");
+            RuleFor(x => x.UserId)
+                .NotEmpty().WithMessage("{PropertyName}: Nâo informado.")
+                .GreaterThanOrEqualTo(1).WithMessage("{PropetyName}: Não informado.");
+
+            RuleFor(x => x.RentalDate)
+                .NotEmpty().WithMessage("{PropetyName}: Não informado.");
+
             RuleFor(x => x.ForecastDate)
-                .NotEmpty().WithMessage("Campo Data Previsão não informado.");
+                .NotEmpty().WithMessage("{PropetyName}: Não informado.");
         }
     }
 
-    public class UpdateRentalDtoValidator : AbstractValidator<UpdateRentalDto> {
-        public UpdateRentalDtoValidator() {
+    public class UpdateRentalDtoValidator : AbstractValidator<UpdateRentalDto>
+    {
+        public UpdateRentalDtoValidator()
+        {
             RuleFor(x => x.Id)
-                .NotEmpty().WithMessage("Campo Id não informado.")
-                .GreaterThanOrEqualTo(1).WithMessage("Campo Id não informado");
+                .NotEmpty().WithMessage("{PropertyName}: Nâo informado.")
+                .GreaterThanOrEqualTo(1).WithMessage("{PropetyName}: Não informado.");
+                
             RuleFor(x => x.ReturnDate)
-                .NotEmpty().WithMessage("Campo Data de Devolução não informado.");
+                .NotEmpty().WithMessage("{PropetyName}: Não informado.");
         }
     }
 }
