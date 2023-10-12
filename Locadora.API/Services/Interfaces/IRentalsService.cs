@@ -4,7 +4,7 @@ using Locadora.API.Services;
 
 namespace Locadora.API.Services.Interfaces {
     public interface IRentalsService {
-        Task<ResultService<PagedBaseResponseDto<RentalsDto>>> GetAll(FilterDb filterDb);
+        Task<ResultService<List<RentalsDto>>> GetAll(FilterDb filterDb);
         Task<ResultService<List<RentalDashDto>>> GetAllDash();
         Task<ResultService<RentalsDto>> GetById(int id);
         Task<ResultService> Create(CreateRentalDto model);

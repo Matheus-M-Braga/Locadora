@@ -28,7 +28,17 @@ namespace Locadora.API.Services
         {
             return new ResultService<T>
             {
-                Response = data,
+                Data = data,
+                IsSucess = true
+            };
+        }
+        public static ResultService<T> OkPaged<T>(T data, int totalRegisters, int totalPages)
+        {
+            return new ResultService<T>
+            {
+                Data = data,
+                TotalRegisters = totalRegisters,
+                TotalPages = totalPages,
                 IsSucess = true
             };
         }
@@ -37,7 +47,11 @@ namespace Locadora.API.Services
     public class ResultService<T> : ResultService
     {
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public T? Response { get; set; }
+        public T? Data { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public int? TotalRegisters { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public int? TotalPages { get; set; } 
     }
 
     

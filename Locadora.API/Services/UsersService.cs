@@ -21,15 +21,15 @@ namespace Locadora.API.Services
             _mapper = mapper;
         }
 
-        public async Task<ResultService<PagedBaseResponseDto<Users>>> GetAll(FilterDb filterDb)
+        public async Task<ResultService<List<Users>>> GetAll(FilterDb filterDb)
         {
             var users = await _repo.GetAllUsersPaged(filterDb);
             var result = new PagedBaseResponseDto<Users>(users.TotalRegisters, users.TotalPages, _mapper.Map<List<Users>>(users.Data));
 
             if (result.Data.Count == 0)
-                return ResultService.Fail<PagedBaseResponseDto<Users>>("Nenhum registro encontrado.");
+                return ResultService.Fail<List<Users>>("Nenhum registro encontrado.");
 
-            return ResultService.Ok(result);
+            return ResultService.OkPaged(result.Data, result.TotalRegisters, result.TotalPages);
         }
 
         public async Task<ResultService<Users>> GetById(int id)

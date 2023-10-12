@@ -4,7 +4,7 @@ using Locadora.API.Services;
 
 namespace Locadora.API.Services.Interfaces {
     public interface IBooksService {
-        Task<ResultService<PagedBaseResponseDto<BooksDto>>> GetAll(FilterDb filterDb);
+        Task<ResultService<List<BooksDto>>> GetAll(FilterDb filterDb);
         Task<ResultService<List<BookDashDto>>> GetAllDash();
         Task<ResultService<BooksDto>> GetById(int id);
         Task<ResultService<ICollection<BookRentalDto>>> GetAllSelect();

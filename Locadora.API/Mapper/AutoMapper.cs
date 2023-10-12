@@ -18,6 +18,7 @@ namespace Locadora.API.Mapper {
             CreateMap<Publishers, PublisherBookDto>().ReverseMap();
             CreateMap<Publishers, CreatePublisherDto>().ReverseMap();
             CreateMap<Publishers, UpdatePublisherDto>().ReverseMap();
+            CreateMap<List<Publishers>, PagedBaseResponseDto<Publishers>>().ReverseMap();
 
             CreateMap<Rentals, RentalsDto>().ReverseMap();
             CreateMap<Rentals, UpdateRentalDto>().ReverseMap();

@@ -23,15 +23,15 @@ namespace Locadora.API.Services
             _mapper = mapper;
         }
 
-        public async Task<ResultService<PagedBaseResponseDto<BooksDto>>> GetAll(FilterDb filterDb)
+        public async Task<ResultService<List<BooksDto>>> GetAll(FilterDb filterDb)
         {
             var books = await _repo.GetAllBooksPaged(filterDb);
             var result = new PagedBaseResponseDto<BooksDto>(books.TotalRegisters, books.TotalPages, _mapper.Map<List<BooksDto>>(books.Data));
 
             if (result.Data.Count == 0)
-                return ResultService.Fail<PagedBaseResponseDto<BooksDto>>("Nenhum registro encontrado.");
+                return ResultService.Fail<List<BooksDto>>("Nenhum registro encontrado.");
 
-            return ResultService.Ok(result);
+            return ResultService.OkPaged(result.Data, result.TotalRegisters, result.TotalPages);
         }
 
         public async Task<ResultService<List<BookDashDto>>> GetAllDash()
