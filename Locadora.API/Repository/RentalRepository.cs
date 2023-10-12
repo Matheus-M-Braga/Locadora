@@ -4,6 +4,7 @@ using Locadora.API.Context;
 using Locadora.API.Repository.Interfaces;
 using Locadora.API.Pagination;
 using Locadora.API.Models;
+using Locadora.API.Dtos;
 
 namespace Locadora.API.Repository
 {
@@ -47,6 +48,10 @@ namespace Locadora.API.Repository
                 );
 
             return await PagedBaseResponseHelper.GetResponseAsync<PagedBaseResponse<Rentals>, Rentals>(rentals, request);
+        }
+        public async Task<List<Rentals>> GetAllRentalsDash()
+        {
+           return await _context.Rentals.Include(r => r.Book).ToListAsync();
         }
 
         public async Task<Rentals> GetRentalById(int rentalId)
@@ -95,9 +100,9 @@ namespace Locadora.API.Repository
 
         public Task<bool> CheckDate(DateTime date)
         {
-            DateTime today = DateTime.Now;
+            DateTime today = DateTime.Now.Date;
 
-            if (date != today)
+            if (date.Date != today)
             {
                 return Task.FromResult(true);
             }

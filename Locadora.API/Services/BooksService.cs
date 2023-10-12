@@ -34,6 +34,13 @@ namespace Locadora.API.Services
             return ResultService.Ok(result);
         }
 
+        public async Task<ResultService<List<BookDashDto>>> GetAllDash()
+        {
+            var books = await _repo.GetAllBooks();
+            var bookDashDto = _mapper.Map<List<BookDashDto>>(books);
+            return ResultService.Ok(bookDashDto);
+        }
+
         public async Task<ResultService<BooksDto>> GetById(int id)
         {
             var book = await _repo.GetBookById(id);

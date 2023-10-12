@@ -13,6 +13,7 @@ namespace Locadora.API.Mapper {
             CreateMap<Books, CreateBookDto>().ReverseMap();
             CreateMap<Books, BookRentalDto>().ReverseMap();
             CreateMap<Books, UpdateBookDto>().ReverseMap();
+            CreateMap<Books, BookDashDto>().ReverseMap();
 
             CreateMap<Publishers, PublisherBookDto>().ReverseMap();
             CreateMap<Publishers, CreatePublisherDto>().ReverseMap();
@@ -21,6 +22,7 @@ namespace Locadora.API.Mapper {
             CreateMap<Rentals, RentalsDto>().ReverseMap();
             CreateMap<Rentals, UpdateRentalDto>().ReverseMap();
             CreateMap<Rentals, CreateRentalDto>().ReverseMap();
+            CreateMap<Rentals, RentalDashDto>().ReverseMap();
         }
     }
 }

@@ -35,13 +35,20 @@ namespace Locadora.API.Services
             return ResultService.Ok(result);
         }
 
+        public async Task<ResultService<List<RentalDashDto>>> GetAllDash()
+        {
+            var rentals = await _repo.GetAllRentalsDash();
+            if (rentals.Count < 1) return ResultService.Fail<List<RentalDashDto>>("Não foram encontrados alguéis.");
+            var rentalsDashDto = _mapper.Map<List<RentalDashDto>>(rentals);
+            return ResultService.Ok(rentalsDashDto);
+        }
+
         public async Task<ResultService<RentalsDto>> GetById(int id)
         {
             var rental = await _repo.GetRentalById(id);
-            if (rental == null)
-                return ResultService.Fail<RentalsDto>("Aluguel não encontrado!");
-
-            return ResultService.Ok(_mapper.Map<RentalsDto>(rental));
+            if (rental == null) return ResultService.Fail<RentalsDto>("Aluguel não encontrado!");
+            var rentalDto = _mapper.Map<RentalsDto>(rental);
+            return ResultService.Ok(rentalDto);
         }
 
         public async Task<ResultService> Create(CreateRentalDto model)

@@ -1,3 +1,4 @@
+using Locadora.API.Dtos;
 using Locadora.API.Models;
 using Locadora.API.Pagination;
 
@@ -8,6 +9,7 @@ namespace Locadora.API.Repository.Interfaces {
         Task Delete(Rentals entity);
 
         Task<PagedBaseResponse<Rentals>> GetAllRentals(FilterDb request);
+        Task<List<Rentals>> GetAllRentalsDash();
         Task<Rentals> GetRentalById(int rentalId);
         Task<List<Rentals[]>> GetAllRentalsByUserId(int userId);
         Task<List<Rentals[]>> GetAllRentalsByBookId(int bookId);

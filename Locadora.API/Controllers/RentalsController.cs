@@ -20,6 +20,14 @@ namespace Locadora.API.Controllers {
             return BadRequest(rentals);
         }
 
+        [HttpGet("Dash")]
+        public async Task<IActionResult> GetDash()
+        {
+            var rentals = await _service.GetAllDash();
+            if (rentals.IsSucess) return Ok(rentals);
+            return BadRequest(rentals);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id) {
             var rental = await _service.GetById(id);

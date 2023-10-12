@@ -34,6 +34,14 @@ namespace Locadora.API.Controllers {
             return BadRequest(books);
         }
 
+        [HttpGet("Dash")]
+        public async Task<IActionResult> GetAllDash()
+        {
+            var books = await _service.GetAllDash();
+            if (books.IsSucess) return Ok(books);
+            return BadRequest(books);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateBookDto model) {
             var result = await _service.Create(model);
