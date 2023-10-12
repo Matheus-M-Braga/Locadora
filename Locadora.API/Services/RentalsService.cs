@@ -1,11 +1,11 @@
 ﻿#pragma warning disable CS8604
 using AutoMapper;
-using Locadora.API.Dtos.Validations;
 using Locadora.API.Repository.Interfaces;
 using Locadora.API.Services.Interfaces;
 using Locadora.API.Dtos;
 using Locadora.API.Pagination;
 using Locadora.API.Models;
+using Locadora.API.Validations;
 
 namespace Locadora.API.Services
 {

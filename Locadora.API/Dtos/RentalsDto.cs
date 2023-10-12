@@ -10,9 +10,9 @@ namespace Locadora.API.Dtos
         public BookRentalDto Book { get; set; }
         public int UserId { get; set; }
         public UserRentalDto User { get; set; }
-        public string RentalDate { get; set; }
-        public string ForecastDate { get; set; }
-        public string? ReturnDate { get; set; }
+        public DateTime RentalDate { get; set; }
+        public DateTime ForecastDate { get; set; }
+        public DateTime? ReturnDate { get; set; }
         public string Status { get; set; }
     }
 
@@ -20,13 +20,13 @@ namespace Locadora.API.Dtos
     {
         public int? BookId { get; set; }
         public int? UserId { get; set; }
-        public string RentalDate { get; set; }
-        public string ForecastDate { get; set; }
+        public DateTime RentalDate { get; set; }
+        public DateTime ForecastDate { get; set; }
     }
 
     public class UpdateRentalDto
     {
         public int? Id { get; set; }
-        public string ReturnDate { get; set; }
+        public DateTime ReturnDate { get; set; }
     }
 }

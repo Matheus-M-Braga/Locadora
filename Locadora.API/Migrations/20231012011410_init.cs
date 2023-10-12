@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -74,9 +75,9 @@ namespace Locadora.API.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     BookId = table.Column<int>(type: "INTEGER", nullable: false),
                     UserId = table.Column<int>(type: "INTEGER", nullable: false),
-                    RentalDate = table.Column<string>(type: "TEXT", nullable: false),
-                    ForecastDate = table.Column<string>(type: "TEXT", nullable: false),
-                    ReturnDate = table.Column<string>(type: "TEXT", nullable: true),
+                    RentalDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ForecastDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ReturnDate = table.Column<DateTime>(type: "TEXT", nullable: true),
                     Status = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>

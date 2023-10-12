@@ -4,7 +4,7 @@ using Locadora.API.Repository.Interfaces;
 using Locadora.API.Dtos;
 using Locadora.API.Models;
 using Locadora.API.Pagination;
-using Locadora.API.Dtos.Validations;
+using Locadora.API.Validations;
 
 namespace Locadora.API.Services
 {
@@ -74,7 +74,7 @@ namespace Locadora.API.Services
             var validation = new UpdatePublisherDtoValidator().Validate(model);
             if (!validation.IsValid)
                 return ResultService.RequestError(validation);
-            
+
             await _repo.Update(publisher);
 
             return ResultService.Ok("Editora atualizada com êxito!");

@@ -1,7 +1,6 @@
 using System.Text.Json.Serialization;
 using FluentValidation.Results;
 
-
 namespace Locadora.API.Services
 {
     public class ResultService
@@ -17,7 +16,7 @@ namespace Locadora.API.Services
             return new ResultService
             {
                 IsSucess = false,
-                Errors = validationResult.Errors.Select(x => x.ErrorMessage ).ToArray(),
+                Errors = validationResult.Errors.Select(x => x.ErrorMessage).ToArray(),
             };
         }
 
@@ -25,7 +24,14 @@ namespace Locadora.API.Services
         public static ResultService<T> Fail<T>(string message) => new() { IsSucess = false, Message = message };
 
         public static ResultService Ok(string message) => new() { IsSucess = true, Message = message };
-        public static ResultService<T> Ok<T>(T data) => new() { IsSucess = true, Response = data };
+        public static ResultService<T> Ok<T>(T data)
+        {
+            return new ResultService<T>
+            {
+                Response = data,
+                IsSucess = true
+            };
+        }
     }
 
     public class ResultService<T> : ResultService
@@ -33,4 +39,6 @@ namespace Locadora.API.Services
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public T? Response { get; set; }
     }
+
+    
 }

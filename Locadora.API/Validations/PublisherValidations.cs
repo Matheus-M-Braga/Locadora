@@ -3,7 +3,7 @@ using FluentValidation;
 using Locadora.API.Dtos;
 using Locadora.API.Models;
 
-namespace Locadora.API.Dtos.Validations
+namespace Locadora.API.Validations
 {
     public class PublisherDtoValidator : AbstractValidator<CreatePublisherDto>
     {
@@ -33,7 +33,7 @@ namespace Locadora.API.Dtos.Validations
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty().WithMessage("{PropertyName}: Não informado.")
                 .Length(3, 50).WithMessage("{PropertyName}: Necessário entre 3 e 50 caracteres.");
-                
+
             RuleFor(x => x.City)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty().WithMessage("{PropertyName}: Não informado.")

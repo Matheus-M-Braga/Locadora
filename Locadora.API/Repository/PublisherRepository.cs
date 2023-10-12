@@ -4,27 +4,34 @@ using Locadora.API.Repository.Interfaces;
 using Locadora.API.Pagination;
 using Locadora.API.Models;
 
-namespace Locadora.API.Repository {
-    public class PublisherRepository : IPublisherRepository {
+namespace Locadora.API.Repository
+{
+    public class PublisherRepository : IPublisherRepository
+    {
         private readonly DataContext _context;
-        public PublisherRepository(DataContext context) {
+        public PublisherRepository(DataContext context)
+        {
             _context = context;
         }
-        public async Task Add(Publishers entity) {
+        public async Task Add(Publishers entity)
+        {
             await _context.AddAsync(entity);
             await _context.SaveChangesAsync();
         }
-        public async Task Update(Publishers entity) {
+        public async Task Update(Publishers entity)
+        {
             _context.Update(entity);
             await _context.SaveChangesAsync();
         }
 
-        public async Task Delete(Publishers entity) {
+        public async Task Delete(Publishers entity)
+        {
             _context.Remove(entity);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<PagedBaseResponse<Publishers>> GetAllPublishersPaged(FilterDb request) {
+        public async Task<PagedBaseResponse<Publishers>> GetAllPublishersPaged(FilterDb request)
+        {
             var publishers = _context.Publishers.AsQueryable();
             if (request.FilterValue != null)
                 publishers = publishers.Where(
@@ -35,15 +42,18 @@ namespace Locadora.API.Repository {
 
             return await PagedBaseResponseHelper.GetResponseAsync<PagedBaseResponse<Publishers>, Publishers>(publishers, request);
         }
-        public async Task<List<Publishers>> GetAllPublishers() {
+        public async Task<List<Publishers>> GetAllPublishers()
+        {
             return await _context.Publishers.ToListAsync();
         }
 
-        public async Task<Publishers> GetPublisherById(int publisherId) {
+        public async Task<Publishers> GetPublisherById(int publisherId)
+        {
             return await _context.Publishers.AsNoTracking().FirstOrDefaultAsync(p => p.Id == publisherId);
         }
 
-        public async Task<List<Publishers>> GetPublisherByName(string publisherName) {
+        public async Task<List<Publishers>> GetPublisherByName(string publisherName)
+        {
             return await _context.Publishers.Where(p => p.Name == publisherName).ToListAsync();
         }
     }

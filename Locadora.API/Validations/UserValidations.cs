@@ -1,7 +1,8 @@
 using FluentValidation;
+using Locadora.API.Dtos;
 using Locadora.API.Models;
 
-namespace Locadora.API.Dtos.Validations
+namespace Locadora.API.Validations
 {
     public class UserDtoValidator : AbstractValidator<CreateUserDto>
     {

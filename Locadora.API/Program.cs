@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
-using Locadora.API.Dtos.Validations;
+
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using System.Text.Json.Serialization;
@@ -20,17 +20,6 @@ builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
 {
     options.SuppressModelStateInvalidFilter = true;
 });
-//builder.Services.AddSingleton<IActionResultExecutor<ObjectResult>, CustomTest>();
-//builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
-//builder.Services.AddValidatorsFromAssemblyContaining<UserDtoValidator>();
-//builder.Services.AddValidatorsFromAssemblyContaining<UpdateUserDtoValidator>();
-//builder.Services.AddValidatorsFromAssemblyContaining<CreateBookDtoValidator>();
-//builder.Services.AddValidatorsFromAssemblyContaining<UpdateBookDtoValidator>();
-//builder.Services.AddValidatorsFromAssemblyContaining<PublisherDtoValidator>();
-//builder.Services.AddValidatorsFromAssemblyContaining<UpdatePublisherDtoValidator>();
-//builder.Services.AddValidatorsFromAssemblyContaining<RentalDtoValidator>();
-//builder.Services.AddValidatorsFromAssemblyContaining<UpdateRentalDtoValidator>();
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {

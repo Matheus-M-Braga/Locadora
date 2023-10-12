@@ -12,8 +12,8 @@ namespace Locadora.API.Repository.Interfaces {
         Task<List<Rentals[]>> GetAllRentalsByUserId(int userId);
         Task<List<Rentals[]>> GetAllRentalsByBookId(int bookId);
         Task<List<Rentals[]>> GetRentalByUserIdandBookId(int bookId, int userId);
-        Task<bool> CheckDate(string rentalDate);
-        Task<bool?> CheckForecastDate(string forecastDate, string rentalDate);
-        Task<bool> GetStatus(string forecastDate, string returnDate);
+        Task<bool> CheckDate(DateTime rentalDate);
+        Task<bool?> CheckForecastDate(DateTime forecastDate, DateTime rentalDate);
+        Task<bool> GetStatus(DateTime forecastDate, DateTime? returnDate);
     }
 }

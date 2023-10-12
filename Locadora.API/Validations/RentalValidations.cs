@@ -1,6 +1,7 @@
 using FluentValidation;
+using Locadora.API.Dtos;
 
-namespace Locadora.API.Dtos.Validations
+namespace Locadora.API.Validations
 {
     public class RentalDtoValidator : AbstractValidator<CreateRentalDto>
     {
@@ -29,7 +30,7 @@ namespace Locadora.API.Dtos.Validations
             RuleFor(x => x.Id)
                 .NotEmpty().WithMessage("{PropertyName}: Nâo informado.")
                 .GreaterThanOrEqualTo(1).WithMessage("{PropetyName}: Não informado.");
-                
+
             RuleFor(x => x.ReturnDate)
                 .NotEmpty().WithMessage("{PropetyName}: Não informado.");
         }

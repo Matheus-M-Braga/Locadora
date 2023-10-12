@@ -1,7 +1,8 @@
 using System;
 using FluentValidation;
+using Locadora.API.Dtos;
 
-namespace Locadora.API.Dtos.Validations
+namespace Locadora.API.Validations
 {
     public class CreateBookDtoValidator : AbstractValidator<CreateBookDto>
     {
@@ -58,7 +59,7 @@ namespace Locadora.API.Dtos.Validations
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty().WithMessage("{PropertyName}: Não informado.")
                 .Length(4).WithMessage("{PropertyName}: Necessário 4 caracteres.");
-                
+
             RuleFor(x => x.Quantity)
                 .NotEmpty().WithMessage("{PropertyName}: Nâo informado.")
                 .GreaterThanOrEqualTo(1).WithMessage("{PropetyName}: Não informado.");
