@@ -57,7 +57,7 @@ namespace Locadora.API.Validations
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty().WithMessage("{PropertyName}: Não informado.")
                 .Length(3, 50).WithMessage("{PropertyName}: Necessário entre 3 e 50 caracteres.")
-                .EmailAddress().WithMessage("Endereço de Email inválido.");
+                .EmailAddress().WithMessage("{PropertyName}: Formato inválido.");
         }
     }
 }
