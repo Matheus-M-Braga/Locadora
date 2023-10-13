@@ -94,26 +94,22 @@ namespace Locadora.API.Services
 
         public async Task<ResultService> Update(UpdateRentalDto model)
         {
-            var rental = _mapper.Map<Rentals>(model);
-
-            var result = await _repo.GetRentalById(rental.Id);
+            var result = await _repo.GetRentalById((int)model.Id);
             if (result == null)
                 return ResultService.Fail<UpdateRentalDto>("Aluguel não encontrado!");
+
+            var rental = _mapper.Map(model, result);
 
             var validation = new UpdateRentalDtoValidator().Validate(model);
             if (!validation.IsValid)
                 return ResultService.RequestError(validation);
 
-            bool dateValidate = await _repo.CheckDate(model.ReturnDate);
+            bool dateValidate = await _repo.CheckDate((DateTime)rental.ReturnDate);
             if (dateValidate)
                 return ResultService.Fail<CreateRentalDto>("Data de devolução não pode ser diferente da data de Hoje!");
 
-            bool status = await _repo.GetStatus(rental.ForecastDate, rental.ReturnDate);
-            if (status)
-                rental.Status = "No prazo";
-            else
-                rental.Status = "Atrasado";
-
+            rental.Status = await _repo.GetStatus(rental.ForecastDate, rental.ReturnDate);
+            
             await _repo.Update(rental);
 
             bool updateBook = await _bookRepo.UpdateQuantity(rental.BookId, true);

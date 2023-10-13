@@ -51,7 +51,7 @@ namespace Locadora.API.Repository
         }
         public async Task<List<Rentals>> GetAllRentalsDash()
         {
-           return await _context.Rentals.Include(r => r.Book).ToListAsync();
+            return await _context.Rentals.Include(r => r.Book).ToListAsync();
         }
 
         public async Task<Rentals> GetRentalById(int rentalId)
@@ -106,6 +106,7 @@ namespace Locadora.API.Repository
             {
                 return Task.FromResult(true);
             }
+
             return Task.FromResult(false);
         }
 
@@ -122,12 +123,11 @@ namespace Locadora.API.Repository
             return null;
         }
 
-        public async Task<bool> GetStatus(DateTime forecastDate, DateTime? returnDate)
+        public async Task<string> GetStatus(DateTime ForecastDate, DateTime? ReturnDate)
         {
-           if(forecastDate < returnDate)
-                return false;
-            
-            return true;
+            if (ForecastDate < ReturnDate) return "Atrasado";
+
+            return "No prazo";
         }
     }
 }

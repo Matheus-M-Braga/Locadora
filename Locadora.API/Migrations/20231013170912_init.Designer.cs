@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Locadora.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231012011410_init")]
+    [Migration("20231013170912_init")]
     partial class init
     {
         /// <inheritdoc />

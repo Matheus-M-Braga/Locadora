@@ -27,7 +27,7 @@ namespace Locadora.API.Dtos
     public class UpdateRentalDto
     {
         public int? Id { get; set; }
-        public DateTime ReturnDate { get; set; }
+        public DateTime? ReturnDate { get; set; }
     }
 
     public class RentalDashDto
@@ -35,5 +35,6 @@ namespace Locadora.API.Dtos
         public int Id { get; set; }
         public int BookId { get; set; }
         public BookRentalDto Book { get; set; }
+        public string Status { get; set; }
     }
 }

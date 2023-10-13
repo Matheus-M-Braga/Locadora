@@ -10,18 +10,25 @@ namespace Locadora.API.Pagination
             var count = await query.CountAsync();
             response.TotalPages = (int)Math.Ceiling((double)count / request.PageSize);
             response.TotalRegisters = count;
-            if (string.IsNullOrEmpty(request.OrderBy))
+            if (string.IsNullOrEmpty(request.OrderBy) && !request.OrderByDesc)
                 response.Data = await query.ToListAsync();
             else
-                response.Data = query.OrderByDynamic(request.OrderBy)
+                response.Data = query.OrderByDynamic(request.OrderBy, request.OrderByDesc)
                                      .Skip((request.Page - 1) * request.PageSize)
                                      .Take(request.PageSize)
                                      .ToList();
             return response;
         }
-        private static IEnumerable<T> OrderByDynamic<T>(this IEnumerable<T> query, string propertyName)
+        private static IEnumerable<T> OrderByDynamic<T>(this IEnumerable<T> query, string propertyName, bool isDescending)
         {
-            return query.OrderBy(x => x.GetType().GetProperty(propertyName).GetValue(x, null));
+            if (isDescending)
+            {
+                return query.OrderByDescending(x => x.GetType().GetProperty(propertyName).GetValue(x, null));
+            }
+            else
+            {
+                return query.OrderBy(x => x.GetType().GetProperty(propertyName).GetValue(x, null));
+            }
         }
     }
 }
