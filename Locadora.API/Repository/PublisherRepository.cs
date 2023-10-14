@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Locadora.API.Context;
-using Locadora.API.Repository.Interfaces;
 using Locadora.API.Pagination;
 using Locadora.API.Models;
+using Locadora.API.Interfaces.IRepository;
 
 namespace Locadora.API.Repository
 {

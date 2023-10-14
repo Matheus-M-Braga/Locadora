@@ -1,0 +1,9 @@
+﻿#pragma warning disable CS8618
+namespace Locadora.API.Dtos.Publisher
+{
+    public class PublisherBookDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+}

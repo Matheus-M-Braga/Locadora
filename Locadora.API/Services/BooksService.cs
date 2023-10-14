@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
-using Locadora.API.Repository.Interfaces;
 using Locadora.API.Dtos;
 using Locadora.API.Pagination;
-using Locadora.API.Services.Interfaces;
 using Locadora.API.Models;
 using Locadora.API.Validations;
+using Locadora.API.Interfaces.IRepository;
+using Locadora.API.Interfaces.IServices;
+using Locadora.API.Dtos.Book;
 
 namespace Locadora.API.Services
 {
@@ -23,13 +24,13 @@ namespace Locadora.API.Services
             _mapper = mapper;
         }
 
-        public async Task<ResultService<List<BooksDto>>> GetAll(FilterDb filterDb)
+        public async Task<ResultService<List<BookDto>>> GetAll(FilterDb filterDb)
         {
             var books = await _repo.GetAllBooksPaged(filterDb);
-            var result = new PagedBaseResponseDto<BooksDto>(books.TotalRegisters, books.TotalPages, _mapper.Map<List<BooksDto>>(books.Data));
+            var result = new PagedBaseResponseDto<BookDto>(books.TotalRegisters, books.TotalPages, _mapper.Map<List<BookDto>>(books.Data));
 
             if (result.Data.Count == 0)
-                return ResultService.Fail<List<BooksDto>>("Nenhum registro encontrado.");
+                return ResultService.Fail<List<BookDto>>("Nenhum registro encontrado.");
 
             return ResultService.OkPaged(result.Data, result.TotalRegisters, result.TotalPages);
         }
@@ -41,13 +42,13 @@ namespace Locadora.API.Services
             return ResultService.Ok(bookDashDto);
         }
 
-        public async Task<ResultService<BooksDto>> GetById(int id)
+        public async Task<ResultService<BookDto>> GetById(int id)
         {
             var book = await _repo.GetBookById(id);
             if (book == null)
-                return ResultService.Fail<BooksDto>("Livro não encontrado!");
+                return ResultService.Fail<BookDto>("Livro não encontrado!");
 
-            return ResultService.Ok(_mapper.Map<BooksDto>(book));
+            return ResultService.Ok(_mapper.Map<BookDto>(book));
         }
 
         public async Task<ResultService<ICollection<BookRentalDto>>> GetAllSelect()
@@ -66,11 +67,11 @@ namespace Locadora.API.Services
 
             var bookExists = await _repo.GetBookByName(book.Name);
             if (bookExists.Count > 0)
-                return ResultService.Fail<BooksDto>("Livro já cadastrado.");
+                return ResultService.Fail<BookDto>("Livro já cadastrado.");
 
             var publisher = await _publiRepo.GetPublisherById(book.PublisherId);
             if (publisher == null)
-                return ResultService.Fail<BooksDto>("Editora não encontrada!");
+                return ResultService.Fail<BookDto>("Editora não encontrada!");
 
             await _repo.Add(book);
 
@@ -83,7 +84,7 @@ namespace Locadora.API.Services
 
             var result = await _repo.GetBookById(book.Id);
             if (result == null)
-                return ResultService.Fail<BooksDto>("Livro não encontrado!");
+                return ResultService.Fail<BookDto>("Livro não encontrado!");
 
             var validation = new UpdateBookDtoValidator().Validate(model);
             if (!validation.IsValid)
@@ -91,7 +92,7 @@ namespace Locadora.API.Services
 
             var publisher = await _publiRepo.GetPublisherById(book.PublisherId);
             if (publisher == null)
-                return ResultService.Fail<BooksDto>("Editora não encontrada!");
+                return ResultService.Fail<BookDto>("Editora não encontrada!");
 
             await _repo.Update(book);
 
@@ -102,11 +103,11 @@ namespace Locadora.API.Services
         {
             var book = await _repo.GetBookById(id);
             if (book == null)
-                return ResultService.Fail<BooksDto>("Livro não encontrado!");
+                return ResultService.Fail<BookDto>("Livro não encontrado!");
 
             var rentalAssociation = await _rentalRepo.GetAllRentalsByBookId(id);
             if (rentalAssociation.Count > 0)
-                return ResultService.Fail<BooksDto>("Livro possui associação com aluguéis.");
+                return ResultService.Fail<BookDto>("Livro possui associação com aluguéis.");
 
             await _repo.Delete(book);
 

@@ -1,7 +1,8 @@
 ﻿using Locadora.API.Dtos;
+using Locadora.API.Dtos.Publisher;
+using Locadora.API.Interfaces.IServices;
 using Locadora.API.Models;
 using Locadora.API.Pagination;
-using Locadora.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Locadora.API.Controllers

@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using Locadora.API.Repository.Interfaces;
 using Locadora.API.Context;
 using Locadora.API.Pagination;
 using Locadora.API.Models;
+using Locadora.API.Interfaces.IRepository;
 
-namespace Locadora.API.Repository {
+namespace Locadora.API.Repository
+{
     public class BookRepository : IBookRepository {
         private readonly DataContext _context;
         public BookRepository(DataContext context) {

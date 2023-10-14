@@ -2,9 +2,10 @@
 using Locadora.API.Context;
 using Locadora.API.Models;
 using Locadora.API.Pagination;
-using Locadora.API.Repository.Interfaces;
+using Locadora.API.Interfaces.IRepository;
 
-namespace Locadora.API.Repository {
+namespace Locadora.API.Repository
+{
     public class UserRepository : IUserRepository {
         private readonly DataContext _context;
         public UserRepository(DataContext context) {

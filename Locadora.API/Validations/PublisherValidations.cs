@@ -1,6 +1,7 @@
 using System;
 using FluentValidation;
 using Locadora.API.Dtos;
+using Locadora.API.Dtos.Publisher;
 using Locadora.API.Models;
 
 namespace Locadora.API.Validations

@@ -1,11 +1,12 @@
 ﻿#pragma warning disable CS8604
 using AutoMapper;
-using Locadora.API.Repository.Interfaces;
-using Locadora.API.Services.Interfaces;
 using Locadora.API.Dtos;
 using Locadora.API.Pagination;
 using Locadora.API.Models;
 using Locadora.API.Validations;
+using Locadora.API.Interfaces.IRepository;
+using Locadora.API.Interfaces.IServices;
+using Locadora.API.Dtos.Rental;
 
 namespace Locadora.API.Services
 {
@@ -24,13 +25,13 @@ namespace Locadora.API.Services
             _mapper = mapper;
         }
 
-        public async Task<ResultService<List<RentalsDto>>> GetAll(FilterDb filterDb)
+        public async Task<ResultService<List<RentalDto>>> GetAll(FilterDb filterDb)
         {
             var rentals = await _repo.GetAllRentals(filterDb);
-            var result = new PagedBaseResponseDto<RentalsDto>(rentals.TotalRegisters, rentals.TotalPages, _mapper.Map<List<RentalsDto>>(rentals.Data));
+            var result = new PagedBaseResponseDto<RentalDto>(rentals.TotalRegisters, rentals.TotalPages, _mapper.Map<List<RentalDto>>(rentals.Data));
 
             if (result.Data.Count == 0)
-                return ResultService.Fail<List<RentalsDto>>("Nenhum registro encontrado.");
+                return ResultService.Fail<List<RentalDto>>("Nenhum registro encontrado.");
 
             return ResultService.OkPaged(result.Data, result.TotalRegisters, result.TotalPages);
         }
@@ -43,11 +44,11 @@ namespace Locadora.API.Services
             return ResultService.Ok(rentalsDashDto);
         }
 
-        public async Task<ResultService<RentalsDto>> GetById(int id)
+        public async Task<ResultService<RentalDto>> GetById(int id)
         {
             var rental = await _repo.GetRentalById(id);
-            if (rental == null) return ResultService.Fail<RentalsDto>("Aluguel não encontrado!");
-            var rentalDto = _mapper.Map<RentalsDto>(rental);
+            if (rental == null) return ResultService.Fail<RentalDto>("Aluguel não encontrado!");
+            var rentalDto = _mapper.Map<RentalDto>(rental);
             return ResultService.Ok(rentalDto);
         }
 
@@ -123,10 +124,10 @@ namespace Locadora.API.Services
         {
             var rental = await _repo.GetRentalById(id);
             if (rental == null)
-                return ResultService.Fail<RentalsDto>("Aluguel não encontrado!");
+                return ResultService.Fail<RentalDto>("Aluguel não encontrado!");
 
             if (rental.ReturnDate != null)
-                return ResultService.Fail<RentalsDto>("Aluguel foi devolvido, não pode ser deletado.");
+                return ResultService.Fail<RentalDto>("Aluguel foi devolvido, não pode ser deletado.");
 
             await _repo.Delete(rental);
 

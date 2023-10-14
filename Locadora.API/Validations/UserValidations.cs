@@ -1,6 +1,5 @@
 using FluentValidation;
-using Locadora.API.Dtos;
-using Locadora.API.Models;
+using Locadora.API.Dtos.User;
 
 namespace Locadora.API.Validations
 {

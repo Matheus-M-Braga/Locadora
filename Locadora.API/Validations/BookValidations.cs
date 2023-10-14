@@ -1,6 +1,5 @@
-using System;
 using FluentValidation;
-using Locadora.API.Dtos;
+using Locadora.API.Dtos.Book;
 
 namespace Locadora.API.Validations
 {

@@ -1,11 +1,13 @@
 ﻿using Locadora.API.Dtos;
+using Locadora.API.Dtos.User;
+using Locadora.API.Interfaces.IServices;
 using Locadora.API.Models;
 using Locadora.API.Pagination;
 using Locadora.API.Services;
-using Locadora.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Locadora.API.Controllers {
+namespace Locadora.API.Controllers
+{
     [ApiController]
     [Route("api/[controller]")]
     public class UsersController : ControllerBase {

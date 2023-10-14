@@ -1,8 +1,10 @@
 using Locadora.API.Models;
 using Locadora.API.Pagination;
 
-namespace Locadora.API.Repository.Interfaces {
-    public interface IBookRepository {
+namespace Locadora.API.Interfaces.IRepository
+{
+    public interface IBookRepository
+    {
         Task Add(Books entity);
         Task Update(Books entity);
         Task Delete(Books entity);

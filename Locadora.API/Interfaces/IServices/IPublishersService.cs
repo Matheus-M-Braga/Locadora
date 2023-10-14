@@ -1,9 +1,9 @@
-﻿using Locadora.API.Dtos;
+﻿using Locadora.API.Dtos.Publisher;
 using Locadora.API.Models;
 using Locadora.API.Pagination;
 using Locadora.API.Services;
 
-namespace Locadora.API.Services.Interfaces
+namespace Locadora.API.Interfaces.IServices
 {
     public interface IPublishersService
     {

@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
-using Locadora.API.Services.Interfaces;
-using Locadora.API.Repository.Interfaces;
 using Locadora.API.Dtos;
 using Locadora.API.Models;
 using Locadora.API.Pagination;
 using Locadora.API.Validations;
+using Locadora.API.Interfaces.IRepository;
+using Locadora.API.Interfaces.IServices;
+using Locadora.API.Dtos.Publisher;
 
 namespace Locadora.API.Services
 {
