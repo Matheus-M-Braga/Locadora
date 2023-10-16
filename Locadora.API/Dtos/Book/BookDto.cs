@@ -10,7 +10,7 @@ namespace Locadora.API.Dtos.Book
         public string Author { get; set; }
         public int PublisherId { get; set; }
         public PublisherBookDto Publisher { get; set; }
-        public string Release { get; set; }
+        public int Release { get; set; }
         public int Quantity { get; set; }
         public int Rented { get; set; }
     }

@@ -37,16 +37,16 @@ namespace Locadora.API.Context {
 
             builder.Entity<Books>()
                 .HasData(new List<Books>{
-                    new Books(1, "O Senhor dos Anéis", "J.R.R. Tolkien", 1, "1954", 10, 0),
-                    new Books(2, "Harry Potter e a Pedra Filosofal", "J.K. Rowling", 2, "1997", 1, 0),
-                    new Books(3, "Dom Quixote", "Miguel de Cervantes", 3, "1605", 1, 0),
-                    new Books(4, "Cem Anos de Solidão", "Gabriel García Márquez", 4, "1967", 12, 0),
-                    new Books(5, "1984", "George Orwell", 5, "1949", 7, 0),
-                    new Books(6, "A Revolução dos Bichos", "George Orwell", 1, "1945", 5, 0),
-                    new Books(7, "Crime e Castigo", "Fiódor Dostoiévski", 2, "1866", 3, 0),
-                    new Books(8, "O Pequeno Príncipe", "Antoine de Saint-Exupéry", 3, "1943", 8, 0),
-                    new Books(9, "Memórias Póstumas de Brás Cubas", "Machado de Assis", 4, "1881", 6, 0),
-                    new Books(10, "A Metamorfose", "Franz Kafka", 5, "1915", 4, 0),
+                    new Books(1, "O Senhor dos Anéis", "J.R.R. Tolkien", 1, 1954, 10, 0),
+                    new Books(2, "Harry Potter e a Pedra Filosofal", "J.K. Rowling", 2, 1997, 1, 0),
+                    new Books(3, "Dom Quixote", "Miguel de Cervantes", 3, 1605, 1, 0),
+                    new Books(4, "Cem Anos de Solidão", "Gabriel García Márquez", 4, 1954, 12, 0),
+                    new Books(5, "1984", "George Orwell", 5, 1954, 7, 0),
+                    new Books(6, "A Revolução dos Bichos", "George Orwell", 1, 1954, 5, 0),
+                    new Books(7, "Crime e Castigo", "Fiódor Dostoiévski", 2, 1954, 3, 0),
+                    new Books(8, "O Pequeno Príncipe", "Antoine de Saint-Exupéry", 3, 1954, 8, 0),
+                    new Books(9, "Memórias Póstumas de Brás Cubas", "Machado de Assis", 4, 1954, 6, 0),
+                    new Books(10, "A Metamorfose", "Franz Kafka", 5, 1954, 4, 0),
                 });
 
             builder.Entity<Publishers>()

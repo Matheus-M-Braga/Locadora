@@ -33,7 +33,7 @@ namespace Locadora.API.Repository
                     b => b.Id.ToString().Contains(request.FilterValue) ||
                     b.Name.Contains(request.FilterValue) ||
                     b.Author.Contains(request.FilterValue) ||
-                    b.Release.Contains(request.FilterValue) ||
+                    b.Release.ToString().Contains(request.FilterValue) ||
                     b.Quantity.ToString().Contains(request.FilterValue) ||
                     b.Rented.ToString().Contains(request.FilterValue) ||
                     b.PublisherId.ToString().Contains(request.FilterValue) ||
@@ -44,7 +44,7 @@ namespace Locadora.API.Repository
         }
 
         public async Task<List<Books>> GetAllBooks() {
-            return await _context.Books.Include(b => b.Publisher).ToListAsync();
+            return await _context.Books.Include(b => b.Publisher).Where(b => b.Quantity > 0).ToListAsync();
         }
 
         public async Task<Books> GetBookById(int bookId) {

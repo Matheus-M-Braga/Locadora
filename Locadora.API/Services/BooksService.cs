@@ -73,6 +73,10 @@ namespace Locadora.API.Services
             if (publisher == null)
                 return ResultService.Fail<BookDto>("Editora não encontrada!");
 
+            var currentYear = DateTime.Now.Date.Year;
+            if(book.Release > currentYear)
+                return ResultService.Fail<BookDto>("Ano de lançamento não pode ser posterior ao ano atual!");
+
             await _repo.Add(book);
 
             return ResultService.Ok("Livro adicionado com êxito!");

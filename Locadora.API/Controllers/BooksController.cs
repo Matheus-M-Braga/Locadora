@@ -64,6 +64,5 @@ namespace Locadora.API.Controllers
             if (result.IsSucess) return Ok(result);
             return BadRequest(result);
         }
-
     }
 }

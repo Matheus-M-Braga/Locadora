@@ -42,7 +42,7 @@ namespace Locadora.API.Repository
                     r.ForecastDate.ToString().Contains(request.FilterValue) ||
                     r.ReturnDate.ToString().Contains(request.FilterValue) ||
                     r.BookId.ToString().Contains(request.FilterValue) ||
-                    r.Book.Name.ToString().Contains(request.FilterValue) ||
+                    r.Book.Name.Contains(request.FilterValue) ||
                     r.UserId.ToString().Contains(request.FilterValue) ||
                     r.User.Name.Contains(request.FilterValue)
                 );

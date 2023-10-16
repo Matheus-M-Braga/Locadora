@@ -24,7 +24,7 @@ namespace Locadora.API.Validations
             RuleFor(x => x.Release)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty().WithMessage("{PropertyName}: Não informado.")
-                .Length(4).WithMessage("{PropertyName}: Necessário 4 caracteres.");
+                .Must(x => x >= 1000 && x <= 9999).WithMessage("{PropertyName}: Necessário 4 dígitos.");
 
             RuleFor(x => x.Quantity)
                 .NotEmpty().WithMessage("{PropertyName}: Nâo informado.")
@@ -57,7 +57,7 @@ namespace Locadora.API.Validations
             RuleFor(x => x.Release)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty().WithMessage("{PropertyName}: Não informado.")
-                .Length(4).WithMessage("{PropertyName}: Necessário 4 caracteres.");
+                .Must(x => x >= 1000 && x <= 9999).WithMessage("{PropertyName}: Necessário 4 dígitos.");
 
             RuleFor(x => x.Quantity)
                 .NotEmpty().WithMessage("{PropertyName}: Nâo informado.")

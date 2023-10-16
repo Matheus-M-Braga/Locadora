@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Locadora.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231013170912_init")]
+    [Migration("20231016210955_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -40,9 +40,8 @@ namespace Locadora.API.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Release")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Release")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Rented")
                         .HasColumnType("INTEGER");
@@ -61,7 +60,7 @@ namespace Locadora.API.Migrations
                             Name = "O Senhor dos Anéis",
                             PublisherId = 1,
                             Quantity = 10,
-                            Release = "1954",
+                            Release = 1954,
                             Rented = 0
                         },
                         new
@@ -71,7 +70,7 @@ namespace Locadora.API.Migrations
                             Name = "Harry Potter e a Pedra Filosofal",
                             PublisherId = 2,
                             Quantity = 1,
-                            Release = "1997",
+                            Release = 1997,
                             Rented = 0
                         },
                         new
@@ -81,7 +80,7 @@ namespace Locadora.API.Migrations
                             Name = "Dom Quixote",
                             PublisherId = 3,
                             Quantity = 1,
-                            Release = "1605",
+                            Release = 1605,
                             Rented = 0
                         },
                         new
@@ -91,7 +90,7 @@ namespace Locadora.API.Migrations
                             Name = "Cem Anos de Solidão",
                             PublisherId = 4,
                             Quantity = 12,
-                            Release = "1967",
+                            Release = 1954,
                             Rented = 0
                         },
                         new
@@ -101,7 +100,7 @@ namespace Locadora.API.Migrations
                             Name = "1984",
                             PublisherId = 5,
                             Quantity = 7,
-                            Release = "1949",
+                            Release = 1954,
                             Rented = 0
                         },
                         new
@@ -111,7 +110,7 @@ namespace Locadora.API.Migrations
                             Name = "A Revolução dos Bichos",
                             PublisherId = 1,
                             Quantity = 5,
-                            Release = "1945",
+                            Release = 1954,
                             Rented = 0
                         },
                         new
@@ -121,7 +120,7 @@ namespace Locadora.API.Migrations
                             Name = "Crime e Castigo",
                             PublisherId = 2,
                             Quantity = 3,
-                            Release = "1866",
+                            Release = 1954,
                             Rented = 0
                         },
                         new
@@ -131,7 +130,7 @@ namespace Locadora.API.Migrations
                             Name = "O Pequeno Príncipe",
                             PublisherId = 3,
                             Quantity = 8,
-                            Release = "1943",
+                            Release = 1954,
                             Rented = 0
                         },
                         new
@@ -141,7 +140,7 @@ namespace Locadora.API.Migrations
                             Name = "Memórias Póstumas de Brás Cubas",
                             PublisherId = 4,
                             Quantity = 6,
-                            Release = "1881",
+                            Release = 1954,
                             Rented = 0
                         },
                         new
@@ -151,7 +150,7 @@ namespace Locadora.API.Migrations
                             Name = "A Metamorfose",
                             PublisherId = 5,
                             Quantity = 4,
-                            Release = "1915",
+                            Release = 1954,
                             Rented = 0
                         });
                 });

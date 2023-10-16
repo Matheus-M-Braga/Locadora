@@ -5,7 +5,7 @@ namespace Locadora.API.Models {
     public class Books {
 
         public Books() { }
-        public Books(int id, string name, string author, int publisherId, string release, int quantity, int rented) {
+        public Books(int id, string name, string author, int publisherId, int release, int quantity, int rented) {
             Id = id;
             Name = name;
             Author = author;
@@ -19,7 +19,7 @@ namespace Locadora.API.Models {
         public string Author { get; set; }
         public int PublisherId { get; set; }
         public Publishers Publisher { get; set; }
-        public string Release { get; set; }
+        public int Release { get; set; }
         public int Quantity { get; set; }
         public int Rented { get; set; }
     }

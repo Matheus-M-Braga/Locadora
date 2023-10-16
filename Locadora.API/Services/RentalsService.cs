@@ -68,8 +68,7 @@ namespace Locadora.API.Services
             if (user == null)
                 return ResultService.Fail<CreateRentalDto>("Usuário não encontrado!");
 
-            bool dateValidate = await _repo.CheckDate(rental.RentalDate);
-            if (dateValidate)
+            if (rental.RentalDate.Date != DateTime.Now.Date)
                 return ResultService.Fail<CreateRentalDto>("Data de aluguel não pode ser diferente da data de Hoje!");
 
             bool? forecastValidate = await _repo.CheckForecastDate(rental.ForecastDate, rental.RentalDate);
@@ -105,8 +104,7 @@ namespace Locadora.API.Services
             if (!validation.IsValid)
                 return ResultService.RequestError(validation);
 
-            bool dateValidate = await _repo.CheckDate((DateTime)rental.ReturnDate);
-            if (dateValidate)
+            if (rental.ReturnDate.Value.Date != DateTime.Now.Date)
                 return ResultService.Fail<CreateRentalDto>("Data de devolução não pode ser diferente da data de Hoje!");
 
             rental.Status = await _repo.GetStatus(rental.ForecastDate, rental.ReturnDate);

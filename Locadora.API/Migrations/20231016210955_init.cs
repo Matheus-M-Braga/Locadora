@@ -52,7 +52,7 @@ namespace Locadora.API.Migrations
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Author = table.Column<string>(type: "TEXT", nullable: false),
                     PublisherId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Release = table.Column<string>(type: "TEXT", nullable: false),
+                    Release = table.Column<int>(type: "INTEGER", nullable: false),
                     Quantity = table.Column<int>(type: "INTEGER", nullable: false),
                     Rented = table.Column<int>(type: "INTEGER", nullable: false)
                 },
@@ -136,16 +136,16 @@ namespace Locadora.API.Migrations
                 columns: new[] { "Id", "Author", "Name", "PublisherId", "Quantity", "Release", "Rented" },
                 values: new object[,]
                 {
-                    { 1, "J.R.R. Tolkien", "O Senhor dos Anéis", 1, 10, "1954", 0 },
-                    { 2, "J.K. Rowling", "Harry Potter e a Pedra Filosofal", 2, 1, "1997", 0 },
-                    { 3, "Miguel de Cervantes", "Dom Quixote", 3, 1, "1605", 0 },
-                    { 4, "Gabriel García Márquez", "Cem Anos de Solidão", 4, 12, "1967", 0 },
-                    { 5, "George Orwell", "1984", 5, 7, "1949", 0 },
-                    { 6, "George Orwell", "A Revolução dos Bichos", 1, 5, "1945", 0 },
-                    { 7, "Fiódor Dostoiévski", "Crime e Castigo", 2, 3, "1866", 0 },
-                    { 8, "Antoine de Saint-Exupéry", "O Pequeno Príncipe", 3, 8, "1943", 0 },
-                    { 9, "Machado de Assis", "Memórias Póstumas de Brás Cubas", 4, 6, "1881", 0 },
-                    { 10, "Franz Kafka", "A Metamorfose", 5, 4, "1915", 0 }
+                    { 1, "J.R.R. Tolkien", "O Senhor dos Anéis", 1, 10, 1954, 0 },
+                    { 2, "J.K. Rowling", "Harry Potter e a Pedra Filosofal", 2, 1, 1997, 0 },
+                    { 3, "Miguel de Cervantes", "Dom Quixote", 3, 1, 1605, 0 },
+                    { 4, "Gabriel García Márquez", "Cem Anos de Solidão", 4, 12, 1954, 0 },
+                    { 5, "George Orwell", "1984", 5, 7, 1954, 0 },
+                    { 6, "George Orwell", "A Revolução dos Bichos", 1, 5, 1954, 0 },
+                    { 7, "Fiódor Dostoiévski", "Crime e Castigo", 2, 3, 1954, 0 },
+                    { 8, "Antoine de Saint-Exupéry", "O Pequeno Príncipe", 3, 8, 1954, 0 },
+                    { 9, "Machado de Assis", "Memórias Póstumas de Brás Cubas", 4, 6, 1954, 0 },
+                    { 10, "Franz Kafka", "A Metamorfose", 5, 4, 1954, 0 }
                 });
 
             migrationBuilder.CreateIndex(
