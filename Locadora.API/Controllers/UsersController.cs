@@ -41,7 +41,7 @@ namespace Locadora.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateUserDto model) {
             var result = await _service.Create(model);
-            if (result.IsSucess) return Ok(result);
+            if (result.IsSucess) return Created($"/api/users/", result);
             return BadRequest(result);
         }
 

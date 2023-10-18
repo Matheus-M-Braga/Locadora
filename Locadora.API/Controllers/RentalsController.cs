@@ -40,7 +40,7 @@ namespace Locadora.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateRentalDto model) {
             var result = await _service.Create(model);
-            if (result.IsSucess) return Ok(result);
+            if (result.IsSucess) return Created($"/api/rentals/", result);
             return BadRequest(result);
         }
 

@@ -46,10 +46,7 @@ namespace Locadora.API.Controllers
         public async Task<IActionResult> Post([FromBody] CreatePublisherDto model)
         {
             var result = await _service.Create(model);
-            if (result.IsSucess)
-            {
-                return Created("https://localhost:7126/api/Publishers", result);
-            }
+            if (result.IsSucess) return Created($"/api/publishers/", result);
             return BadRequest(result);
         }
 

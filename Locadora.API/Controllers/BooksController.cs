@@ -3,6 +3,7 @@ using Locadora.API.Dtos.Book;
 using Locadora.API.Interfaces.IServices;
 using Locadora.API.Pagination;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.Swagger.Annotations;
 
 namespace Locadora.API.Controllers
 {
@@ -45,9 +46,10 @@ namespace Locadora.API.Controllers
         }
 
         [HttpPost]
+        
         public async Task<IActionResult> Post([FromBody] CreateBookDto model) {
             var result = await _service.Create(model);
-            if (result.IsSucess) return Ok(result);
+            if (result.IsSucess) return Created($"/api/books/", result);
             return BadRequest(result);
         }
 

@@ -35,7 +35,7 @@ namespace Locadora.API.Validations
         {
             RuleFor(x => x.Id)
                .NotEmpty().WithMessage("{PropertyName}: Nâo informado.")
-               .GreaterThanOrEqualTo(1).WithMessage("{PropetyName}: Não informado.");
+               .GreaterThanOrEqualTo(1).WithMessage("{PropertyName}: Não informado.");
 
             RuleFor(x => x.Name)
                 .Cascade(CascadeMode.Stop)

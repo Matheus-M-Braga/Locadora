@@ -6,6 +6,7 @@ namespace Locadora.API.Services
     public class ResultService
     {
         public bool IsSucess { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string[]? Message { get; init; }
 
         public static ResultService RequestError(ValidationResult validationResult)
