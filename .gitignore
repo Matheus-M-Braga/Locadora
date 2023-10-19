@@ -338,6 +338,8 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
-Locadora.API/Locadora.db
-Locadora.API/Locadora.db-shm
-Locadora.API/Locadora.db-wal
+Library.API/Library.db
+Library.API/Library.db-shm
+Library.API/Library.db-wal
+.vscode
+
