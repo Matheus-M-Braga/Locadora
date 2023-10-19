@@ -31,7 +31,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 builder.Services.AddDbContext<DataContext>(options =>
 {
-    options.UseSqlite("Data Source=Locadora.db");
+    options.UseSqlite("Data Source=Library.db");
 });
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddCors(options =>

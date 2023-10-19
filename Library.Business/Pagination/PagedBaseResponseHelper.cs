@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Library.Business.Pagination
 {
@@ -10,10 +11,10 @@ namespace Library.Business.Pagination
             var count = await query.CountAsync();
             response.TotalPages = (int)Math.Ceiling((double)count / request.PageSize);
             response.TotalRegisters = count;
-            if (string.IsNullOrEmpty(request.OrderBy) && !request.OrderByDesc)
+            if (string.IsNullOrEmpty(request.OrderByProperty) && !request.OrderByDesc)
                 response.Data = await query.ToListAsync();
             else
-                response.Data = query.OrderByDynamic(request.OrderBy, request.OrderByDesc)
+                response.Data = query.OrderByDynamic(request.OrderByProperty, request.OrderByDesc)
                                      .Skip((request.Page - 1) * request.PageSize)
                                      .Take(request.PageSize)
                                      .ToList();
@@ -21,14 +22,20 @@ namespace Library.Business.Pagination
         }
         private static IEnumerable<T> OrderByDynamic<T>(this IEnumerable<T> query, string propertyName, bool isDescending)
         {
+            var parameter = Expression.Parameter(typeof(T), "x");
+            var property = propertyName.Split('.')
+                .Aggregate((Expression)parameter, Expression.Property);
+            var lambda = Expression.Lambda<Func<T, object>>(Expression.Convert(property, typeof(object)), parameter);
+
             if (isDescending)
             {
-                return query.OrderByDescending(x => x.GetType().GetProperty(propertyName).GetValue(x, null));
+                return query.OrderByDescending(lambda.Compile());
             }
             else
             {
-                return query.OrderBy(x => x.GetType().GetProperty(propertyName).GetValue(x, null));
+                return query.OrderBy(lambda.Compile());
             }
         }
+
     }
 }

@@ -18,7 +18,7 @@ namespace Library.Data.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlite("Data Source=Locadora.db");
+                optionsBuilder.UseSqlite("Data Source=Library.db");
             }
             //optionsBuilder.EnableSensitiveDataLogging();
         }

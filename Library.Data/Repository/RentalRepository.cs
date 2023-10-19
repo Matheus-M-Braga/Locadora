@@ -39,6 +39,7 @@ namespace Library.Data.Repository
                     r.RentalDate.ToString().Contains(request.FilterValue) ||
                     r.ForecastDate.ToString().Contains(request.FilterValue) ||
                     r.ReturnDate.ToString().Contains(request.FilterValue) ||
+                    r.Status.Contains(request.FilterValue) ||
                     r.BookId.ToString().Contains(request.FilterValue) ||
                     r.Book.Name.Contains(request.FilterValue) ||
                     r.UserId.ToString().Contains(request.FilterValue) ||
