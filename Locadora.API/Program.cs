@@ -1,17 +1,13 @@
 using AutoMapper;
-using Locadora.API.Context;
-using Locadora.API.Repository;
-using Locadora.API.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
-
-using FluentValidation;
-using FluentValidation.AspNetCore;
-using System.Text.Json.Serialization;
-using Locadora.API.Interfaces.IRepository;
-using Locadora.API.Interfaces.IServices;
+using Library.Business.Services;
+using Library.Business.Interfaces.IRepository;
+using Library.Data.Repository;
+using Library.Business.Interfaces.IServices;
+using Library.Data.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 

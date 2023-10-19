@@ -1,11 +1,9 @@
-﻿using Locadora.API.Dtos;
-using Locadora.API.Dtos.Publisher;
-using Locadora.API.Interfaces.IServices;
-using Locadora.API.Models;
-using Locadora.API.Pagination;
+﻿using Library.Business.Interfaces.IServices;
+using Library.Business.Models.Dtos.Publisher;
+using Library.Business.Pagination;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Locadora.API.Controllers
+namespace Library.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
