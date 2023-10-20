@@ -27,12 +27,12 @@ namespace Library.Business.Services
         public async Task<ResultService<List<BookDto>>> GetAll(FilterDb filterDb)
         {
             var books = await _repo.GetAllBooksPaged(filterDb);
-            var result = new PagedBaseResponseDto<BookDto>(books.TotalRegisters, books.TotalPages, _mapper.Map<List<BookDto>>(books.Data));
+            var result = new PagedBaseResponseDto<BookDto>(books.TotalRegisters, books.TotalPages, filterDb.Page, _mapper.Map<List<BookDto>>(books.Data));
 
             if (result.Data.Count == 0)
                 return ResultService.Fail<List<BookDto>>("Nenhum registro encontrado.");
 
-            return ResultService.OkPaged(result.Data, result.TotalRegisters, result.TotalPages);
+            return ResultService.OkPaged(result.Data, result.TotalRegisters,result.Page, result.TotalPages);
         }
 
         public async Task<ResultService<List<BookDashDto>>> GetAllDash()

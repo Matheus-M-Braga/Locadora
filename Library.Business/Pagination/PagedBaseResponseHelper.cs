@@ -11,6 +11,8 @@ namespace Library.Business.Pagination
             var count = await query.CountAsync();
             response.TotalPages = (int)Math.Ceiling((double)count / request.PageSize);
             response.TotalRegisters = count;
+            response.Page = request.Page;
+            
             if (string.IsNullOrEmpty(request.OrderByProperty) && !request.OrderByDesc)
                 response.Data = await query.ToListAsync();
             else

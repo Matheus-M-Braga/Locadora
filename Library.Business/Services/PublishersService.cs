@@ -25,12 +25,12 @@ namespace Library.Business.Services
         public async Task<ResultService<List<Publishers>>> GetAll(FilterDb filterDb)
         {
             var publishers = await _repo.GetAllPublishersPaged(filterDb);
-            var result = new PagedBaseResponseDto<Publishers>(publishers.TotalRegisters, publishers.TotalPages, _mapper.Map<List<Publishers>>(publishers.Data));
+            var result = new PagedBaseResponseDto<Publishers>(publishers.TotalRegisters, publishers.TotalPages, publishers.Page, _mapper.Map<List<Publishers>>(publishers.Data));
 
             if (result.Data.Count == 0)
                 return ResultService.Fail<List<Publishers>>("Nenhum registro encontrado.");
 
-            return ResultService.OkPaged(result.Data, result.TotalRegisters, result.TotalPages);
+            return ResultService.OkPaged(result.Data, result.TotalRegisters, result.Page, result.TotalPages);
         }
 
         public async Task<ResultService<Publishers>> GetById(int id)

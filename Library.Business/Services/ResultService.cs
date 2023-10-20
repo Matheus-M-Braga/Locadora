@@ -30,13 +30,14 @@ namespace Library.Business.Services
                 IsSucess = true
             };
         }
-        public static ResultService<T> OkPaged<T>(T data, int totalRegisters, int totalPages)
+        public static ResultService<T> OkPaged<T>(T data, int totalRegisters,int page, int totalPages)
         {
             return new ResultService<T>
             {
                 Data = data,
                 TotalRegisters = totalRegisters,
                 TotalPages = totalPages,
+                Page = page,
                 IsSucess = true
             };
         }
@@ -48,6 +49,7 @@ namespace Library.Business.Services
         public T? Data { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public int? TotalRegisters { get; set; }
+        public int Page { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public int? TotalPages { get; set; }
     }

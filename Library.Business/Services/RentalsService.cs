@@ -28,12 +28,12 @@ namespace Library.Business.Services
         public async Task<ResultService<List<RentalDto>>> GetAll(FilterDb filterDb)
         {
             var rentals = await _repo.GetAllRentals(filterDb);
-            var result = new PagedBaseResponseDto<RentalDto>(rentals.TotalRegisters, rentals.TotalPages, _mapper.Map<List<RentalDto>>(rentals.Data));
+            var result = new PagedBaseResponseDto<RentalDto>(rentals.TotalRegisters, rentals.TotalPages, rentals.Page, _mapper.Map<List<RentalDto>>(rentals.Data));
 
             if (result.Data.Count == 0)
                 return ResultService.Fail<List<RentalDto>>("Nenhum registro encontrado.");
 
-            return ResultService.OkPaged(result.Data, result.TotalRegisters, result.TotalPages);
+            return ResultService.OkPaged(result.Data, result.TotalRegisters, result.Page, result.TotalPages);
         }
 
         public async Task<ResultService<List<RentalDashDto>>> GetAllDash()
