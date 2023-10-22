@@ -28,7 +28,7 @@ namespace Library.Api.Controllers
             return NotFound(books);
         }
 
-        [HttpGet("GetAllSelect")]
+        [HttpGet("getallselect")]
         [SwaggerOperation(Summary = "GetAllSelect")]
         [SwaggerResponse(200)]
         [SwaggerResponse(404)]
@@ -39,8 +39,7 @@ namespace Library.Api.Controllers
             return NotFound(books);
         }
 
-
-        [HttpGet("Count")]
+        [HttpGet("count")]
         [SwaggerOperation(Summary = "GetCount")]
         [SwaggerResponse(200)]
         [SwaggerResponse(404)]
@@ -80,7 +79,7 @@ namespace Library.Api.Controllers
         public async Task<IActionResult> Post([FromBody] CreateBookDto model)
         {
             var result = await _service.Create(model);
-            if (result.IsSucess) return Created($"/api/books/", result);
+            if (result.IsSucess) return StatusCode(201, result);
             return BadRequest(result);
         }
 

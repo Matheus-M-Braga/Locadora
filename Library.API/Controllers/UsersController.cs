@@ -2,6 +2,7 @@
 using Library.Business.Models.Dtos.User;
 using Library.Business.Pagination;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Library.Api.Controllers
 {
@@ -17,6 +18,9 @@ namespace Library.Api.Controllers
         }
 
         [HttpGet]
+        [SwaggerOperation(Summary = "GetAll")]
+        [SwaggerResponse(200)]
+        [SwaggerResponse(404)]
         public async Task<IActionResult> Get([FromQuery] FilterDb filterDb)
         {
             var users = await _service.GetAll(filterDb);
@@ -24,7 +28,10 @@ namespace Library.Api.Controllers
             return BadRequest(users);
         }
 
-        [HttpGet("GetAllSelect")]
+        [HttpGet("getallselect")]
+        [SwaggerOperation(Summary = "GetAllSelect")]
+        [SwaggerResponse(200)]
+        [SwaggerResponse(404)]
         public async Task<IActionResult> GetAllSelect()
         {
             var users = await _service.GetAllSelect();
@@ -33,6 +40,9 @@ namespace Library.Api.Controllers
         }
 
         [HttpGet("{id}")]
+        [SwaggerOperation(Summary = "GetById")]
+        [SwaggerResponse(200)]
+        [SwaggerResponse(404)]
         public async Task<IActionResult> GetById(int id)
         {
             var user = await _service.GetById(id);
@@ -41,6 +51,9 @@ namespace Library.Api.Controllers
         }
 
         [HttpPost]
+        [SwaggerOperation(Summary = "Create")]
+        [SwaggerResponse(201)]
+        [SwaggerResponse(400)]
         public async Task<IActionResult> Post([FromBody] CreateUserDto model)
         {
             var result = await _service.Create(model);
@@ -49,6 +62,9 @@ namespace Library.Api.Controllers
         }
 
         [HttpPut("{id}")]
+        [SwaggerOperation(Summary = "Update")]
+        [SwaggerResponse(200)]
+        [SwaggerResponse(400)]
         public async Task<IActionResult> Put([FromBody] UpdateUserDto model)
         {
             var result = await _service.Update(model);
@@ -57,6 +73,9 @@ namespace Library.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [SwaggerOperation(Summary = "Delete")]
+        [SwaggerResponse(200)]
+        [SwaggerResponse(400)]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _service.Delete(id);
