@@ -11,9 +11,10 @@ namespace Library.Business.Interfaces.IRepository
 
         Task<PagedBaseResponse<Books>> GetAllBooksPaged(FilterDb request);
         Task<List<Books>> GetAllBooks();
+        Task<List<Books>> GetMostRented();
         Task<Books> GetBookById(int bookId);
         Task<List<Books>> GetBookByName(string bookName);
-        Task<List<Books[]>> GetAllBooksByPublisherId(int publisherId);
+        Task<List<Books>> GetAllBooksByPublisherId(int publisherId);
         Task<bool> UpdateQuantity(int id, bool IsUpdate = false);
     }
 }

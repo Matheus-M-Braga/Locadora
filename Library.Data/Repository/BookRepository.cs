@@ -54,6 +54,11 @@ namespace Library.Data.Repository
             return await _context.Books.Include(b => b.Publisher).Where(b => b.Quantity > 0).ToListAsync();
         }
 
+        public async Task<List<Books>> GetMostRented()
+        {
+            return await _context.Books.OrderByDescending(b => b.Rented).ToListAsync();
+        }
+
         public async Task<Books> GetBookById(int bookId)
         {
             return await _context.Books.AsNoTracking().Include(b => b.Publisher).FirstOrDefaultAsync(b => b.Id == bookId);
@@ -64,15 +69,9 @@ namespace Library.Data.Repository
             return await _context.Books.Where(b => b.Name == bookName).ToListAsync();
         }
 
-        public async Task<List<Books[]>> GetAllBooksByPublisherId(int publisherId)
+        public async Task<List<Books>> GetAllBooksByPublisherId(int publisherId)
         {
-            var books = await _context.Books.Where(b => b.PublisherId == publisherId).ToListAsync();
-            var result = new List<Books[]>();
-
-            foreach (var book in books)
-                result.Add(new Books[] { book });
-
-            return result;
+            return await _context.Books.Where(b => b.PublisherId == publisherId).ToListAsync();
         }
 
         public async Task<bool> UpdateQuantity(int id, bool IsUpdate = false)
@@ -91,7 +90,6 @@ namespace Library.Data.Repository
 
                 if (book.Rented < 0)
                     return false;
-
             }
             else
             {

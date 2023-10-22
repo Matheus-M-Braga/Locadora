@@ -33,6 +33,12 @@ namespace Library.Business.Services
             return ResultService.OkPaged(result.Data, result.TotalRegisters,result.Page, result.TotalPages);
         }
 
+        public async Task<ResultService<List<UserRentalDto>>> GetAllSelect()
+        {
+            var users = await _repo.GetAllUsers();
+            return ResultService.Ok(_mapper.Map<List<UserRentalDto>>(users));
+        }
+
         public async Task<ResultService<Users>> GetById(int id)
         {
             var user = await _repo.GetUserById(id);
@@ -40,12 +46,6 @@ namespace Library.Business.Services
                 return ResultService.Fail<Users>("Usuário não encontrado!");
 
             return ResultService.Ok(_mapper.Map<Users>(user));
-        }
-
-        public async Task<ResultService<ICollection<UserRentalDto>>> GetAllSelect()
-        {
-            var users = await _repo.GetAllUsers();
-            return ResultService.Ok(_mapper.Map<ICollection<UserRentalDto>>(users));
         }
 
         public async Task<ResultService> Create(CreateUserDto model)

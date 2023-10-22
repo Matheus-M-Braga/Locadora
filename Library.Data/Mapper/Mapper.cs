@@ -20,7 +20,8 @@ namespace Library.Data.Mapper
             CreateMap<Books, CreateBookDto>().ReverseMap();
             CreateMap<Books, BookRentalDto>().ReverseMap();
             CreateMap<Books, UpdateBookDto>().ReverseMap();
-            CreateMap<Books, BookDashDto>().ReverseMap();
+            CreateMap<Books, BookCountDto>().ReverseMap();
+            CreateMap<Books, BookRentedDto>().ReverseMap();
 
             CreateMap<Publishers, PublisherBookDto>().ReverseMap();
             CreateMap<Publishers, CreatePublisherDto>().ReverseMap();
@@ -30,7 +31,7 @@ namespace Library.Data.Mapper
             CreateMap<Rentals, RentalDto>().ReverseMap();
             CreateMap<Rentals, UpdateRentalDto>().ReverseMap();
             CreateMap<Rentals, CreateRentalDto>().ReverseMap();
-            CreateMap<Rentals, RentalDashDto>().ReverseMap();
+            CreateMap<Rentals, RentalCountDto>().ReverseMap();
         }
     }
 }

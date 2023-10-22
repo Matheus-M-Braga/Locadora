@@ -24,20 +24,20 @@ namespace Library.Api.Controllers
             return BadRequest(publishers);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
-        {
-            var publisher = await _service.GetById(id);
-            if (publisher.IsSucess) return Ok(publisher);
-            return BadRequest(publisher);
-        }
-
         [HttpGet("GetAllSelect")]
         public async Task<IActionResult> GetAllSelect()
         {
             var publishers = await _service.GetAllSelect();
             if (publishers.IsSucess) return Ok(publishers);
             return BadRequest(publishers);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var publisher = await _service.GetById(id);
+            if (publisher.IsSucess) return Ok(publisher);
+            return BadRequest(publisher);
         }
 
         [HttpPost]

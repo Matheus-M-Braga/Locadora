@@ -1,17 +1,17 @@
 ﻿using Library.Business.Interfaces.IServices;
-using Library.Business.Models.Dtos.Rental;
+using Library.Business.Models.Dtos.User;
 using Library.Business.Pagination;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class RentalsController : ControllerBase
+    [Route("api/[controller]")]
+    public class UsersController : ControllerBase
     {
-        private readonly IRentalsService _service;
+        private readonly IUsersService _service;
 
-        public RentalsController(IRentalsService service)
+        public UsersController(IUsersService service)
         {
             _service = service;
         }
@@ -19,37 +19,37 @@ namespace Library.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] FilterDb filterDb)
         {
-            var rentals = await _service.GetAll(filterDb);
-            if (rentals.IsSucess) return Ok(rentals);
-            return BadRequest(rentals);
+            var users = await _service.GetAll(filterDb);
+            if (users.IsSucess) return Ok(users);
+            return BadRequest(users);
         }
 
-        [HttpGet("Dash")]
-        public async Task<IActionResult> GetDash()
+        [HttpGet("GetAllSelect")]
+        public async Task<IActionResult> GetAllSelect()
         {
-            var rentals = await _service.GetAllDash();
-            if (rentals.IsSucess) return Ok(rentals);
-            return BadRequest(rentals);
+            var users = await _service.GetAllSelect();
+            if (users.IsSucess) return Ok(users);
+            return BadRequest(users);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var rental = await _service.GetById(id);
-            if (rental.IsSucess) return Ok(rental);
-            return BadRequest(rental);
+            var user = await _service.GetById(id);
+            if (user.IsSucess) return Ok(user);
+            return BadRequest(user);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CreateRentalDto model)
+        public async Task<IActionResult> Post([FromBody] CreateUserDto model)
         {
             var result = await _service.Create(model);
-            if (result.IsSucess) return Created($"/api/rentals/", result);
+            if (result.IsSucess) return Created($"/api/users/", result);
             return BadRequest(result);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromBody] UpdateRentalDto model)
+        public async Task<IActionResult> Put([FromBody] UpdateUserDto model)
         {
             var result = await _service.Update(model);
             if (result.IsSucess) return Ok(result);

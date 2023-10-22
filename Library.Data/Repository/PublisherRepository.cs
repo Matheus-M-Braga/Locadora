@@ -42,6 +42,7 @@ namespace Library.Data.Repository
 
             return await PagedBaseResponseHelper.GetResponseAsync<PagedBaseResponse<Publishers>, Publishers>(publishers, request);
         }
+
         public async Task<List<Publishers>> GetAllPublishers()
         {
             return await _context.Publishers.ToListAsync();

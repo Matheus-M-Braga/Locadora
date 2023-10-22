@@ -28,17 +28,6 @@ namespace Library.Api.Controllers
             return NotFound(books);
         }
 
-        [HttpGet("{id}")]
-        [SwaggerOperation(Summary = "GetById")]
-        [SwaggerResponse(200)]
-        [SwaggerResponse(404)]
-        public async Task<IActionResult> GetById(int id)
-        {
-            var book = await _service.GetById(id);
-            if (book.IsSucess) return Ok(book);
-            return NotFound(book);
-        }
-
         [HttpGet("GetAllSelect")]
         [SwaggerOperation(Summary = "GetAllSelect")]
         [SwaggerResponse(200)]
@@ -50,15 +39,38 @@ namespace Library.Api.Controllers
             return NotFound(books);
         }
 
-        [HttpGet("Dash")]
-        [SwaggerOperation(Summary = "GetDash")]
+
+        [HttpGet("Count")]
+        [SwaggerOperation(Summary = "GetCount")]
         [SwaggerResponse(200)]
         [SwaggerResponse(404)]
-        public async Task<IActionResult> GetAllDash()
+        public async Task<IActionResult> GetAllCount()
         {
-            var books = await _service.GetAllDash();
+            var books = await _service.GetAllCount();
             if (books.IsSucess) return Ok(books);
             return NotFound(books);
+        }
+
+        [HttpGet("mostrented")]
+        [SwaggerOperation(Summary = "mostrented")]
+        [SwaggerResponse(200)]
+        [SwaggerResponse(404)]
+        public async Task<IActionResult> GetMostRented()
+        {
+            var mostrented = await _service.GetMostRented();
+            if (mostrented.IsSucess) return Ok(mostrented);
+            return NotFound(mostrented);
+        }
+
+        [HttpGet("{id}")]
+        [SwaggerOperation(Summary = "GetById")]
+        [SwaggerResponse(200)]
+        [SwaggerResponse(404)]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var book = await _service.GetById(id);
+            if (book.IsSucess) return Ok(book);
+            return NotFound(book);
         }
 
         [HttpPost]

@@ -49,7 +49,8 @@ namespace Library.Business.Services
         public T? Data { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public int? TotalRegisters { get; set; }
-        public int Page { get; set; }
+        [JsonIgnore(Condition =JsonIgnoreCondition.WhenWritingNull)]
+        public int? Page { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public int? TotalPages { get; set; }
     }
