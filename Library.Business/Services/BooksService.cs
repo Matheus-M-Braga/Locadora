@@ -118,7 +118,7 @@ namespace Library.Business.Services
 
             var rentalAssociation = await _rentalRepository.GetAllRentalsByBookId(id);
             if (rentalAssociation.Count > 0)
-                return ResultService.Fail<BookDto>("Livro possui associação com aluguéis.");
+                return ResultService.Fail<BookDto>("Possui associação com aluguéis.");
 
             await _bookRepository.Delete(book);
 

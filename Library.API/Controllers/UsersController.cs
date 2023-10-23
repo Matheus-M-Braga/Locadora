@@ -25,7 +25,7 @@ namespace Library.Api.Controllers
         {
             var users = await _service.GetAll(filterDb);
             if (users.IsSucess) return Ok(users);
-            return BadRequest(users);
+            return NotFound(users);
         }
 
         [HttpGet("getallselect")]
@@ -36,7 +36,7 @@ namespace Library.Api.Controllers
         {
             var users = await _service.GetAllSelect();
             if (users.IsSucess) return Ok(users);
-            return BadRequest(users);
+            return NotFound(users);
         }
 
         [HttpGet("{id}")]
@@ -47,7 +47,7 @@ namespace Library.Api.Controllers
         {
             var user = await _service.GetById(id);
             if (user.IsSucess) return Ok(user);
-            return BadRequest(user);
+            return NotFound(user);
         }
 
         [HttpPost]

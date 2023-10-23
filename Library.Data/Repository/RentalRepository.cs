@@ -58,43 +58,19 @@ namespace Library.Data.Repository
             return await _context.Rentals.AsNoTracking().Include(r => r.User).Include(r => r.Book).FirstOrDefaultAsync(r => r.Id == rentalId);
         }
 
-        public async Task<List<Rentals[]>> GetAllRentalsByUserId(int userId)
+        public async Task<List<Rentals>> GetAllRentalsByUserId(int userId)
         {
-            var rentals = await _context.Rentals.Where(r => r.UserId == userId).ToListAsync();
-            var result = new List<Rentals[]>();
-
-            foreach (var rental in rentals)
-            {
-                result.Add(new Rentals[] { rental });
-            }
-
-            return result;
+            return await _context.Rentals.Where(r => r.UserId == userId).ToListAsync();
         }
 
-        public async Task<List<Rentals[]>> GetAllRentalsByBookId(int bookId)
+        public async Task<List<Rentals>> GetAllRentalsByBookId(int bookId)
         {
-            var rentals = await _context.Rentals.AsNoTracking().Where(r => r.BookId == bookId && r.Status == "Pendente").ToListAsync();
-            var result = new List<Rentals[]>();
-
-            foreach (var rental in rentals)
-            {
-                result.Add(new Rentals[] { rental });
-            }
-
-            return result;
+            return await _context.Rentals.Where(r => r.BookId == bookId).ToListAsync();
         }
 
-        public async Task<List<Rentals[]>> GetRentalByUserIdandBookId(int bookId, int userId)
+        public async Task<List<Rentals>> GetRentalByUserIdandBookId(int bookId, int userId)
         {
-            var rentals = await _context.Rentals.Where(r => r.BookId == bookId && r.UserId == userId && r.ReturnDate == null).ToListAsync();
-            var result = new List<Rentals[]>();
-
-            foreach (var rental in rentals)
-            {
-                result.Add(new Rentals[] { rental });
-            }
-
-            return result;
+            return await _context.Rentals.Where(r => r.BookId == bookId && r.UserId == userId && r.ReturnDate == null).ToListAsync();
         }
 
         public Task<bool> CheckDate(DateTime date)

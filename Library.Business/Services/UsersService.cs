@@ -90,7 +90,7 @@ namespace Library.Business.Services
             var rentalAssociation = await _rentalRepo.GetAllRentalsByUserId(id);
 
             if (rentalAssociation.Count > 0)
-                return ResultService.Fail<Publishers>("Erro ao excluir usuário: Possui associação com aluguéis.");
+                return ResultService.Fail<Publishers>("Possui associação com aluguéis.");
 
             await _repo.Delete(user);
 

@@ -39,7 +39,7 @@ namespace Library.Business.Services
         public async Task<ResultService<List<RentalCountDto>>> GetAllCount()
         {
             var rentals = await _rentalRepository.GetAllRentals();
-            if (rentals.Count < 1) return ResultService.Fail<List<RentalCountDto>>("Não foram encontrados alguéis.");
+            if (rentals.Count < 1) return ResultService.Fail<List<RentalCountDto>>("Não foram encontrados aluguéis.");
             var rentalsDashDto = _mapper.Map<List<RentalCountDto>>(rentals);
             return ResultService.Ok(rentalsDashDto);
         }
@@ -123,9 +123,6 @@ namespace Library.Business.Services
             var rental = await _rentalRepository.GetRentalById(id);
             if (rental == null)
                 return ResultService.Fail<RentalDto>("Aluguel não encontrado!");
-
-            if (rental.ReturnDate != null)
-                return ResultService.Fail<RentalDto>("Aluguel foi devolvido, não pode ser deletado.");
 
             await _rentalRepository.Delete(rental);
 
