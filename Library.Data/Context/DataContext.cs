@@ -55,16 +55,16 @@ namespace Library.Data.Context
 
             builder.Entity<Publishers>()
                 .HasData(new List<Publishers>{
-                    new Publishers(1, "Editora Nacional", "São Paulo"),
-                    new Publishers(2, "Editora Regional", "Rio de Janeiro"),
-                    new Publishers(3, "Editora Local", "Belo Horizonte"),
-                    new Publishers(4, "Editora Central", "Brasília"),
-                    new Publishers(5, "Editora do Sul", "Porto Alegre"),
-                    new Publishers(6, "Editora Nacional 2", "São Paulo"),
-                    new Publishers(7, "Editora Regional 2", "Rio de Janeiro"),
-                    new Publishers(8, "Editora Local 2", "Belo Horizonte"),
-                    new Publishers(9, "Editora Central 2", "Brasília"),
-                    new Publishers(10, "Editora do Sul 2", "Porto Alegre"),
+                    new Publishers(1, "Companhia das Letras", "São Paulo"),
+                    new Publishers(2, "Aleph", "Rio de Janeiro"),
+                    new Publishers(3, "Editora Intrínseca", "Rio De Janeiro"),
+                    new Publishers(4, "Editora Rocco", "Rio de Janeiro"),
+                    new Publishers(5, "Darkside", "Porto Alegre"),
+                    new Publishers(6, "Harper Collins", "Nova Iorque"),
+                    new Publishers(7, "Editora Arqueiro", "Rio de Janeiro"),
+                    new Publishers(8, "Leya", "Lisboa"),
+                    new Publishers(9, "Saraiva", "São Paulo"),
+                    new Publishers(10, "Sextante", "Porto Alegre"),
                 });
         }
     }

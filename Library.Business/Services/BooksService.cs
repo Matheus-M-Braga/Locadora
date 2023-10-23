@@ -48,13 +48,6 @@ namespace Library.Business.Services
             return ResultService.Ok(bookDashDto);
         }
 
-        public async Task<ResultService<List<BookRentedDto>>> GetMostRented()
-        {
-            var mostrented = await _bookRepository.GetMostRented();
-            var bookRentedDto = _mapper.Map<List<BookRentedDto>>(mostrented);
-            return ResultService.Ok(bookRentedDto);
-        }
-
         public async Task<ResultService<BookDto>> GetById(int id)
         {
             var book = await _bookRepository.GetBookById(id);

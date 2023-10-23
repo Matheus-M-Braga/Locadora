@@ -54,11 +54,6 @@ namespace Library.Data.Repository
             return await _context.Books.Include(b => b.Publisher).Where(b => b.Quantity > 0).ToListAsync();
         }
 
-        public async Task<List<Books>> GetMostRented()
-        {
-            return await _context.Books.OrderByDescending(b => b.Rented).ToListAsync();
-        }
-
         public async Task<Books> GetBookById(int bookId)
         {
             return await _context.Books.AsNoTracking().Include(b => b.Publisher).FirstOrDefaultAsync(b => b.Id == bookId);

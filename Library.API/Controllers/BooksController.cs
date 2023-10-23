@@ -50,17 +50,6 @@ namespace Library.Api.Controllers
             return NotFound(books);
         }
 
-        [HttpGet("mostrented")]
-        [SwaggerOperation(Summary = "mostrented")]
-        [SwaggerResponse(200)]
-        [SwaggerResponse(404)]
-        public async Task<IActionResult> GetMostRented()
-        {
-            var mostrented = await _service.GetMostRented();
-            if (mostrented.IsSucess) return Ok(mostrented);
-            return NotFound(mostrented);
-        }
-
         [HttpGet("{id}")]
         [SwaggerOperation(Summary = "GetById")]
         [SwaggerResponse(200)]
