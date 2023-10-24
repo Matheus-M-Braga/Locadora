@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace Locadora.API.Migrations
+namespace Library.Data.Migrations
 {
     /// <inheritdoc />
     public partial class init : Migration
@@ -102,16 +102,16 @@ namespace Locadora.API.Migrations
                 columns: new[] { "Id", "City", "Name" },
                 values: new object[,]
                 {
-                    { 1, "São Paulo", "Editora Nacional" },
-                    { 2, "Rio de Janeiro", "Editora Regional" },
-                    { 3, "Belo Horizonte", "Editora Local" },
-                    { 4, "Brasília", "Editora Central" },
-                    { 5, "Porto Alegre", "Editora do Sul" },
-                    { 6, "São Paulo", "Editora Nacional 2" },
-                    { 7, "Rio de Janeiro", "Editora Regional 2" },
-                    { 8, "Belo Horizonte", "Editora Local 2" },
-                    { 9, "Brasília", "Editora Central 2" },
-                    { 10, "Porto Alegre", "Editora do Sul 2" }
+                    { 1, "São Paulo", "Companhia das Letras" },
+                    { 2, "Rio de Janeiro", "Aleph" },
+                    { 3, "Rio De Janeiro", "Editora Intrínseca" },
+                    { 4, "Rio de Janeiro", "Editora Rocco" },
+                    { 5, "Porto Alegre", "Darkside" },
+                    { 6, "Nova Iorque", "Harper Collins" },
+                    { 7, "Rio de Janeiro", "Editora Arqueiro" },
+                    { 8, "Lisboa", "Leya" },
+                    { 9, "São Paulo", "Saraiva" },
+                    { 10, "Porto Alegre", "Sextante" }
                 });
 
             migrationBuilder.InsertData(

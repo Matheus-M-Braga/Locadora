@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Locadora.API.Migrations
+namespace Library.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231016210955_init")]
+    [Migration("20231024194422_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Locadora.API.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.10");
 
-            modelBuilder.Entity("Locadora.API.Models.Books", b =>
+            modelBuilder.Entity("Library.Business.Models.Books", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -155,7 +155,7 @@ namespace Locadora.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Locadora.API.Models.Publishers", b =>
+            modelBuilder.Entity("Library.Business.Models.Publishers", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -178,65 +178,65 @@ namespace Locadora.API.Migrations
                         {
                             Id = 1,
                             City = "São Paulo",
-                            Name = "Editora Nacional"
+                            Name = "Companhia das Letras"
                         },
                         new
                         {
                             Id = 2,
                             City = "Rio de Janeiro",
-                            Name = "Editora Regional"
+                            Name = "Aleph"
                         },
                         new
                         {
                             Id = 3,
-                            City = "Belo Horizonte",
-                            Name = "Editora Local"
+                            City = "Rio De Janeiro",
+                            Name = "Editora Intrínseca"
                         },
                         new
                         {
                             Id = 4,
-                            City = "Brasília",
-                            Name = "Editora Central"
+                            City = "Rio de Janeiro",
+                            Name = "Editora Rocco"
                         },
                         new
                         {
                             Id = 5,
                             City = "Porto Alegre",
-                            Name = "Editora do Sul"
+                            Name = "Darkside"
                         },
                         new
                         {
                             Id = 6,
-                            City = "São Paulo",
-                            Name = "Editora Nacional 2"
+                            City = "Nova Iorque",
+                            Name = "Harper Collins"
                         },
                         new
                         {
                             Id = 7,
                             City = "Rio de Janeiro",
-                            Name = "Editora Regional 2"
+                            Name = "Editora Arqueiro"
                         },
                         new
                         {
                             Id = 8,
-                            City = "Belo Horizonte",
-                            Name = "Editora Local 2"
+                            City = "Lisboa",
+                            Name = "Leya"
                         },
                         new
                         {
                             Id = 9,
-                            City = "Brasília",
-                            Name = "Editora Central 2"
+                            City = "São Paulo",
+                            Name = "Saraiva"
                         },
                         new
                         {
                             Id = 10,
                             City = "Porto Alegre",
-                            Name = "Editora do Sul 2"
+                            Name = "Sextante"
                         });
                 });
 
-            modelBuilder.Entity("Locadora.API.Models.Rentals", b =>
+            modelBuilder.Entity("Library.Business.Models.Rentals", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -270,7 +270,7 @@ namespace Locadora.API.Migrations
                     b.ToTable("Rentals");
                 });
 
-            modelBuilder.Entity("Locadora.API.Models.Users", b =>
+            modelBuilder.Entity("Library.Business.Models.Users", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -379,9 +379,9 @@ namespace Locadora.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Locadora.API.Models.Books", b =>
+            modelBuilder.Entity("Library.Business.Models.Books", b =>
                 {
-                    b.HasOne("Locadora.API.Models.Publishers", "Publisher")
+                    b.HasOne("Library.Business.Models.Publishers", "Publisher")
                         .WithMany()
                         .HasForeignKey("PublisherId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -390,15 +390,15 @@ namespace Locadora.API.Migrations
                     b.Navigation("Publisher");
                 });
 
-            modelBuilder.Entity("Locadora.API.Models.Rentals", b =>
+            modelBuilder.Entity("Library.Business.Models.Rentals", b =>
                 {
-                    b.HasOne("Locadora.API.Models.Books", "Book")
+                    b.HasOne("Library.Business.Models.Books", "Book")
                         .WithMany()
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Locadora.API.Models.Users", "User")
+                    b.HasOne("Library.Business.Models.Users", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

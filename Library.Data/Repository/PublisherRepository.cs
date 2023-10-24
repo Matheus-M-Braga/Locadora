@@ -55,7 +55,7 @@ namespace Library.Data.Repository
 
         public async Task<List<Publishers>> GetPublisherByName(string publisherName)
         {
-            return await _context.Publishers.Where(p => p.Name == publisherName).ToListAsync();
+            return await _context.Publishers.AsNoTracking().Where(p => p.Name == publisherName).ToListAsync();
         }
     }
 }

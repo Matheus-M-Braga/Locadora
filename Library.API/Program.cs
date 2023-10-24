@@ -31,7 +31,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 builder.Services.AddDbContext<DataContext>(options =>
 {
-    options.UseSqlite("Data Source=Library.db");
+    options.UseSqlite("Data Source=Library.db", sqlite => sqlite.MigrationsAssembly("Library.Data"));
 });
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddCors(options =>
