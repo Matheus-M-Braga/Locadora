@@ -36,14 +36,16 @@ namespace Library.Data.Repository
         {
             var users = _context.Users.AsQueryable();
             if (request.FilterValue != null)
+            {
+                var search = request.FilterValue.ToLower();
                 users = users.Where(
-                    u => u.Id.ToString().Contains(request.FilterValue) ||
-                    u.Name.Contains(request.FilterValue) ||
-                    u.City.Contains(request.FilterValue) ||
-                    u.Address.Contains(request.FilterValue) ||
-                    u.Email.Contains(request.FilterValue)
+                    u => u.Id.ToString().Contains(search) ||
+                    u.Name.ToLower().Contains(search) ||
+                    u.City.ToLower().Contains(search) ||
+                    u.Address.ToLower().Contains(search) ||
+                    u.Email.ToLower().Contains(search)
                 );
-
+            }
             return await PagedBaseResponseHelper.GetResponseAsync<PagedBaseResponse<Users>, Users>(users, request);
         }
 

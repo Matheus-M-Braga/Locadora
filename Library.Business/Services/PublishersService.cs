@@ -72,8 +72,11 @@ namespace Library.Business.Services
             if (result == null)
                 return ResultService.Fail("Editora não encontrada!");
 
-            var isOwnName = await _publisherRepository.GetPublisherByName(model.Name);
-            if (model.Name != result.Name && isOwnName != null) return ResultService.Fail("Editora já cadastrada.");
+           if(result.Name != model.Name)
+            {
+                var publisherExists = await _publisherRepository.GetPublisherByName(model.Name);
+                if (publisherExists.Count > 0) return ResultService.Fail("Editora já cadastrada");
+            }
 
             var validation = new UpdatePublisherDtoValidator().Validate(model);
             if (!validation.IsValid)

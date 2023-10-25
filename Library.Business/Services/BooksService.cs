@@ -94,6 +94,12 @@ namespace Library.Business.Services
             if (!validation.IsValid)
                 return ResultService.RequestError(validation);
 
+            if(result.Name != model.Name)
+            {
+                var bookExists = await _bookRepository.GetBookByName(model.Name);
+                if (bookExists.Count > 0) return ResultService.Fail("Livro já cadastrado.");
+            }
+
             var publisher = await _publisherRepository.GetPublisherById(book.PublisherId);
             if (publisher == null)
                 return ResultService.Fail<BookDto>("Editora não encontrada!");

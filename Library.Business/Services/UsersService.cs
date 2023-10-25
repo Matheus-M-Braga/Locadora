@@ -11,20 +11,20 @@ namespace Library.Business.Services
 {
     public class UsersService : IUsersService
     {
-        private readonly IUserRepository _repo;
-        private readonly IRentalRepository _rentalRepo;
+        private readonly IUserRepository _userRepository;
+        private readonly IRentalRepository _rentalRepository;
         private readonly IMapper _mapper;
 
         public UsersService(IUserRepository repo, IRentalRepository rentalRepo, IMapper mapper)
         {
-            _repo = repo;
-            _rentalRepo = rentalRepo;
+            _userRepository = repo;
+            _rentalRepository = rentalRepo;
             _mapper = mapper;
         }
 
         public async Task<ResultService<List<Users>>> GetAll(FilterDb filterDb)
         {
-            var users = await _repo.GetAllUsersPaged(filterDb);
+            var users = await _userRepository.GetAllUsersPaged(filterDb);
             var result = new PagedBaseResponseDto<Users>(users.TotalRegisters, users.TotalPages, users.Page, _mapper.Map<List<Users>>(users.Data));
 
             if (result.Data.Count == 0)
@@ -35,13 +35,13 @@ namespace Library.Business.Services
 
         public async Task<ResultService<List<UserRentalDto>>> GetAllSelect()
         {
-            var users = await _repo.GetAllUsers();
+            var users = await _userRepository.GetAllUsers();
             return ResultService.Ok(_mapper.Map<List<UserRentalDto>>(users));
         }
 
         public async Task<ResultService<Users>> GetById(int id)
         {
-            var user = await _repo.GetUserById(id);
+            var user = await _userRepository.GetUserById(id);
             if (user == null)
                 return ResultService.Fail<Users>("Usuário não encontrado!");
 
@@ -54,12 +54,12 @@ namespace Library.Business.Services
             if (!validation.IsValid)
                 return ResultService.RequestError(validation);
 
-            var emailExists = await _repo.GetUserByEmail(model.Email);
+            var emailExists = await _userRepository.GetUserByEmail(model.Email);
             if (emailExists.Count > 0)
                 return ResultService.Fail<Users>("Email já cadastrado.");
 
             var user = _mapper.Map<Users>(model);
-            await _repo.Add(user);
+            await _userRepository.Add(user);
 
             return ResultService.Ok("Usuário adicionado com êxito.");
         }
@@ -68,7 +68,7 @@ namespace Library.Business.Services
         {
             var user = _mapper.Map<Users>(model);
 
-            var result = await _repo.GetUserById(user.Id);
+            var result = await _userRepository.GetUserById(user.Id);
             if (result == null)
                 return ResultService.Fail("Usuário não encontrado!");
 
@@ -76,23 +76,29 @@ namespace Library.Business.Services
             if (!validation.IsValid)
                 return ResultService.RequestError(validation);
 
-            await _repo.Update(user);
+            if(result.Email != model.Email)
+            {
+                var emailExists = await _userRepository.GetUserByEmail(model.Email);
+                if (emailExists.Count > 0) return ResultService.Fail("Email já cadastrado.");
+            }
+
+            await _userRepository.Update(user);
 
             return ResultService.Ok("Usuário atualizado com êxito!");
         }
 
         public async Task<ResultService> Delete(int id)
         {
-            var user = await _repo.GetUserById(id);
+            var user = await _userRepository.GetUserById(id);
             if (user == null)
                 return ResultService.Fail<Users>("Usuário não encontrado!");
 
-            var rentalAssociation = await _rentalRepo.GetAllRentalsByUserId(id);
+            var rentalAssociation = await _rentalRepository.GetAllRentalsByUserId(id);
 
             if (rentalAssociation.Count > 0)
                 return ResultService.Fail<Publishers>("Possui associação com aluguéis.");
 
-            await _repo.Delete(user);
+            await _userRepository.Delete(user);
 
             return ResultService.Ok("Usuário deletado com êxito!");
         }

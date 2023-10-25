@@ -3,6 +3,7 @@ using Library.Data.Context;
 using Library.Business.Pagination;
 using Library.Business.Models;
 using Library.Business.Interfaces.IRepository;
+using System.Globalization;
 
 namespace Library.Data.Repository
 {
@@ -34,12 +35,14 @@ namespace Library.Data.Repository
         {
             var publishers = _context.Publishers.AsQueryable();
             if (request.FilterValue != null)
+            {
+                var search = request.FilterValue.ToLower();
                 publishers = publishers.Where(
-                    p => p.Id.ToString().Contains(request.FilterValue) ||
-                    p.Name.Contains(request.FilterValue) ||
-                    p.City.Contains(request.FilterValue)
+                    p => p.Id.ToString().Contains(search) ||
+                    p.Name.ToLower().Contains(search) ||
+                    p.City.ToLower().Contains(search)
                 );
-
+            }
             return await PagedBaseResponseHelper.GetResponseAsync<PagedBaseResponse<Publishers>, Publishers>(publishers, request);
         }
 

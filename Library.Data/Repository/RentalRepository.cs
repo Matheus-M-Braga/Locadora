@@ -34,18 +34,20 @@ namespace Library.Data.Repository
         {
             var rentals = _context.Rentals.Include(r => r.User).Include(r => r.Book).AsQueryable();
             if (request.FilterValue != null)
+            {
+                var search = request.FilterValue.ToLower();
                 rentals = rentals.Where(
-                    r => r.Id.ToString().Contains(request.FilterValue) ||
-                    r.RentalDate.ToString().Contains(request.FilterValue) ||
-                    r.ForecastDate.ToString().Contains(request.FilterValue) ||
-                    r.ReturnDate.ToString().Contains(request.FilterValue) ||
-                    r.Status.Contains(request.FilterValue) ||
-                    r.BookId.ToString().Contains(request.FilterValue) ||
-                    r.Book.Name.Contains(request.FilterValue) ||
-                    r.UserId.ToString().Contains(request.FilterValue) ||
-                    r.User.Name.Contains(request.FilterValue)
+                    r => r.Id.ToString().Contains(search) ||
+                    r.RentalDate.ToString().Contains(search) ||
+                    r.ForecastDate.ToString().Contains(search) ||
+                    r.ReturnDate.ToString().Contains(search) ||
+                    r.Status.ToLower().Contains(search) ||
+                    r.BookId.ToString().Contains(search) ||
+                    r.Book.Name.ToLower().Contains(search) ||
+                    r.UserId.ToString().Contains(search) ||
+                    r.User.Name.ToLower().Contains(search)
                 );
-
+            }
             return await PagedBaseResponseHelper.GetResponseAsync<PagedBaseResponse<Rentals>, Rentals>(rentals, request);
         }
         public async Task<List<Rentals>> GetAllRentals()

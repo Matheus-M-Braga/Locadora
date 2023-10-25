@@ -34,18 +34,21 @@ namespace Library.Data.Repository
         public async Task<PagedBaseResponse<Books>> GetAllBooksPaged(FilterDb request)
         {
             var books = _context.Books.Include(b => b.Publisher).AsQueryable();
-            if (request.FilterValue != null)
-                books = books.Where(
-                    b => b.Id.ToString().Contains(request.FilterValue) ||
-                    b.Name.Contains(request.FilterValue) ||
-                    b.Author.Contains(request.FilterValue) ||
-                    b.Release.ToString().Contains(request.FilterValue) ||
-                    b.Quantity.ToString().Contains(request.FilterValue) ||
-                    b.Rented.ToString().Contains(request.FilterValue) ||
-                    b.PublisherId.ToString().Contains(request.FilterValue) ||
-                    b.Publisher.Name.Contains(request.FilterValue)
-                );
 
+            if (request.FilterValue != null)
+            {
+                var search = request.FilterValue.ToLower();
+                books = books.Where(
+                        b => b.Id.ToString().Contains(search) ||
+                        b.Name.ToLower().Contains(search) ||
+                        b.Author.ToLower().Contains(search) ||
+                        b.Release.ToString().Contains(search) ||
+                        b.Quantity.ToString().Contains(search) ||
+                        b.Rented.ToString().Contains(search) ||
+                        b.PublisherId.ToString().Contains(search) ||
+                        b.Publisher.Name.ToLower().Contains(search)
+                    ); 
+            }
             return await PagedBaseResponseHelper.GetResponseAsync<PagedBaseResponse<Books>, Books>(books, request);
         }
 
