@@ -27,8 +27,7 @@ namespace Library.Business.Services
             var publishers = await _publisherRepository.GetAllPublishersPaged(filterDb);
             var result = new PagedBaseResponseDto<Publishers>(publishers.TotalRegisters, publishers.TotalPages, publishers.Page, _mapper.Map<List<Publishers>>(publishers.Data));
 
-            if (result.Data.Count == 0)
-                return ResultService.Fail<List<Publishers>>("Nenhum registro encontrado.");
+            if (result.Data.Count == 0) return ResultService.NotFound<List<Publishers>>("Nenhum registro encontrado.");
 
             return ResultService.OkPaged(result.Data, result.TotalRegisters, result.Page, result.TotalPages);
         }
@@ -42,26 +41,23 @@ namespace Library.Business.Services
         public async Task<ResultService<Publishers>> GetById(int id)
         {
             var publishers = await _publisherRepository.GetPublisherById(id);
-            if (publishers == null)
-                return ResultService.Fail<Publishers>("Editora não encontrada!");
+            if (publishers == null) return ResultService.NotFound<Publishers>("Editora não encontrada!");
 
             return ResultService.Ok(_mapper.Map<Publishers>(publishers));
-        }  
+        }
 
         public async Task<ResultService> Create(CreatePublisherDto model)
         {
             var validation = new PublisherDtoValidator().Validate(model);
-            if (!validation.IsValid)
-                return ResultService.RequestError(validation);
+            if (!validation.IsValid) return ResultService.BadRequest(validation);
 
             var publisherExists = await _publisherRepository.GetPublisherByName(model.Name);
-            if (publisherExists.Count > 0)
-                return ResultService.Fail<CreatePublisherDto>("Editora já cadastrada!");
+            if (publisherExists.Count > 0) return ResultService.BadRequest("Editora já cadastrada!");
 
             var publisher = _mapper.Map<Publishers>(model);
             await _publisherRepository.Add(publisher);
 
-            return ResultService.Ok("Editora adicionada com êxito.");
+            return ResultService.Created("Editora adicionada com êxito.");
         }
 
         public async Task<ResultService> Update(UpdatePublisherDto model)
@@ -69,18 +65,16 @@ namespace Library.Business.Services
             var publisher = _mapper.Map<Publishers>(model);
 
             var result = await _publisherRepository.GetPublisherById(publisher.Id);
-            if (result == null)
-                return ResultService.Fail("Editora não encontrada!");
+            if (result == null) return ResultService.NotFound("Editora não encontrada!");
 
-           if(result.Name != model.Name)
+            if (result.Name != model.Name)
             {
                 var publisherExists = await _publisherRepository.GetPublisherByName(model.Name);
-                if (publisherExists.Count > 0) return ResultService.Fail("Editora já cadastrada");
+                if (publisherExists.Count > 0) return ResultService.BadRequest("Editora já cadastrada");
             }
 
             var validation = new UpdatePublisherDtoValidator().Validate(model);
-            if (!validation.IsValid)
-                return ResultService.RequestError(validation);
+            if (!validation.IsValid) return ResultService.BadRequest(validation);
 
             await _publisherRepository.Update(publisher);
 
@@ -91,12 +85,10 @@ namespace Library.Business.Services
         {
             var publisher = await _publisherRepository.GetPublisherById(id);
 
-            if (publisher == null)
-                return ResultService.Fail<Publishers>("Editora não encontrada!");
+            if (publisher == null) return ResultService.NotFound("Editora não encontrada!");
 
             var bookAssociation = await _bookRepository.GetAllBooksByPublisherId(id);
-            if (bookAssociation.Count > 0)
-                return ResultService.Fail<Publishers>("A editora não pode ser excluída, pois está associada a livros.");
+            if (bookAssociation.Count > 0) return ResultService.BadRequest("A editora não pode ser excluída, pois está associada a livros.");
 
             await _publisherRepository.Delete(publisher);
 

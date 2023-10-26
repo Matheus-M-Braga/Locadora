@@ -1,3 +1,4 @@
+using System.Net;
 using System.Text.Json.Serialization;
 using FluentValidation.Results;
 
@@ -5,32 +6,20 @@ namespace Library.Business.Services
 {
     public class ResultService
     {
-        public bool IsSucess { get; set; }
+        public HttpStatusCode StatusCode { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string[]? Message { get; init; }
 
-        public static ResultService RequestError(ValidationResult validationResult)
-        {
-            return new ResultService
-            {
-                IsSucess = false,
-                Message = validationResult.Errors.Select(x => x.ErrorMessage).ToArray(),
-            };
-        }
-
-        public static ResultService Fail(string message) => new() { IsSucess = false, Message = new string[] { message } };
-        public static ResultService<T> Fail<T>(string message) => new() { IsSucess = false, Message = new string[] { message } };
-
-        public static ResultService Ok(string message) => new() { IsSucess = true, Message = new string[] { message } };
+        public static ResultService Ok(string message) => new() { StatusCode = HttpStatusCode.OK, Message = new string[] { message } };
         public static ResultService<T> Ok<T>(T data)
         {
             return new ResultService<T>
             {
                 Data = data,
-                IsSucess = true
+                StatusCode = HttpStatusCode.OK
             };
         }
-        public static ResultService<T> OkPaged<T>(T data, int totalRegisters,int page, int totalPages)
+        public static ResultService<T> OkPaged<T>(T data, int totalRegisters, int page, int totalPages)
         {
             return new ResultService<T>
             {
@@ -38,9 +27,25 @@ namespace Library.Business.Services
                 TotalRegisters = totalRegisters,
                 TotalPages = totalPages,
                 Page = page,
-                IsSucess = true
+                StatusCode = HttpStatusCode.OK
             };
         }
+
+        public static ResultService Created(string message) => new() { StatusCode = HttpStatusCode.Created, Message = new string[] { message } };
+
+        public static ResultService BadRequest(ValidationResult validationResult)
+        {
+            return new ResultService
+            {
+                StatusCode = HttpStatusCode.BadRequest,
+                Message = validationResult.Errors.Select(x => x.ErrorMessage).ToArray(),
+            };
+        }
+        public static ResultService BadRequest(string message) => new() { StatusCode = HttpStatusCode.BadRequest, Message = new string[] { message } };
+
+        public static ResultService NotFound(string message) => new() { StatusCode = HttpStatusCode.NotFound, Message = new string[] { message } };
+        public static ResultService<T> NotFound<T>(string message) => new() { StatusCode = HttpStatusCode.NotFound, Message = new string[] { message } };
+
     }
 
     public class ResultService<T> : ResultService

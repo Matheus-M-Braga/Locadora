@@ -1,8 +1,10 @@
 ﻿using Library.Business.Interfaces.IServices;
+using Library.Business.Models;
 using Library.Business.Models.Dtos.User;
 using Library.Business.Pagination;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using System.Net;
 
 namespace Library.Api.Controllers
 {
@@ -24,7 +26,7 @@ namespace Library.Api.Controllers
         public async Task<IActionResult> Get([FromQuery] FilterDb filterDb)
         {
             var users = await _service.GetAll(filterDb);
-            if (users.IsSucess) return Ok(users);
+            if (users.StatusCode == HttpStatusCode.OK) return Ok(users);
             return NotFound(users);
         }
 
@@ -35,7 +37,7 @@ namespace Library.Api.Controllers
         public async Task<IActionResult> GetAllSelect()
         {
             var users = await _service.GetAllSelect();
-            if (users.IsSucess) return Ok(users);
+            if (users.StatusCode == HttpStatusCode.OK) return Ok(users);
             return NotFound(users);
         }
 
@@ -46,7 +48,7 @@ namespace Library.Api.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var user = await _service.GetById(id);
-            if (user.IsSucess) return Ok(user);
+            if (user.StatusCode == HttpStatusCode.OK) return Ok(user);
             return NotFound(user);
         }
 
@@ -57,7 +59,7 @@ namespace Library.Api.Controllers
         public async Task<IActionResult> Post([FromBody] CreateUserDto model)
         {
             var result = await _service.Create(model);
-            if (result.IsSucess) return Created($"/api/users/", result);
+            if (result.StatusCode == HttpStatusCode.Created) return StatusCode(201, result);
             return BadRequest(result);
         }
 
@@ -65,10 +67,12 @@ namespace Library.Api.Controllers
         [SwaggerOperation(Summary = "Update")]
         [SwaggerResponse(200)]
         [SwaggerResponse(400)]
+        [SwaggerResponse(404)]
         public async Task<IActionResult> Put([FromBody] UpdateUserDto model)
         {
             var result = await _service.Update(model);
-            if (result.IsSucess) return Ok(result);
+            if (result.StatusCode == HttpStatusCode.OK) return Ok(result);
+            if (result.StatusCode == HttpStatusCode.NotFound) return NotFound(result);
             return BadRequest(result);
         }
 
@@ -76,10 +80,12 @@ namespace Library.Api.Controllers
         [SwaggerOperation(Summary = "Delete")]
         [SwaggerResponse(200)]
         [SwaggerResponse(400)]
+        [SwaggerResponse(404)]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _service.Delete(id);
-            if (result.IsSucess) return Ok(result);
+            if (result.StatusCode == HttpStatusCode.OK) return Ok(result);
+            if (result.StatusCode == HttpStatusCode.NotFound) return NotFound(result);
             return BadRequest(result);
         }
     }

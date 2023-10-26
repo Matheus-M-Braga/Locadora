@@ -3,6 +3,7 @@ using Library.Business.Models.Dtos.Book;
 using Library.Business.Pagination;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using System.Net;
 
 namespace Library.Api.Controllers
 {
@@ -24,7 +25,7 @@ namespace Library.Api.Controllers
         public async Task<IActionResult> Get([FromQuery] FilterDb filterDb)
         {
             var books = await _service.GetAll(filterDb);
-            if (books.IsSucess) return Ok(books);
+            if (books.StatusCode == HttpStatusCode.OK) return Ok(books);
             return NotFound(books);
         }
 
@@ -35,7 +36,7 @@ namespace Library.Api.Controllers
         public async Task<IActionResult> GetAllSelect()
         {
             var books = await _service.GetAllSelect();
-            if (books.IsSucess) return Ok(books);
+            if (books.StatusCode == HttpStatusCode.OK) return Ok(books);
             return NotFound(books);
         }
 
@@ -46,7 +47,7 @@ namespace Library.Api.Controllers
         public async Task<IActionResult> GetAllCount()
         {
             var books = await _service.GetAllCount();
-            if (books.IsSucess) return Ok(books);
+            if (books.StatusCode == HttpStatusCode.OK) return Ok(books);
             return NotFound(books);
         }
 
@@ -57,7 +58,7 @@ namespace Library.Api.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var book = await _service.GetById(id);
-            if (book.IsSucess) return Ok(book);
+            if (book.StatusCode == HttpStatusCode.OK) return Ok(book);
             return NotFound(book);
         }
 
@@ -68,7 +69,7 @@ namespace Library.Api.Controllers
         public async Task<IActionResult> Post([FromBody] CreateBookDto model)
         {
             var result = await _service.Create(model);
-            if (result.IsSucess) return StatusCode(201, result);
+            if (result.StatusCode == HttpStatusCode.Created) return StatusCode(201, result);
             return BadRequest(result);
         }
 
@@ -76,10 +77,12 @@ namespace Library.Api.Controllers
         [SwaggerOperation(Summary = "Update")]
         [SwaggerResponse(200)]
         [SwaggerResponse(400)]
+        [SwaggerResponse(404)]
         public async Task<IActionResult> Put([FromBody] UpdateBookDto model)
         {
             var result = await _service.Update(model);
-            if (result.IsSucess) return Ok(result);
+            if (result.StatusCode == HttpStatusCode.OK) return Ok(result);
+            if (result.StatusCode == HttpStatusCode.NotFound) return NotFound(result);
             return BadRequest(result);
         }
 
@@ -87,10 +90,12 @@ namespace Library.Api.Controllers
         [SwaggerOperation(Summary = "Delete")]
         [SwaggerResponse(200)]
         [SwaggerResponse(400)]
+        [SwaggerResponse(404)]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _service.Delete(id);
-            if (result.IsSucess) return Ok(result);
+            if (result.StatusCode == HttpStatusCode.OK) return Ok(result);
+            if (result.StatusCode == HttpStatusCode.NotFound) return NotFound(result);
             return BadRequest(result);
         }
     }

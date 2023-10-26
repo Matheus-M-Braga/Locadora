@@ -3,6 +3,7 @@ using Library.Business.Models.Dtos.Publisher;
 using Library.Business.Pagination;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using System.Net;
 
 namespace Library.Api.Controllers
 {
@@ -24,7 +25,7 @@ namespace Library.Api.Controllers
         public async Task<IActionResult> Get([FromQuery] FilterDb filterDb)
         {
             var publishers = await _service.GetAll(filterDb);
-            if (publishers.IsSucess) return Ok(publishers);
+            if (publishers.StatusCode == HttpStatusCode.OK) return Ok(publishers);
             return NotFound(publishers);
         }
 
@@ -35,7 +36,7 @@ namespace Library.Api.Controllers
         public async Task<IActionResult> GetAllSelect()
         {
             var publishers = await _service.GetAllSelect();
-            if (publishers.IsSucess) return Ok(publishers);
+            if (publishers.StatusCode == HttpStatusCode.OK) return Ok(publishers);
             return NotFound(publishers);
         }
 
@@ -46,7 +47,7 @@ namespace Library.Api.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var publisher = await _service.GetById(id);
-            if (publisher.IsSucess) return Ok(publisher);
+            if (publisher.StatusCode == HttpStatusCode.OK) return Ok(publisher);
             return NotFound(publisher);
         }
 
@@ -57,7 +58,7 @@ namespace Library.Api.Controllers
         public async Task<IActionResult> Post([FromBody] CreatePublisherDto model)
         {
             var result = await _service.Create(model);
-            if (result.IsSucess) return StatusCode(201, result);
+            if (result.StatusCode == HttpStatusCode.Created) return StatusCode(201, result);
             return BadRequest(result);
         }
 
@@ -65,10 +66,12 @@ namespace Library.Api.Controllers
         [SwaggerOperation(Summary = "Update")]
         [SwaggerResponse(200)]
         [SwaggerResponse(400)]
+        [SwaggerResponse(404)]
         public async Task<IActionResult> Put([FromBody] UpdatePublisherDto model)
         {
             var result = await _service.Update(model);
-            if (result.IsSucess) return Ok(result);
+            if (result.StatusCode == HttpStatusCode.OK) return Ok(result);
+            if (result.StatusCode == HttpStatusCode.NotFound) return NotFound(result);
             return BadRequest(result);
         }
 
@@ -76,10 +79,12 @@ namespace Library.Api.Controllers
         [SwaggerOperation(Summary = "Delete")]
         [SwaggerResponse(200)]
         [SwaggerResponse(400)]
+        [SwaggerResponse(404)]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _service.Delete(id);
-            if (result.IsSucess) return Ok(result);
+            if (result.StatusCode == HttpStatusCode.OK) return Ok(result);
+            if (result.StatusCode == HttpStatusCode.NotFound) return NotFound(result);
             return BadRequest(result);
         }
     }
