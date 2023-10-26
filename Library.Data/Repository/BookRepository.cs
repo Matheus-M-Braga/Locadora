@@ -54,7 +54,7 @@ namespace Library.Data.Repository
 
         public async Task<List<Books>> GetAllBooks()
         {
-            return await _context.Books.Include(b => b.Publisher).Where(b => b.Quantity > 0).ToListAsync();
+            return await _context.Books.Include(b => b.Publisher).ToListAsync();
         }
 
         public async Task<Books> GetBookById(int bookId)

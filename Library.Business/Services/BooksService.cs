@@ -43,6 +43,7 @@ namespace Library.Business.Services
         public async Task<ResultService<List<BookCountDto>>> GetAllCount()
         {
             var books = await _bookRepository.GetAllBooks();
+
             var bookDashDto = _mapper.Map<List<BookCountDto>>(books);
             return ResultService.Ok(bookDashDto);
         }

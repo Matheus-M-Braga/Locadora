@@ -39,6 +39,7 @@ namespace Library.Business.Services
         {
             var rentals = await _rentalRepository.GetAllRentals();
             if (rentals.Count < 1) return ResultService.NotFound<List<RentalCountDto>>("Não foram encontrados aluguéis.");
+
             var rentalsDashDto = _mapper.Map<List<RentalCountDto>>(rentals);
             return ResultService.Ok(rentalsDashDto);
         }
@@ -47,6 +48,7 @@ namespace Library.Business.Services
         {
             var rental = await _rentalRepository.GetRentalById(id);
             if (rental == null) return ResultService.NotFound<RentalDto>("Aluguel não encontrado!");
+
             var rentalDto = _mapper.Map<RentalDto>(rental);
             return ResultService.Ok(rentalDto);
         }
@@ -95,7 +97,6 @@ namespace Library.Business.Services
             if (rental.ReturnDate.Value.Date != DateTime.Now.Date) return ResultService.BadRequest("Data de devolução não pode ser diferente da data de Hoje!");
 
             rental.Status = await _rentalRepository.GetStatus(rental.ForecastDate, rental.ReturnDate);
-
             await _rentalRepository.Update(rental);
 
             bool updateBook = await _bookRepository.UpdateQuantity(rental.BookId, true);
