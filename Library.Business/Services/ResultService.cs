@@ -59,6 +59,4 @@ namespace Library.Business.Services
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public int? TotalPages { get; set; }
     }
-
-
 }
