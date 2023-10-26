@@ -5,10 +5,10 @@ using FluentValidation.Results;
 namespace Library.Business.Services
 {
     public class ResultService
-    {
-        public HttpStatusCode StatusCode { get; set; }
+    {  
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string[]? Message { get; init; }
+        public HttpStatusCode StatusCode { get; set; }
 
         public static ResultService Ok(string message) => new() { StatusCode = HttpStatusCode.OK, Message = new string[] { message } };
         public static ResultService<T> Ok<T>(T data)
@@ -37,8 +37,8 @@ namespace Library.Business.Services
         {
             return new ResultService
             {
-                StatusCode = HttpStatusCode.BadRequest,
                 Message = validationResult.Errors.Select(x => x.ErrorMessage).ToArray(),
+                StatusCode = HttpStatusCode.BadRequest,
             };
         }
         public static ResultService BadRequest(string message) => new() { StatusCode = HttpStatusCode.BadRequest, Message = new string[] { message } };
