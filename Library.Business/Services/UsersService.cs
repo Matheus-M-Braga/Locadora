@@ -29,7 +29,7 @@ namespace Library.Business.Services
 
             if (result.Data.Count == 0) return ResultService.NotFound<List<Users>>("Nenhum registro encontrado.");
 
-            return ResultService.OkPaged(result.Data, result.TotalRegisters,result.Page, result.TotalPages);
+            return ResultService.OkPaged(result.Data, result.TotalRegisters,result.PageNumber, result.TotalPages);
         }
 
         public async Task<ResultService<List<UserRentalDto>>> GetAllSelect()

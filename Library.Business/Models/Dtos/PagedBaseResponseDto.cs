@@ -6,13 +6,13 @@
         {
             TotalRegisters = totalRegisters;
             TotalPages = totalPages;
-            Page = page;
+            PageNumber = page;
             Data = data;
         }
 
         public int TotalRegisters { get; private set; }
         public int TotalPages { get; private set; }
-        public int Page { get; private set; }   
+        public int PageNumber { get; private set; }   
         public List<T> Data { get; private set; }
     }
 }

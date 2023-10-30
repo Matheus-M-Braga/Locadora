@@ -32,7 +32,7 @@ namespace Library.Business.Services
 
             if (result.Data.Count == 0) return ResultService.NotFound<List<RentalDto>>("Nenhum registro encontrado.");
 
-            return ResultService.OkPaged(result.Data, result.TotalRegisters, result.Page, result.TotalPages);
+            return ResultService.OkPaged(result.Data, result.TotalRegisters, result.PageNumber, result.TotalPages);
         }
 
         public async Task<ResultService<RentalDto>> GetById(int id)
@@ -67,10 +67,8 @@ namespace Library.Business.Services
             var userRental = await _rentalRepository.GetRentalByUserIdandBookId(book.Id, user.Id);
             if (userRental.Count > 0) return ResultService.BadRequest("Usuário já possui aluguel desse livro!");
 
-            var bookAssociated = await _bookRepository.GetBookById(rental.BookId);
-            bookAssociated.Quantity--;
-            bookAssociated.Rented++;
-            if (bookAssociated.Quantity < 0) return ResultService.BadRequest("Livro com estoque esgotado.");
+            bool updateBook = await _bookRepository.UpdateQuantity(rental.BookId);
+            if (updateBook == false) return ResultService.BadRequest("Livro com estoque esgotado.");
 
             rental.Status = "Pendente";
             await _rentalRepository.Add(rental);
@@ -90,11 +88,6 @@ namespace Library.Business.Services
 
             if (rental.ReturnDate.Value.Date != DateTime.Now.Date) return ResultService.BadRequest("Data de devolução não pode ser diferente da data de Hoje!");
 
-            var bookAssociated = await _bookRepository.GetBookById(rental.BookId);
-            bookAssociated.Quantity++;
-            bookAssociated.Rented--;
-            if (bookAssociated.Quantity < 0) return ResultService.BadRequest("Livro com estoque esgotado.");
-
             if (rental.ForecastDate < rental.ReturnDate) 
             { 
                 rental.Status = "Atrasado"; 
@@ -105,6 +98,7 @@ namespace Library.Business.Services
             }
 
             await _rentalRepository.Update(rental);
+            await _bookRepository.UpdateQuantity(rental.BookId, true);
 
             return ResultService.Ok("Devolução realizada com êxito!");
         }
