@@ -10,7 +10,7 @@ namespace Library.Business.Models.Dtos.Validations
             RuleFor(x => x.Name)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty().WithMessage("{PropertyName}: Não informado.")
-                .Length(3, 50).WithMessage("{PropertyName}: Necessário entre 3 e 50 caracteres.");
+                .Length(3, 50).WithMessage("{PropertyName}: Limite é de 50 caracteres.");
 
             RuleFor(x => x.Author)
                 .Cascade(CascadeMode.Stop)

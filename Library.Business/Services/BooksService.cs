@@ -27,7 +27,7 @@ namespace Library.Business.Services
         public async Task<ResultService<List<BookDto>>> GetAll(FilterDb filterDb)
         {
             var books = await _bookRepository.GetAllBooksPaged(filterDb);
-            var result = new PagedBaseResponseDto<BookDto>(books.TotalRegisters, books.TotalPages, filterDb.Page, _mapper.Map<List<BookDto>>(books.Data));
+            var result = new PagedBaseResponseDto<BookDto>(books.TotalRegisters, books.TotalPages, filterDb.PageNumber, _mapper.Map<List<BookDto>>(books.Data));
 
             if (result.Data.Count == 0) return ResultService.NotFound<List<BookDto>>("Nenhum registro encontrado.");
 
@@ -38,14 +38,6 @@ namespace Library.Business.Services
         {
             var books = await _bookRepository.GetAllBooks();
             return ResultService.Ok(_mapper.Map<ICollection<BookRentalDto>>(books));
-        }
-
-        public async Task<ResultService<List<BookCountDto>>> GetAllCount()
-        {
-            var books = await _bookRepository.GetAllBooks();
-
-            var bookDashDto = _mapper.Map<List<BookCountDto>>(books);
-            return ResultService.Ok(bookDashDto);
         }
 
         public async Task<ResultService<BookDto>> GetById(int id)

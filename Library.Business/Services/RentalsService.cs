@@ -28,20 +28,11 @@ namespace Library.Business.Services
         public async Task<ResultService<List<RentalDto>>> GetAll(FilterDb filterDb)
         {
             var rentals = await _rentalRepository.GetAllRentalsPaged(filterDb);
-            var result = new PagedBaseResponseDto<RentalDto>(rentals.TotalRegisters, rentals.TotalPages, rentals.Page, _mapper.Map<List<RentalDto>>(rentals.Data));
+            var result = new PagedBaseResponseDto<RentalDto>(rentals.TotalRegisters, rentals.TotalPages, rentals.PageNumber, _mapper.Map<List<RentalDto>>(rentals.Data));
 
             if (result.Data.Count == 0) return ResultService.NotFound<List<RentalDto>>("Nenhum registro encontrado.");
 
             return ResultService.OkPaged(result.Data, result.TotalRegisters, result.Page, result.TotalPages);
-        }
-
-        public async Task<ResultService<List<RentalCountDto>>> GetAllCount()
-        {
-            var rentals = await _rentalRepository.GetAllRentals();
-            if (rentals.Count < 1) return ResultService.NotFound<List<RentalCountDto>>("Não foram encontrados aluguéis.");
-
-            var rentalsDashDto = _mapper.Map<List<RentalCountDto>>(rentals);
-            return ResultService.Ok(rentalsDashDto);
         }
 
         public async Task<ResultService<RentalDto>> GetById(int id)
@@ -68,15 +59,18 @@ namespace Library.Business.Services
 
             if (rental.RentalDate.Date != DateTime.Now.Date) return ResultService.BadRequest("Data de aluguel não pode ser diferente da data de Hoje!");
 
-            bool? forecastValidate = await _rentalRepository.CheckForecastDate(rental.ForecastDate, rental.RentalDate);
-            if (forecastValidate == true) return ResultService.BadRequest("Prazo do aluguel não pode ser superior a 30 dias!");
-            else if (forecastValidate == false) return ResultService.BadRequest("Data de Previsão não pode ser anterior à Data do Aluguel!");
+            var diff = rental.ForecastDate.Subtract(rental.RentalDate);
+            if (diff.Days > 30) return ResultService.BadRequest("Prazo do aluguel não pode ser superior a 30 dias!");
+
+            if (rental.ForecastDate < rental.RentalDate) return ResultService.BadRequest("Data de Previsão não pode ser anterior à Data do Aluguel!");
 
             var userRental = await _rentalRepository.GetRentalByUserIdandBookId(book.Id, user.Id);
             if (userRental.Count > 0) return ResultService.BadRequest("Usuário já possui aluguel desse livro!");
 
-            var updateBook = await _bookRepository.UpdateQuantity(book.Id, false);
-            if (updateBook == false) return ResultService.BadRequest("Livro com estoque esgotado.");
+            var bookAssociated = await _bookRepository.GetBookById(rental.BookId);
+            bookAssociated.Quantity--;
+            bookAssociated.Rented++;
+            if (bookAssociated.Quantity < 0) return ResultService.BadRequest("Livro com estoque esgotado.");
 
             rental.Status = "Pendente";
             await _rentalRepository.Add(rental);
@@ -96,11 +90,21 @@ namespace Library.Business.Services
 
             if (rental.ReturnDate.Value.Date != DateTime.Now.Date) return ResultService.BadRequest("Data de devolução não pode ser diferente da data de Hoje!");
 
-            rental.Status = await _rentalRepository.GetStatus(rental.ForecastDate, rental.ReturnDate);
-            await _rentalRepository.Update(rental);
+            var bookAssociated = await _bookRepository.GetBookById(rental.BookId);
+            bookAssociated.Quantity++;
+            bookAssociated.Rented--;
+            if (bookAssociated.Quantity < 0) return ResultService.BadRequest("Livro com estoque esgotado.");
 
-            bool updateBook = await _bookRepository.UpdateQuantity(rental.BookId, true);
-            if (updateBook == false) return ResultService.BadRequest("Livro com estoque esgotado.");
+            if (rental.ForecastDate < rental.ReturnDate) 
+            { 
+                rental.Status = "Atrasado"; 
+            }
+            else 
+            { 
+                rental.Status = "No prazo"; 
+            }
+
+            await _rentalRepository.Update(rental);
 
             return ResultService.Ok("Devolução realizada com êxito!");
         }

@@ -74,37 +74,5 @@ namespace Library.Data.Repository
         {
             return await _context.Rentals.Where(r => r.BookId == bookId && r.UserId == userId && r.ReturnDate == null).ToListAsync();
         }
-
-        public Task<bool> CheckDate(DateTime date)
-        {
-            DateTime today = DateTime.Now.Date;
-
-            if (date.Date != today)
-            {
-                return Task.FromResult(true);
-            }
-
-            return Task.FromResult(false);
-        }
-
-        public async Task<bool?> CheckForecastDate(DateTime forecastDate, DateTime rentalDate)
-        {
-
-            if (forecastDate < rentalDate)
-                return false;
-
-            var diff = forecastDate.Subtract(rentalDate);
-            if (diff.Days > 30)
-                return true;
-
-            return null;
-        }
-
-        public async Task<string> GetStatus(DateTime ForecastDate, DateTime? ReturnDate)
-        {
-            if (ForecastDate < ReturnDate) return "Atrasado";
-
-            return "No prazo";
-        }
     }
 }

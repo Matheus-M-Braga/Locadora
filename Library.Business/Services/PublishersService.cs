@@ -25,7 +25,7 @@ namespace Library.Business.Services
         public async Task<ResultService<List<Publishers>>> GetAll(FilterDb filterDb)
         {
             var publishers = await _publisherRepository.GetAllPublishersPaged(filterDb);
-            var result = new PagedBaseResponseDto<Publishers>(publishers.TotalRegisters, publishers.TotalPages, publishers.Page, _mapper.Map<List<Publishers>>(publishers.Data));
+            var result = new PagedBaseResponseDto<Publishers>(publishers.TotalRegisters, publishers.TotalPages, publishers.PageNumber, _mapper.Map<List<Publishers>>(publishers.Data));
 
             if (result.Data.Count == 0) return ResultService.NotFound<List<Publishers>>("Nenhum registro encontrado.");
 
