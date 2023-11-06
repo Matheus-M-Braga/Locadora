@@ -88,7 +88,7 @@ namespace Library.Business.Services
             if (publisher == null) return ResultService.NotFound("Editora não encontrada!");
 
             var bookAssociation = await _bookRepository.GetAllBooksByPublisherId(id);
-            if (bookAssociation.Count > 0) return ResultService.BadRequest("A editora não pode ser excluída, pois está associada a livros.");
+            if (bookAssociation.Count > 0) return ResultService.BadRequest("Possui associação com livros.");
 
             await _publisherRepository.Delete(publisher);
 
