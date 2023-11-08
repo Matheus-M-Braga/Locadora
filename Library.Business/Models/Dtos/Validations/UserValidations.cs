@@ -9,23 +9,23 @@ namespace Library.Business.Models.Dtos.Validations
         {
             RuleFor(x => x.Name)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("{PropertyName}: Não informado.")
-                .Length(3, 50).WithMessage("{PropertyName}: Necessário entre 3 e 50 caracteres.");
+                .NotEmpty().WithMessage("Nome: Não informado.")
+                .Length(3, 50).WithMessage("Nome: Necessário entre 3 e 50 caracteres.");
 
             RuleFor(x => x.City)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("{PropertyName}: Não informado.")
-                .Length(3, 50).WithMessage("{PropertyName}: Necessário entre 3 e 50 caracteres.");
+                .NotEmpty().WithMessage("Cidade: Não informado.")
+                .Length(3, 50).WithMessage("Cidade: Necessário entre 3 e 50 caracteres.");
 
             RuleFor(x => x.Address)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("{PropertyName}: Não informado.")
-                .Length(3, 50).WithMessage("{PropertyName}: Necessário entre 3 e 50 caracteres.");
+                .NotEmpty().WithMessage("Endereço: Não informado.")
+                .Length(3, 50).WithMessage("Endereço: Necessário entre 3 e 50 caracteres.");
 
             RuleFor(x => x.Email)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("{PropertyName}: Não informado.")
-                .Length(3, 50).WithMessage("{PropertyName}: Necessário entre 3 e 50 caracteres.")
+                .NotEmpty().WithMessage("Email: Não informado.")
+                .Length(3, 50).WithMessage("Email: Necessário entre 3 e 50 caracteres.")
                 .EmailAddress().WithMessage("Endereço de Email inválido.");
         }
     }
@@ -34,29 +34,29 @@ namespace Library.Business.Models.Dtos.Validations
         public UpdateUserDtoValidator()
         {
             RuleFor(x => x.Id)
-               .NotEmpty().WithMessage("{PropertyName}: Nâo informado.")
-               .GreaterThanOrEqualTo(1).WithMessage("{PropertyName}: Não informado.");
+               .NotEmpty().WithMessage("Id: Nâo informado.")
+               .GreaterThanOrEqualTo(1).WithMessage("Id: Não informado.");
 
             RuleFor(x => x.Name)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("{PropertyName}: Não informado.")
-                .Length(3, 50).WithMessage("{PropertyName}: Necessário entre 3 e 50 caracteres.");
+                .NotEmpty().WithMessage("Nome: Não informado.")
+                .Length(3, 50).WithMessage("Nome: Necessário entre 3 e 50 caracteres.");
 
             RuleFor(x => x.City)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("{PropertyName}: Não informado.")
-                .Length(3, 50).WithMessage("{PropertyName}: Necessário entre 3 e 50 caracteres.");
+                .NotEmpty().WithMessage("Cidade: Não informado.")
+                .Length(3, 50).WithMessage("Cidade: Necessário entre 3 e 50 caracteres.");
 
             RuleFor(x => x.Address)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("{PropertyName}: Não informado.")
-                .Length(3, 50).WithMessage("{PropertyName}: Necessário entre 3 e 50 caracteres.");
+                .NotEmpty().WithMessage("Endereço: Não informado.")
+                .Length(3, 50).WithMessage("Endereço: Necessário entre 3 e 50 caracteres.");
 
             RuleFor(x => x.Email)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("{PropertyName}: Não informado.")
-                .Length(3, 50).WithMessage("{PropertyName}: Necessário entre 3 e 50 caracteres.")
-                .EmailAddress().WithMessage("{PropertyName}: Formato inválido.");
+                .NotEmpty().WithMessage("Email: Não informado.")
+                .Length(3, 50).WithMessage("Email: Necessário entre 3 e 50 caracteres.")
+                .EmailAddress().WithMessage("Endereço de Email inválido.");
         }
     }
 }

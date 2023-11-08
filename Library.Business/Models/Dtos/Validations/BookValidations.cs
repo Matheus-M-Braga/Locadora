@@ -9,26 +9,26 @@ namespace Library.Business.Models.Dtos.Validations
         {
             RuleFor(x => x.Name)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("{PropertyName}: Não informado.")
-                .Length(3, 50).WithMessage("{PropertyName}: Limite é de 50 caracteres.");
+                .NotEmpty().WithMessage("Nome: Não informado.")
+                .Length(3, 50).WithMessage("Nome: Limite é de 50 caracteres.");
 
             RuleFor(x => x.Author)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("{PropertyName}: Não informado.")
-                .Length(3, 50).WithMessage("{PropertyName}: Necessário entre 3 e 50 caracteres.");
+                .NotEmpty().WithMessage("Autor: Não informado.")
+                .Length(3, 50).WithMessage("Autor: Necessário entre 3 e 50 caracteres.");
 
             RuleFor(x => x.PublisherId)
-                .NotEmpty().WithMessage("{PropertyName}: Nâo informado.")
-                .GreaterThanOrEqualTo(1).WithMessage("{PropertyName}: Não informado.");
+                .NotEmpty().WithMessage("Editora: Nâo informada.")
+                .GreaterThanOrEqualTo(1).WithMessage("Editora: Não informada.");
 
             RuleFor(x => x.Release)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("{PropertyName}: Não informado.")
-                .Must(x => x >= 1000 && x <= 9999).WithMessage("{PropertyName}: Necessário 4 dígitos.");
+                .NotEmpty().WithMessage("Lançamento: Não informado.")
+                .Must(x => x >= 1000 && x <= 9999).WithMessage("Lançamento: Necessário 4 dígitos.");
 
             RuleFor(x => x.Quantity)
-                .NotEmpty().WithMessage("{PropertyName}: Nâo informado.")
-                .GreaterThanOrEqualTo(1).WithMessage("{PropertyName}: Não informado.");
+                .NotEmpty().WithMessage("Quantidade: Nâo informado.")
+                .GreaterThanOrEqualTo(1).WithMessage("Quantidade: Não informado.");
         }
     }
 
@@ -37,31 +37,31 @@ namespace Library.Business.Models.Dtos.Validations
         public UpdateBookDtoValidator()
         {
             RuleFor(x => x.Id)
-                .NotEmpty().WithMessage("{PropertyName}: Nâo informado.")
-                .GreaterThanOrEqualTo(1).WithMessage("{PropetyName}: Não informado.");
+                .NotEmpty().WithMessage("Id: Nâo informado.")
+                .GreaterThanOrEqualTo(1).WithMessage("Id: Não informado.");
 
             RuleFor(x => x.Name)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("{PropertyName}: Não informado.")
-                .Length(3, 50).WithMessage("{PropertyName}: Necessário entre 3 e 50 caracteres.");
+                .NotEmpty().WithMessage("Nome: Não informado.")
+                .Length(3, 50).WithMessage("Nome: Necessário entre 3 e 50 caracteres.");
 
             RuleFor(x => x.Author)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("{PropertyName}: Não informado.")
-                .Length(3, 50).WithMessage("{PropertyName}: Necessário entre 3 e 50 caracteres.");
+                .NotEmpty().WithMessage("Autor: Não informado.")
+                .Length(3, 50).WithMessage("Autor: Necessário entre 3 e 50 caracteres.");
 
             RuleFor(x => x.PublisherId)
-                .NotEmpty().WithMessage("{PropertyName}: Nâo informado.")
-                .GreaterThanOrEqualTo(1).WithMessage("{PropertyName}: Não informado.");
+                .NotEmpty().WithMessage("Editora: Nâo informado.")
+                .GreaterThanOrEqualTo(1).WithMessage("Editora: Não informado.");
 
             RuleFor(x => x.Release)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("{PropertyName}: Não informado.")
-                .Must(x => x >= 1000 && x <= 9999).WithMessage("{PropertyName}: Necessário 4 dígitos.");
+                .NotEmpty().WithMessage("Lançamento: Não informado.")
+                .Must(x => x >= 1000 && x <= 9999).WithMessage("Lançamento: Necessário 4 dígitos.");
 
             RuleFor(x => x.Quantity)
-                .NotEmpty().WithMessage("{PropertyName}: Nâo informado.")
-                .GreaterThanOrEqualTo(1).WithMessage("{PropertyName}: Não informado.");
+                .NotEmpty().WithMessage("Quantidade: Nâo informado.")
+                .GreaterThanOrEqualTo(1).WithMessage("Quantidade: Não informado.");
         }
     }
 }
