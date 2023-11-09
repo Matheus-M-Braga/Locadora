@@ -61,7 +61,7 @@ namespace Library.Business.Models.Dtos.Validations
 
             RuleFor(x => x.Quantity)
                 .NotEmpty().WithMessage("Quantidade: Nâo informado.")
-                .GreaterThanOrEqualTo(1).WithMessage("Quantidade: Não informado.");
+                .GreaterThanOrEqualTo(0).WithMessage("Quantidade: Não informado.");
         }
     }
 }
