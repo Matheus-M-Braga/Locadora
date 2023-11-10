@@ -108,7 +108,9 @@ namespace Library.Business.Services
             var rental = await _rentalRepository.GetRentalById(id);
             if (rental == null) return ResultService.NotFound<RentalDto>("Aluguel não encontrado!");
 
+
             await _rentalRepository.Delete(rental);
+            await _bookRepository.UpdateQuantity(rental.BookId, true);
 
             return ResultService.Ok("Aluguel deletado com êxito!");
         }
