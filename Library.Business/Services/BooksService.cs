@@ -71,9 +71,9 @@ namespace Library.Business.Services
 
         public async Task<ResultService> Update(UpdateBookDto model)
         {
-            var book = _mapper.Map<Books>(model);
+            var bookValidate = _mapper.Map<Books>(model);
 
-            var result = await _bookRepository.GetBookById(book.Id);
+            var result = await _bookRepository.GetBookById(bookValidate.Id);
             if (result == null) return ResultService.NotFound<BookDto>("Livro não encontrado!");
 
             var validation = new UpdateBookDtoValidator().Validate(model);
@@ -85,9 +85,10 @@ namespace Library.Business.Services
                 if (bookExists.Count > 0) return ResultService.BadRequest("Livro já cadastrado.");
             }
 
-            var publisher = await _publisherRepository.GetPublisherById(book.PublisherId);
+            var publisher = await _publisherRepository.GetPublisherById(bookValidate.PublisherId);
             if (publisher == null) return ResultService.NotFound<BookDto>("Editora não encontrada!");
 
+            var book = _mapper.Map(model, result);
             await _bookRepository.Update(book);
 
             return ResultService.Ok("Livro atualizado com êxito!");

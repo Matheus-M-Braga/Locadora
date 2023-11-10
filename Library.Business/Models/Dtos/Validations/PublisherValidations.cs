@@ -9,13 +9,13 @@ namespace Library.Business.Models.Dtos.Validations
         {
             RuleFor(x => x.Name)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("{PropertyName}: Não informado.")
-                .Length(3, 50).WithMessage("{PropertyName}: Necessário entre 3 e 50 caracteres.");
+                .NotEmpty().WithMessage("Nome: Não informado.")
+                .Length(3, 50).WithMessage("Nome: Necessário entre 3 e 50 caracteres.");
 
             RuleFor(x => x.City)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("{PropertyName}: Não informado.")
-                .Length(3, 50).WithMessage("{PropertyName}: Necessário entre 3 e 50 caracteres.");
+                .NotEmpty().WithMessage("Cidade: Não informado.")
+                .Length(3, 50).WithMessage("Cidade: Necessário entre 3 e 50 caracteres.");
         }
     }
 
@@ -24,18 +24,18 @@ namespace Library.Business.Models.Dtos.Validations
         public UpdatePublisherDtoValidator()
         {
             RuleFor(x => x.Id)
-                .NotEmpty().WithMessage("Campo Id não informado.")
-                .GreaterThanOrEqualTo(1).WithMessage("Campo Id não informado");
+                .NotEmpty().WithMessage("Id: Não informado.")
+                .GreaterThanOrEqualTo(1).WithMessage("Id: Não informado");
 
             RuleFor(x => x.Name)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("{PropertyName}: Não informado.")
-                .Length(3, 50).WithMessage("{PropertyName}: Necessário entre 3 e 50 caracteres.");
+                .NotEmpty().WithMessage("Nome: Não informado.")
+                .Length(3, 50).WithMessage("Nome: Necessário entre 3 e 50 caracteres.");
 
             RuleFor(x => x.City)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("{PropertyName}: Não informado.")
-                .Length(3, 50).WithMessage("{PropertyName}: Necessário entre 3 e 50 caracteres.");
+                .NotEmpty().WithMessage("Cidade: Não informado.")
+                .Length(3, 50).WithMessage("Cidade: Necessário entre 3 e 50 caracteres.");
         }
     }
 }

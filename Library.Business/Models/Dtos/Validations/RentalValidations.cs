@@ -8,18 +8,18 @@ namespace Library.Business.Models.Dtos.Validations
         public RentalDtoValidator()
         {
             RuleFor(x => x.BookId)
-                .NotEmpty().WithMessage("{PropertyName}: Nâo informado.")
-                .GreaterThanOrEqualTo(1).WithMessage("{PropertyName}: Não informado.");
+                .NotEmpty().WithMessage("Livro: Nâo informado.")
+                .GreaterThanOrEqualTo(1).WithMessage("Livro: Não informado.");
 
             RuleFor(x => x.UserId)
-                .NotEmpty().WithMessage("{PropertyName}: Nâo informado.")
-                .GreaterThanOrEqualTo(1).WithMessage("{PropertyName}: Não informado.");
+                .NotEmpty().WithMessage("Usuário: Nâo informado.")
+                .GreaterThanOrEqualTo(1).WithMessage("Usuário: Não informado.");
 
             RuleFor(x => x.RentalDate)
-                .NotEmpty().WithMessage("{PropertyName}: Não informado.");
+                .NotEmpty().WithMessage("Data do Alugel: Não informado.");
 
             RuleFor(x => x.ForecastDate)
-                .NotEmpty().WithMessage("{PropertyName}: Não informado.");
+                .NotEmpty().WithMessage("Data de Previsão: Não informado.");
         }
     }
 
@@ -28,11 +28,11 @@ namespace Library.Business.Models.Dtos.Validations
         public UpdateRentalDtoValidator()
         {
             RuleFor(x => x.Id)
-                .NotEmpty().WithMessage("{PropertyName}: Nâo informado.")
-                .GreaterThanOrEqualTo(1).WithMessage("{PropertyName}: Não informado.");
+                .NotEmpty().WithMessage("Id: Nâo informado.")
+                .GreaterThanOrEqualTo(1).WithMessage("Id: Não informado.");
 
             RuleFor(x => x.ReturnDate)
-                .NotEmpty().WithMessage("{PropertyName}: Não informado.");
+                .NotEmpty().WithMessage("Data de Devolução: Não informado.");
         }
     }
 }
