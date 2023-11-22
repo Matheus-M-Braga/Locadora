@@ -26,7 +26,7 @@ namespace Library.Business.Services
                 Data = data,
                 TotalRegisters = totalRegisters,
                 TotalPages = totalPages,
-                Page = page,
+                PageNumber = page,
                 StatusCode = HttpStatusCode.OK
             };
         }
@@ -55,7 +55,7 @@ namespace Library.Business.Services
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public int? TotalRegisters { get; set; }
         [JsonIgnore(Condition =JsonIgnoreCondition.WhenWritingNull)]
-        public int? Page { get; set; }
+        public int? PageNumber { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public int? TotalPages { get; set; }
     }
