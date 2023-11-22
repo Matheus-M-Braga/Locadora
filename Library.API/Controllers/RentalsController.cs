@@ -22,7 +22,8 @@ namespace Library.Api.Controllers
         public async Task<IActionResult> Get([FromQuery] FilterDb filterDb)
         {
             var rentals = await _service.GetAll(filterDb);
-            if (rentals.StatusCode == HttpStatusCode.OK) return Ok(rentals);
+            if (rentals.StatusCode == HttpStatusCode.OK)
+                return Ok(rentals);
             return NotFound(rentals);
         }
 
