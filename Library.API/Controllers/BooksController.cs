@@ -26,10 +26,10 @@ namespace Library.Api.Controllers
             return NotFound(books);
         }
 
-        [HttpGet("getallselect")]
-        public async Task<IActionResult> GetAllSelect()
+        [HttpGet("getsummary")]
+        public async Task<IActionResult> GetSummary()
         {
-            var books = await _service.GetAllSelect();
+            var books = await _service.GetSummary();
             if (books.StatusCode == HttpStatusCode.OK) return Ok(books);
             return NotFound(books);
         }

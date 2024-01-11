@@ -34,7 +34,7 @@ namespace Library.Business.Services
             return ResultService.OkPaged(result.Data, result.TotalRegisters,result.PageNumber, result.TotalPages);
         }
 
-        public async Task<ResultService<ICollection<BookRentalDto>>> GetAllSelect()
+        public async Task<ResultService<ICollection<BookRentalDto>>> GetSummary()
         {
             var books = await _bookRepository.GetAllBooks();
             return ResultService.Ok(_mapper.Map<ICollection<BookRentalDto>>(books));

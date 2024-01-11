@@ -8,7 +8,7 @@ namespace Library.Business.Interfaces.IServices
     public interface IUsersService
     {
         Task<ResultService<List<Users>>> GetAll(FilterDb filterDb);
-        Task<ResultService<List<UserRentalDto>>> GetAllSelect();
+        Task<ResultService<List<UserRentalDto>>> GetSummary();
         Task<ResultService<Users>> GetById(int id);
         Task<ResultService> Create(CreateUserDto model);
         Task<ResultService> Update(UpdateUserDto model);

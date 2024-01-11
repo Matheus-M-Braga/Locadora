@@ -32,7 +32,7 @@ namespace Library.Business.Services
             return ResultService.OkPaged(result.Data, result.TotalRegisters, result.PageNumber, result.TotalPages);
         }
 
-        public async Task<ResultService<List<PublisherBookDto>>> GetAllSelect()
+        public async Task<ResultService<List<PublisherBookDto>>> GetSummary()
         {
             var publishers = await _publisherRepository.GetAllPublishers();
             return ResultService.Ok(_mapper.Map<List<PublisherBookDto>>(publishers));
