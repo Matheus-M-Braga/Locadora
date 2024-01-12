@@ -6,7 +6,7 @@ using Library.Business.Models.Dtos.Publisher;
 using Library.Business.Models.Dtos.Rental;
 using Library.Business.Models.Dtos.User;
 
-namespace Library.Data.Mapper
+namespace Library.Api.Mapper
 {
     public class ProjectProfile : Profile
     {
