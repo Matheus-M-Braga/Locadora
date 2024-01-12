@@ -29,10 +29,9 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlCommentsFile));
 
 });
-builder.Services.AddDbContext<DataContext>(options =>
-{
-    options.UseSqlite("Data Source=Library.db", sqlite => sqlite.MigrationsAssembly("Library.Data"));
-});
+builder.Services.AddDbContextPool<DataContext>(options =>
+options.UseMySql(builder.Configuration.GetConnectionString("default"),
+                      ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("default"))));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddCors(options =>
 {

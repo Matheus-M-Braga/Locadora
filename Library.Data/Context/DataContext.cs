@@ -14,15 +14,6 @@ namespace Library.Data.Context
         public DbSet<Publishers> Publishers { get; set; }
         public DbSet<Rentals> Rentals { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlite("Data Source=Library.db");
-            }
-            //optionsBuilder.EnableSensitiveDataLogging();
-        }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Users>()
