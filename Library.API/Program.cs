@@ -8,6 +8,8 @@ using Library.Business.Interfaces.IRepository;
 using Library.Data.Repository;
 using Library.Business.Interfaces.IServices;
 using Library.Data.Context;
+using Microsoft.Extensions.Configuration.UserSecrets;
+using Library.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,7 @@ builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
     options.SuppressModelStateInvalidFilter = true;
 });
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
@@ -56,7 +59,8 @@ builder.Services.AddScoped<IRentalsService, RentalsService>();
 
 
 var app = builder.Build();
-
+var scope = app.Services.CreateScope();
+await DataHelper.ManageDataAsync(scope.ServiceProvider);
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
