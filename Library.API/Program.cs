@@ -17,6 +17,10 @@ builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
     options.SuppressModelStateInvalidFilter = true;
 });
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddHttpsRedirection(options =>
+{
+    options.HttpsPort = 3000; // Porta HTTPS do seu aplicativo
+});
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
