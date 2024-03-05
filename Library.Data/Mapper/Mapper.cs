@@ -2,6 +2,7 @@
 using Library.Business.Models;
 using Library.Business.Models.Dtos;
 using Library.Business.Models.Dtos.Book;
+using Library.Business.Models.Dtos.LoginUser;
 using Library.Business.Models.Dtos.Publisher;
 using Library.Business.Models.Dtos.Rental;
 using Library.Business.Models.Dtos.User;
@@ -32,6 +33,9 @@ namespace Library.Data.Mapper
             CreateMap<Rentals, UpdateRentalDto>().ReverseMap();
             CreateMap<Rentals, CreateRentalDto>().ReverseMap();
             CreateMap<Rentals, RentalCountDto>().ReverseMap();
+
+            CreateMap<LoginUserCreateDto, LoginUser>();
+            CreateMap<LoginUser, LoginUserUpdateDto>().ReverseMap();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Library.Business.Interfaces.IServices;
 using Library.Business.Models.Dtos.Publisher;
 using Library.Business.Pagination;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
@@ -9,6 +10,7 @@ namespace Library.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class PublishersController : ControllerBase
     {
         private readonly IPublishersService _service;

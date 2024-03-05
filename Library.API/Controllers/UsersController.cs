@@ -1,15 +1,15 @@
 ﻿using Library.Business.Interfaces.IServices;
-using Library.Business.Models;
 using Library.Business.Models.Dtos.User;
 using Library.Business.Pagination;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 
 namespace Library.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly IUsersService _service;

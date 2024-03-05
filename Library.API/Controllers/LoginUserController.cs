@@ -1,7 +1,5 @@
 ﻿using Library.Business.Interfaces.IServices;
-using Library.Business.Models.Dtos.Book;
-using Library.Business.Pagination;
-using Microsoft.AspNetCore.Authorization;
+using Library.Business.Models.Dtos.LoginUser;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -9,28 +7,21 @@ namespace Library.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
-    public class BooksController : ControllerBase
+    public class LoginUserController : ControllerBase
     {
-        private readonly IBooksService _service;
+        private readonly ILoginUserService _service;
+        private readonly IAuthenticateService _authenticate;
 
-        public BooksController(IBooksService service)
+        public LoginUserController(ILoginUserService service, IAuthenticateService authenticate)
         {
             _service = service;
+            _authenticate = authenticate;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] FilterDb filterDb)
+        public async Task<IActionResult> GetAll()
         {
-            var books = await _service.GetAll(filterDb);
-            if (books.StatusCode == HttpStatusCode.OK) return Ok(books);
-            return NotFound(books);
-        }
-
-        [HttpGet("getsummary")]
-        public async Task<IActionResult> GetSummary()
-        {
-            var books = await _service.GetSummary();
+            var books = await _service.GetAll();
             if (books.StatusCode == HttpStatusCode.OK) return Ok(books);
             return NotFound(books);
         }
@@ -43,16 +34,26 @@ namespace Library.Api.Controllers
             return NotFound(book);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CreateBookDto model)
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] LoginUserCreateDto model)
         {
-            var result = await _service.Create(model);
+            var result = await _service.Add(model);
             if (result.StatusCode == HttpStatusCode.Created) return StatusCode(201, result);
+
+            return BadRequest(result);
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginUserAuthDto model)
+        {
+            var result = await _authenticate.Authenticate(model.Email, model.Password);
+            if (result.StatusCode == HttpStatusCode.OK) return Ok(result);
+
             return BadRequest(result);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromBody] UpdateBookDto model)
+        public async Task<IActionResult> Put([FromBody] LoginUserUpdateDto model)
         {
             var result = await _service.Update(model);
             if (result.StatusCode == HttpStatusCode.OK) return Ok(result);

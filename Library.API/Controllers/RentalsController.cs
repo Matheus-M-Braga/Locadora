@@ -1,14 +1,15 @@
 ﻿using Library.Business.Interfaces.IServices;
 using Library.Business.Models.Dtos.Rental;
 using Library.Business.Pagination;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 
 namespace Library.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class RentalsController : ControllerBase
     {
         private readonly IRentalsService _service;
