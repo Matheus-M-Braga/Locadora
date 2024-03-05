@@ -3,12 +3,8 @@ using Library.Business.Pagination;
 
 namespace Library.Business.Interfaces.IRepository
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepository<Users>
     {
-        Task Add(Users entity);
-        Task Update(Users entity);
-        Task Delete(Users entity);
-
         Task<PagedBaseResponse<Users>> GetAllUsersPaged(FilterDb request);
         Task<List<Users>> GetAllUsers();
         Task<Users> GetUserById(int userId);

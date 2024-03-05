@@ -21,20 +21,20 @@ namespace Library.Business.Services
             _authenticate = authenticate;
         }
 
-        public async Task<ResultService<List<LoginUser>>> GetAll()
+        public async Task<ResultService<List<LoginUsers>>> GetAll()
         {
             var loginUsers = await _loginUserRepository.GetAll();
 
-            if (loginUsers.Count == 0) return ResultService.NotFound<List<LoginUser>>("Nenhum registro encontrado.");
+            if (loginUsers.Count == 0) return ResultService.NotFound<List<LoginUsers>>("Nenhum registro encontrado.");
 
             return ResultService.Ok(loginUsers);
         }
 
-        public async Task<ResultService<LoginUser>> GetById(int id)
+        public async Task<ResultService<LoginUsers>> GetById(int id)
         {
             var loginUser = await _loginUserRepository.GetById(id);
 
-            if (loginUser == null) return ResultService.NotFound<LoginUser>("Usuário não encontrado.");
+            if (loginUser == null) return ResultService.NotFound<LoginUsers>("Usuário não encontrado.");
 
             return ResultService.Ok(loginUser);
         }
@@ -47,7 +47,7 @@ namespace Library.Business.Services
             var emailExists = await _loginUserRepository.GetLoginUserByEmail(model.Email);
             if (emailExists != null) return ResultService.BadRequest("Email já cadastrado.");
 
-            var loginUser = _mapper.Map<LoginUser>(model);
+            var loginUser = _mapper.Map<LoginUsers>(model);
             using var hmac = new HMACSHA512();
             loginUser.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(model.Password));
             loginUser.PasswordSalt = hmac.Key;
@@ -61,7 +61,7 @@ namespace Library.Business.Services
             var validation = new LoginUserUpdateDtoValidator().Validate(model);
             if (!validation.IsValid) return ResultService.BadRequest(validation);
 
-            await _loginUserRepository.Update(_mapper.Map<LoginUser>(model));
+            await _loginUserRepository.Update(_mapper.Map<LoginUsers>(model));
             return ResultService.Ok("Usuário atualizado com êxito.");
         }
 

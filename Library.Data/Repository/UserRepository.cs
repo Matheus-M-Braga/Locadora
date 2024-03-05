@@ -1,35 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Library.Data.Context;
-using Library.Business.Pagination;
+﻿using Library.Business.Interfaces.IRepository;
 using Library.Business.Models;
-using Library.Business.Interfaces.IRepository;
+using Library.Business.Pagination;
+using Library.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Library.Data.Repository
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : Repository<Users>, IUserRepository
     {
-        private readonly DataContext _context;
-        public UserRepository(DataContext context)
+        public UserRepository(DataContext context) : base(context)
         {
-            _context = context;
-        }
-
-        public async Task Add(Users entity)
-        {
-            await _context.AddAsync(entity);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task Update(Users entity)
-        {
-            _context.Update(entity);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task Delete(Users entity)
-        {
-            _context.Remove(entity);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<PagedBaseResponse<Users>> GetAllUsersPaged(FilterDb request)

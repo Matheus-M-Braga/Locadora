@@ -9,7 +9,7 @@ namespace Library.Business.Interfaces.IServices
         Task<ResultService> Add(LoginUserCreateDto entity);
         Task<ResultService> Update(LoginUserUpdateDto entity);
         Task<ResultService> Delete(int id);
-        Task<ResultService<List<LoginUser>>> GetAll();
-        Task<ResultService<LoginUser>> GetById(int id);
+        Task<ResultService<List<LoginUsers>>> GetAll();
+        Task<ResultService<LoginUsers>> GetById(int id);
     }
 }

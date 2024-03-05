@@ -1,11 +1,10 @@
 ﻿#pragma warning disable CS8618
-using System.Text.Json.Serialization;
-
 namespace Library.Business.Models
 {
-    public class Rentals
+    public class Rentals : Entity
     {
         public Rentals() { }
+
         public Rentals(int id, int bookId, int userId, DateTime rentalDate, DateTime forecastDate, DateTime? returnDate)
         {
             Id = id;
@@ -14,8 +13,9 @@ namespace Library.Business.Models
             RentalDate = rentalDate;
             ForecastDate = forecastDate;
             ReturnDate = returnDate;
+            CreateAt = DateTime.Now;
         }
-        public int Id { get; set; }
+
         public int BookId { get; set; }
         public Books Book { get; set; }
         public int UserId { get; set; }

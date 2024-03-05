@@ -1,34 +1,15 @@
-using Microsoft.EntityFrameworkCore;
-using Library.Data.Context;
-using Library.Business.Pagination;
-using Library.Business.Models;
 using Library.Business.Interfaces.IRepository;
-using System.Globalization;
+using Library.Business.Models;
+using Library.Business.Pagination;
+using Library.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Library.Data.Repository
 {
-    public class PublisherRepository : IPublisherRepository
+    public class PublisherRepository : Repository<Publishers>, IPublisherRepository
     {
-        private readonly DataContext _context;
-        public PublisherRepository(DataContext context)
+        public PublisherRepository(DataContext context) : base(context)
         {
-            _context = context;
-        }
-        public async Task Add(Publishers entity)
-        {
-            await _context.AddAsync(entity);
-            await _context.SaveChangesAsync();
-        }
-        public async Task Update(Publishers entity)
-        {
-            _context.Update(entity);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task Delete(Publishers entity)
-        {
-            _context.Remove(entity);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<PagedBaseResponse<Publishers>> GetAllPublishersPaged(FilterDb request)

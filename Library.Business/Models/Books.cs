@@ -1,12 +1,10 @@
 ﻿#pragma warning disable CS8618
-
-
 namespace Library.Business.Models
 {
-    public class Books
+    public class Books : Entity
     {
-
         public Books() { }
+
         public Books(int id, string name, string author, int publisherId, int release, int quantity, int rented)
         {
             Id = id;
@@ -16,8 +14,9 @@ namespace Library.Business.Models
             Release = release;
             Quantity = quantity;
             Rented = rented;
+            CreateAt = DateTime.Now;
         }
-        public int Id { get; set; }
+
         public string Name { get; set; }
         public string Author { get; set; }
         public int PublisherId { get; set; }

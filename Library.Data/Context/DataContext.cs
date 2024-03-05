@@ -13,6 +13,6 @@ namespace Library.Data.Context
         public DbSet<Books> Books { get; set; }
         public DbSet<Publishers> Publishers { get; set; }
         public DbSet<Rentals> Rentals { get; set; }
-        public DbSet<LoginUser> LoginUsers { get; set; }
+        public DbSet<LoginUsers> LoginUsers { get; set; }
     }
 }

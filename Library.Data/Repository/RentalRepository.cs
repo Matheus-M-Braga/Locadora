@@ -1,33 +1,15 @@
-using Microsoft.EntityFrameworkCore;
-using Library.Data.Context;
-using Library.Business.Pagination;
-using Library.Business.Models;
 using Library.Business.Interfaces.IRepository;
+using Library.Business.Models;
+using Library.Business.Pagination;
+using Library.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Library.Data.Repository
 {
-    public class RentalRepository : IRentalRepository
+    public class RentalRepository : Repository<Rentals>, IRentalRepository
     {
-        private readonly DataContext _context;
-        public RentalRepository(DataContext context)
+        public RentalRepository(DataContext context) : base(context)
         {
-            _context = context;
-        }
-
-        public async Task Add(Rentals entity)
-        {
-            await _context.AddAsync(entity);
-            await _context.SaveChangesAsync();
-        }
-        public async Task Update(Rentals entity)
-        {
-            _context.Update(entity);
-            await _context.SaveChangesAsync();
-        }
-        public async Task Delete(Rentals entity)
-        {
-            _context.Remove(entity);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<PagedBaseResponse<Rentals>> GetAllRentalsPaged(FilterDb request)

@@ -3,12 +3,8 @@ using Library.Business.Pagination;
 
 namespace Library.Business.Interfaces.IRepository
 {
-    public interface IPublisherRepository
+    public interface IPublisherRepository : IRepository<Publishers>
     {
-        Task Add(Publishers entity);
-        Task Update(Publishers entity);
-        Task Delete(Publishers entity);
-
         Task<PagedBaseResponse<Publishers>> GetAllPublishersPaged(FilterDb request);
         Task<List<Publishers>> GetAllPublishers();
         Task<Publishers> GetPublisherById(int publisherId);

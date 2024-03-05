@@ -1,34 +1,15 @@
-using Microsoft.EntityFrameworkCore;
-using Library.Data.Context;
-using Library.Business.Pagination;
-using Library.Business.Models;
 using Library.Business.Interfaces.IRepository;
+using Library.Business.Models;
+using Library.Business.Pagination;
+using Library.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Library.Data.Repository
 {
-    public class BookRepository : IBookRepository
+    public class BookRepository : Repository<Books>, IBookRepository
     {
-        private readonly DataContext _context;
-        public BookRepository(DataContext context)
+        public BookRepository(DataContext context) : base(context)
         {
-            _context = context;
-        }
-
-        public async Task Add(Books entity)
-        {
-            await _context.AddAsync(entity);
-            await _context.SaveChangesAsync();
-        }
-        public async Task Update(Books entity)
-        {
-            _context.Update(entity);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task Delete(Books entity)
-        {
-            _context.Remove(entity);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<PagedBaseResponse<Books>> GetAllBooksPaged(FilterDb request)
@@ -47,7 +28,7 @@ namespace Library.Data.Repository
                         b.Rented.ToString().Contains(search) ||
                         b.PublisherId.ToString().Contains(search) ||
                         b.Publisher.Name.ToLower().Contains(search)
-                    ); 
+                    );
             }
             return await PagedBaseResponseHelper.GetResponseAsync<PagedBaseResponse<Books>, Books>(books, request);
         }

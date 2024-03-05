@@ -34,8 +34,8 @@ namespace Library.Data.Mapper
             CreateMap<Rentals, CreateRentalDto>().ReverseMap();
             CreateMap<Rentals, RentalCountDto>().ReverseMap();
 
-            CreateMap<LoginUserCreateDto, LoginUser>();
-            CreateMap<LoginUser, LoginUserUpdateDto>().ReverseMap();
+            CreateMap<LoginUserCreateDto, LoginUsers>();
+            CreateMap<LoginUsers, LoginUserUpdateDto>().ReverseMap();
         }
     }
 }

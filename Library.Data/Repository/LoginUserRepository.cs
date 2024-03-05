@@ -5,43 +5,23 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Library.Data.Repository
 {
-    public class LoginUserRepository : ILoginUserRepository
+    public class LoginUserRepository : Repository<LoginUsers>, ILoginUserRepository
     {
-        private readonly DataContext _context;
-        public LoginUserRepository(DataContext context)
+        public LoginUserRepository(DataContext context) : base(context)
         {
-            _context = context;
         }
 
-        public async Task Add(LoginUser entity)
-        {
-            await _context.AddAsync(entity);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task Update(LoginUser entity)
-        {
-            _context.Update(entity);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task Delete(LoginUser entity)
-        {
-            _context.Remove(entity);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task<List<LoginUser>> GetAll()
+        public async Task<List<LoginUsers>> GetAll()
         {
             return await _context.LoginUsers.ToListAsync();
         }
 
-        public async Task<LoginUser> GetById(int id)
+        public async Task<LoginUsers> GetById(int id)
         {
             return await _context.LoginUsers.FirstOrDefaultAsync(lu => lu.Id == id);
         }
 
-        public async Task<LoginUser> GetLoginUserByEmail(string email)
+        public async Task<LoginUsers> GetLoginUserByEmail(string email)
         {
             return await _context.LoginUsers.FirstOrDefaultAsync(lu => lu.Email.ToLower() == email.ToLower());
         }
