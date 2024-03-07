@@ -2,8 +2,10 @@
 using Library.Business.Interfaces.IRepository;
 using Library.Business.Interfaces.IServices;
 using Library.Business.Models;
+using Library.Business.Models.Dtos;
 using Library.Business.Models.Dtos.LoginUser;
 using Library.Business.Models.Dtos.Validations;
+using Library.Business.Pagination;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -19,20 +21,21 @@ namespace Library.Business.Services
             _mapper = mapper;
         }
 
-        public async Task<ResultService<List<LoginUsers>>> GetAll()
+        public async Task<ResultService<List<LoginUserDto>>> GetAll(PagedBaseRequest request)
         {
-            var loginUsers = await _loginUserRepository.GetAll();
-            if (loginUsers.Count == 0) return ResultService.NotFound<List<LoginUsers>>("Nenhum registro encontrado.");
+            var loginUsers = await _loginUserRepository.GetAll(request);
+            var result = new PagedBaseResponseDto<LoginUserDto>(loginUsers.TotalRegisters, loginUsers.TotalPages, request.PageNumber, _mapper.Map<List<LoginUserDto>>(loginUsers.Data));
+            if (result.Data.Count == 0) return ResultService.NotFound<List<LoginUserDto>>("Nenhum registro encontrado.");
 
-            return ResultService.Ok(loginUsers);
+            return ResultService.OkPaged(result.Data, result.TotalRegisters, result.PageNumber, result.TotalPages);
         }
 
-        public async Task<ResultService<LoginUsers>> GetById(int id)
+        public async Task<ResultService<LoginUserDto>> GetById(int id)
         {
             var loginUser = await _loginUserRepository.GetById(id);
-            if (loginUser == null) return ResultService.NotFound<LoginUsers>("Usuário não encontrado.");
+            if (loginUser == null) return ResultService.NotFound<LoginUserDto>("Usuário não encontrado.");
 
-            return ResultService.Ok(loginUser);
+            return ResultService.Ok(_mapper.Map<LoginUserDto>(loginUser));
         }
 
         public async Task<ResultService> Add(LoginUserCreateDto model)

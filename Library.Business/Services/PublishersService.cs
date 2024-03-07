@@ -22,12 +22,12 @@ namespace Library.Business.Services
             _mapper = mapper;
         }
 
-        public async Task<ResultService<List<Publishers>>> GetAll(FilterDb filterDb)
+        public async Task<ResultService<List<PublisherDto>>> GetAll(FilterDb filterDb)
         {
             var publishers = await _publisherRepository.GetAllPublishersPaged(filterDb);
-            var result = new PagedBaseResponseDto<Publishers>(publishers.TotalRegisters, publishers.TotalPages, publishers.PageNumber, _mapper.Map<List<Publishers>>(publishers.Data));
+            var result = new PagedBaseResponseDto<PublisherDto>(publishers.TotalRegisters, publishers.TotalPages, publishers.PageNumber, _mapper.Map<List<PublisherDto>>(publishers.Data));
 
-            if (result.Data.Count == 0) return ResultService.NotFound<List<Publishers>>("Nenhum registro encontrado.");
+            if (result.Data.Count == 0) return ResultService.NotFound<List<PublisherDto>>("Nenhum registro encontrado.");
 
             return ResultService.OkPaged(result.Data, result.TotalRegisters, result.PageNumber, result.TotalPages);
         }
@@ -38,12 +38,12 @@ namespace Library.Business.Services
             return ResultService.Ok(_mapper.Map<List<PublisherListDto>>(publishers));
         }
 
-        public async Task<ResultService<Publishers>> GetById(int id)
+        public async Task<ResultService<PublisherDto>> GetById(int id)
         {
             var publisher = await _publisherRepository.GetPublisherById(id);
-            if (publisher == null) return ResultService.NotFound<Publishers>("Editora não encontrada!");
+            if (publisher == null) return ResultService.NotFound<PublisherDto>("Editora não encontrada!");
 
-            return ResultService.Ok(_mapper.Map<Publishers>(publisher));
+            return ResultService.Ok(_mapper.Map<PublisherDto>(publisher));
         }
 
         public async Task<ResultService> Create(CreatePublisherDto model)

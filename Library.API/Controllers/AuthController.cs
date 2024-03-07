@@ -1,5 +1,6 @@
 ﻿using Library.Business.Interfaces.IServices;
 using Library.Business.Models.Dtos.LoginUser;
+using Library.Business.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -21,9 +22,9 @@ namespace Library.Api.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] PagedBaseRequest request)
         {
-            var books = await _service.GetAll();
+            var books = await _service.GetAll(request);
             if (books.StatusCode == HttpStatusCode.OK) return Ok(books);
             return NotFound(books);
         }

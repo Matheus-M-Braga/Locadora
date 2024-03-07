@@ -22,12 +22,12 @@ namespace Library.Business.Services
             _mapper = mapper;
         }
 
-        public async Task<ResultService<List<Users>>> GetAll(FilterDb filterDb)
+        public async Task<ResultService<List<UserDto>>> GetAll(FilterDb filterDb)
         {
             var users = await _userRepository.GetAllUsersPaged(filterDb);
-            var result = new PagedBaseResponseDto<Users>(users.TotalRegisters, users.TotalPages, users.PageNumber, _mapper.Map<List<Users>>(users.Data));
+            var result = new PagedBaseResponseDto<UserDto>(users.TotalRegisters, users.TotalPages, users.PageNumber, _mapper.Map<List<UserDto>>(users.Data));
 
-            if (result.Data.Count == 0) return ResultService.NotFound<List<Users>>("Nenhum registro encontrado.");
+            if (result.Data.Count == 0) return ResultService.NotFound<List<UserDto>>("Nenhum registro encontrado.");
 
             return ResultService.OkPaged(result.Data, result.TotalRegisters, result.PageNumber, result.TotalPages);
         }
@@ -38,12 +38,12 @@ namespace Library.Business.Services
             return ResultService.Ok(_mapper.Map<List<UserListDto>>(users));
         }
 
-        public async Task<ResultService<Users>> GetById(int id)
+        public async Task<ResultService<UserDto>> GetById(int id)
         {
             var user = await _userRepository.GetUserById(id);
-            if (user == null) return ResultService.NotFound<Users>("Usuário não encontrado!");
+            if (user == null) return ResultService.NotFound<UserDto>("Usuário não encontrado!");
 
-            return ResultService.Ok(_mapper.Map<Users>(user));
+            return ResultService.Ok(_mapper.Map<UserDto>(user));
         }
 
         public async Task<ResultService> Create(CreateUserDto model)

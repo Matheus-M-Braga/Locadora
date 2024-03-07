@@ -1,11 +1,11 @@
+using FluentValidation.Results;
 using System.Net;
 using System.Text.Json.Serialization;
-using FluentValidation.Results;
 
 namespace Library.Business.Services
 {
     public class ResultService
-    {  
+    {
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string[]? Message { get; init; }
         public HttpStatusCode StatusCode { get; set; }
@@ -54,7 +54,7 @@ namespace Library.Business.Services
         public T? Data { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public int? TotalRegisters { get; set; }
-        [JsonIgnore(Condition =JsonIgnoreCondition.WhenWritingNull)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public int? PageNumber { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public int? TotalPages { get; set; }

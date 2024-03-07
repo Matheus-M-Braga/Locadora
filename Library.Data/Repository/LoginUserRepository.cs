@@ -1,5 +1,6 @@
 ﻿using Library.Business.Interfaces.IRepository;
 using Library.Business.Models;
+using Library.Business.Pagination;
 using Library.Data.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,9 +12,10 @@ namespace Library.Data.Repository
         {
         }
 
-        public async Task<List<LoginUsers>> GetAll()
+        public async Task<PagedBaseResponse<LoginUsers>> GetAll(PagedBaseRequest request)
         {
-            return await _context.LoginUsers.ToListAsync();
+            var loginUsers = _context.LoginUsers.AsQueryable();
+            return await PagedBaseResponseHelper.GetResponseAsync<PagedBaseResponse<LoginUsers>, LoginUsers>(loginUsers, request);
         }
 
         public async Task<LoginUsers> GetById(int id)
