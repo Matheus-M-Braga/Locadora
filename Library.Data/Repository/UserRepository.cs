@@ -29,7 +29,7 @@ namespace Library.Data.Repository
             return await PagedBaseResponseHelper.GetResponseAsync<PagedBaseResponse<Users>, Users>(users, request);
         }
 
-        public async Task<List<Users>> GetAllUsers()
+        public async Task<List<Users>> GetSummary()
         {
             return await _context.Users.ToListAsync();
         }
@@ -37,11 +37,6 @@ namespace Library.Data.Repository
         public async Task<Users> GetUserById(int userId)
         {
             return await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == userId);
-        }
-
-        public async Task<List<Users>> GetUserByEmail(string email)
-        {
-            return await _context.Users.Where(u => u.Email == email).ToListAsync();
         }
     }
 }

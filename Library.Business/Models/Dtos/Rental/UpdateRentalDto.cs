@@ -2,7 +2,7 @@
 {
     public class UpdateRentalDto
     {
-        public int? Id { get; set; }
-        public DateTime? ReturnDate { get; set; }
+        public int Id { get; set; }
+        public DateTime ReturnDate { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Library.Business.Models.Dtos.User
 {
-    public class UserRentalDto
+    public class UserListDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

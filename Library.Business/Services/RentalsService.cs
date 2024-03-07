@@ -1,12 +1,12 @@
 ﻿#pragma warning disable CS8604
 using AutoMapper;
-using Library.Business.Models.Dtos.Rental;
 using Library.Business.Interfaces.IRepository;
 using Library.Business.Interfaces.IServices;
-using Library.Business.Pagination;
 using Library.Business.Models;
-using Library.Business.Models.Dtos.Validations;
 using Library.Business.Models.Dtos;
+using Library.Business.Models.Dtos.Rental;
+using Library.Business.Models.Dtos.Validations;
+using Library.Business.Pagination;
 
 namespace Library.Business.Services
 {
@@ -49,36 +49,33 @@ namespace Library.Business.Services
             var validation = new RentalDtoValidator().Validate(model);
             if (!validation.IsValid) return ResultService.BadRequest(validation);
 
+            if (_bookRepository.Search(b => b.Id == model.BookId).Result.Any()) return ResultService.NotFound<CreateRentalDto>("Livro não encontrado!");
+
+            if (_userRepository.Search(u => u.Id == model.UserId).Result.Any()) return ResultService.NotFound<CreateRentalDto>("Usuário não encontrado!");
+
+            if (model.RentalDate != DateTime.Now.Date) return ResultService.BadRequest("Data de aluguel não pode ser diferente da data de Hoje!");
+
+            if (model.ForecastDate.Subtract(model.RentalDate).Days > 30) return ResultService.BadRequest("Prazo do aluguel não pode ser superior a 30 dias!");
+
+            if (model.ForecastDate < model.RentalDate) return ResultService.BadRequest("Data de Previsão não pode ser anterior à Data do Aluguel!");
+
+            if (_rentalRepository.Search(r => r.UserId == model.UserId && r.BookId == model.BookId).Result.Any()) return ResultService.BadRequest("Usuário já possui aluguel desse livro!");
+
+            var book = await _bookRepository.GetBookById(model.BookId);
+            book.Quantity--;
+            book.Rented++;
+            if (book.Quantity < 0) return ResultService.BadRequest("Livro com estoque esgotado.");
+            await _bookRepository.Update(book);
+
             var rental = _mapper.Map<Rentals>(model);
-
-            var book = await _bookRepository.GetBookById(rental.BookId);
-            if (book == null) return ResultService.NotFound<CreateRentalDto>("Livro não encontrado!");
-
-            var user = await _userRepository.GetUserById(rental.UserId);
-            if (user == null) return ResultService.NotFound<CreateRentalDto>("Usuário não encontrado!");
-
-            if (rental.RentalDate.Date != DateTime.Now.Date) return ResultService.BadRequest("Data de aluguel não pode ser diferente da data de Hoje!");
-
-            var diff = rental.ForecastDate.Subtract(rental.RentalDate);
-            if (diff.Days > 30) return ResultService.BadRequest("Prazo do aluguel não pode ser superior a 30 dias!");
-
-            if (rental.ForecastDate < rental.RentalDate) return ResultService.BadRequest("Data de Previsão não pode ser anterior à Data do Aluguel!");
-
-            var userRental = await _rentalRepository.GetRentalByUserIdandBookId(book.Id, user.Id);
-            if (userRental.Count > 0) return ResultService.BadRequest("Usuário já possui aluguel desse livro!");
-
-            bool updateBook = await _bookRepository.UpdateQuantity(rental.BookId);
-            if (updateBook == false) return ResultService.BadRequest("Livro com estoque esgotado.");
-
             rental.Status = "Pendente";
             await _rentalRepository.Add(rental);
-
             return ResultService.Created("Aluguel adicionado com êxito.");
         }
 
         public async Task<ResultService> Update(UpdateRentalDto model)
         {
-            var result = await _rentalRepository.GetRentalById((int)model.Id);
+            var result = await _rentalRepository.GetRentalById(model.Id);
             if (result == null) return ResultService.NotFound<UpdateRentalDto>("Aluguel não encontrado!");
 
             var rental = _mapper.Map(model, result);
@@ -88,18 +85,20 @@ namespace Library.Business.Services
 
             if (rental.ReturnDate.Value.Date != DateTime.Now.Date) return ResultService.BadRequest("Data de devolução não pode ser diferente da data de Hoje!");
 
-            if (rental.ForecastDate < rental.ReturnDate) 
-            { 
-                rental.Status = "Atrasado"; 
+            if (rental.ForecastDate < rental.ReturnDate)
+            {
+                rental.Status = "Atrasado";
             }
-            else 
-            { 
-                rental.Status = "No prazo"; 
+            else
+            {
+                rental.Status = "No prazo";
             }
 
             await _rentalRepository.Update(rental);
-            await _bookRepository.UpdateQuantity(rental.BookId, true);
-
+            var book = await _bookRepository.GetBookById(rental.BookId);
+            book.Quantity++;
+            book.Rented--;
+            await _bookRepository.Update(book);
             return ResultService.Ok("Devolução realizada com êxito!");
         }
 
@@ -108,10 +107,12 @@ namespace Library.Business.Services
             var rental = await _rentalRepository.GetRentalById(id);
             if (rental == null) return ResultService.NotFound<RentalDto>("Aluguel não encontrado!");
 
+            await _rentalRepository.Delete(id);
 
-            await _rentalRepository.Delete(rental);
-            await _bookRepository.UpdateQuantity(rental.BookId, true);
-
+            var book = await _bookRepository.GetBookById(rental.BookId);
+            book.Quantity++;
+            book.Rented--;
+            await _bookRepository.Update(book);
             return ResultService.Ok("Aluguel deletado com êxito!");
         }
     }

@@ -12,19 +12,16 @@ namespace Library.Business.Services
     public class LoginUserService : ILoginUserService
     {
         private readonly ILoginUserRepository _loginUserRepository;
-        private readonly IAuthenticateService _authenticate;
         private readonly IMapper _mapper;
-        public LoginUserService(ILoginUserRepository loginUserRepository, IMapper mapper, IAuthenticateService authenticate)
+        public LoginUserService(ILoginUserRepository loginUserRepository, IMapper mapper)
         {
             _loginUserRepository = loginUserRepository;
             _mapper = mapper;
-            _authenticate = authenticate;
         }
 
         public async Task<ResultService<List<LoginUsers>>> GetAll()
         {
             var loginUsers = await _loginUserRepository.GetAll();
-
             if (loginUsers.Count == 0) return ResultService.NotFound<List<LoginUsers>>("Nenhum registro encontrado.");
 
             return ResultService.Ok(loginUsers);
@@ -33,7 +30,6 @@ namespace Library.Business.Services
         public async Task<ResultService<LoginUsers>> GetById(int id)
         {
             var loginUser = await _loginUserRepository.GetById(id);
-
             if (loginUser == null) return ResultService.NotFound<LoginUsers>("Usuário não encontrado.");
 
             return ResultService.Ok(loginUser);
@@ -44,8 +40,7 @@ namespace Library.Business.Services
             var validation = new LoginUserCreateDtoValidator().Validate(model);
             if (!validation.IsValid) return ResultService.BadRequest(validation);
 
-            var emailExists = await _loginUserRepository.GetLoginUserByEmail(model.Email);
-            if (emailExists != null) return ResultService.BadRequest("Email já cadastrado.");
+            if (_loginUserRepository.Search(lu => lu.Email.ToLower() == model.Email.ToLower()).Result.Any()) return ResultService.BadRequest("Email já cadastrado.");
 
             var loginUser = _mapper.Map<LoginUsers>(model);
             using var hmac = new HMACSHA512();
@@ -58,19 +53,26 @@ namespace Library.Business.Services
 
         public async Task<ResultService> Update(LoginUserUpdateDto model)
         {
+            if (!_loginUserRepository.Search(lu => lu.Id == model.Id).Result.Any()) return ResultService.NotFound("Usuário não encontrado");
+
             var validation = new LoginUserUpdateDtoValidator().Validate(model);
             if (!validation.IsValid) return ResultService.BadRequest(validation);
 
-            await _loginUserRepository.Update(_mapper.Map<LoginUsers>(model));
+            var loginUser = _mapper.Map<LoginUsers>(model);
+
+            using var hmac = new HMACSHA512();
+            loginUser.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(model.Password));
+            loginUser.PasswordSalt = hmac.Key;
+
+            await _loginUserRepository.Update(loginUser);
             return ResultService.Ok("Usuário atualizado com êxito.");
         }
 
         public async Task<ResultService> Delete(int id)
         {
-            var loginUser = await _loginUserRepository.GetById(id);
-            if (loginUser == null) return ResultService.NotFound("Usuário não encontrado.");
+            if (!_loginUserRepository.Search(lu => lu.Id == id).Result.Any()) return ResultService.NotFound("Usuário não encontrado");
 
-            await _loginUserRepository.Delete(loginUser);
+            await _loginUserRepository.Delete(id);
             return ResultService.Ok("Usuário deletado com êxito.");
         }
     }

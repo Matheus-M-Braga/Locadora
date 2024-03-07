@@ -20,10 +20,5 @@ namespace Library.Data.Repository
         {
             return await _context.LoginUsers.FirstOrDefaultAsync(lu => lu.Id == id);
         }
-
-        public async Task<LoginUsers> GetLoginUserByEmail(string email)
-        {
-            return await _context.LoginUsers.FirstOrDefaultAsync(lu => lu.Email.ToLower() == email.ToLower());
-        }
     }
 }

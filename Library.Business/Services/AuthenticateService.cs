@@ -22,7 +22,7 @@ namespace Library.Business.Services
 
         public async Task<ResultService> Authenticate(string email, string password)
         {
-            var loginUser = await _loginUserRepository.GetLoginUserByEmail(email);
+            var loginUser = _loginUserRepository.Search(lu => lu.Email.ToLower() == email.ToLower()).Result.FirstOrDefault();
 
             if (loginUser == null) return ResultService.BadRequest("Usuário não existe.");
 

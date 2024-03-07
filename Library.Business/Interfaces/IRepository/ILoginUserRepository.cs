@@ -6,6 +6,5 @@ namespace Library.Business.Interfaces.IRepository
     {
         Task<List<LoginUsers>> GetAll();
         Task<LoginUsers> GetById(int id);
-        Task<LoginUsers> GetLoginUserByEmail(string email);
     }
 }

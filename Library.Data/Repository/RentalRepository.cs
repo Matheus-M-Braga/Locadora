@@ -41,20 +41,5 @@ namespace Library.Data.Repository
         {
             return await _context.Rentals.AsNoTracking().Include(r => r.User).Include(r => r.Book).FirstOrDefaultAsync(r => r.Id == rentalId);
         }
-
-        public async Task<List<Rentals>> GetAllRentalsByUserId(int userId)
-        {
-            return await _context.Rentals.Where(r => r.UserId == userId).ToListAsync();
-        }
-
-        public async Task<List<Rentals>> GetAllRentalsByBookId(int bookId)
-        {
-            return await _context.Rentals.Where(r => r.BookId == bookId).ToListAsync();
-        }
-
-        public async Task<List<Rentals>> GetRentalByUserIdandBookId(int bookId, int userId)
-        {
-            return await _context.Rentals.Where(r => r.BookId == bookId && r.UserId == userId && r.ReturnDate == null).ToListAsync();
-        }
     }
 }

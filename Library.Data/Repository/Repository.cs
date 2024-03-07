@@ -29,9 +29,9 @@ namespace Library.Data.Repository
             await SaveChanges();
         }
 
-        public async Task Delete(TEntity entity)
+        public async Task Delete(int id)
         {
-            _contextSet.Remove(entity);
+            _contextSet.Remove(new TEntity { Id = id });
             await SaveChanges();
         }
 

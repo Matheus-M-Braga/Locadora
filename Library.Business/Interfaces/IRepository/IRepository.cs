@@ -7,7 +7,7 @@ namespace Library.Business.Interfaces.IRepository
     {
         Task Add(TEntity entity);
         Task Update(TEntity entity);
-        Task Delete(TEntity entity);
+        Task Delete(int id);
         Task<int> SaveChanges();
         Task<IEnumerable<TEntity>> Search(Expression<Func<TEntity, bool>> predicate);
     }

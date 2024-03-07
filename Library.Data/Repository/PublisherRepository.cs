@@ -27,7 +27,7 @@ namespace Library.Data.Repository
             return await PagedBaseResponseHelper.GetResponseAsync<PagedBaseResponse<Publishers>, Publishers>(publishers, request);
         }
 
-        public async Task<List<Publishers>> GetAllPublishers()
+        public async Task<List<Publishers>> GetSummary()
         {
             return await _context.Publishers.ToListAsync();
         }
@@ -35,11 +35,6 @@ namespace Library.Data.Repository
         public async Task<Publishers> GetPublisherById(int publisherId)
         {
             return await _context.Publishers.AsNoTracking().FirstOrDefaultAsync(p => p.Id == publisherId);
-        }
-
-        public async Task<List<Publishers>> GetPublisherByName(string publisherName)
-        {
-            return await _context.Publishers.AsNoTracking().Where(p => p.Name == publisherName).ToListAsync();
         }
     }
 }

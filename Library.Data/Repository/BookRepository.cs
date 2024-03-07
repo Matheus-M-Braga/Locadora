@@ -33,7 +33,7 @@ namespace Library.Data.Repository
             return await PagedBaseResponseHelper.GetResponseAsync<PagedBaseResponse<Books>, Books>(books, request);
         }
 
-        public async Task<List<Books>> GetAllBooks()
+        public async Task<List<Books>> GetSummary()
         {
             return await _context.Books.Include(b => b.Publisher).Where(b => b.Quantity > 0).ToListAsync();
         }
@@ -41,45 +41,6 @@ namespace Library.Data.Repository
         public async Task<Books> GetBookById(int bookId)
         {
             return await _context.Books.AsNoTracking().Include(b => b.Publisher).FirstOrDefaultAsync(b => b.Id == bookId);
-        }
-
-        public async Task<List<Books>> GetBookByName(string bookName)
-        {
-            return await _context.Books.Where(b => b.Name == bookName).ToListAsync();
-        }
-
-        public async Task<List<Books>> GetAllBooksByPublisherId(int publisherId)
-        {
-            return await _context.Books.Where(b => b.PublisherId == publisherId).ToListAsync();
-        }
-
-        public async Task<bool> UpdateQuantity(int id, bool IsUpdate = false)
-        {
-            var book = await _context.Books.SingleOrDefaultAsync(b => b.Id == id);
-
-            if (book == null)
-            {
-                return false;
-            }
-
-            if (IsUpdate)
-            {
-                book.Quantity++;
-                book.Rented--;
-
-                if (book.Rented < 0)
-                    return false;
-            }
-            else
-            {
-                book.Quantity--;
-                book.Rented++;
-                if (book.Quantity < 0)
-                    return false;
-            }
-
-            await _context.SaveChangesAsync();
-            return true;
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Library.Business.Models.Dtos.Rental
     {
         public int Id { get; set; }
         public int BookId { get; set; }
-        public BookRentalDto Book { get; set; }
+        public BookListDto Book { get; set; }
         public string Status { get; set; }
     }
 }

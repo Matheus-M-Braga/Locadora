@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using Library.Business.Models;
-using Library.Business.Models.Dtos.Publisher;
 using Library.Business.Interfaces.IRepository;
-using Library.Business.Pagination;
 using Library.Business.Interfaces.IServices;
-using Library.Business.Models.Dtos.Validations;
+using Library.Business.Models;
 using Library.Business.Models.Dtos;
+using Library.Business.Models.Dtos.Publisher;
+using Library.Business.Models.Dtos.Validations;
+using Library.Business.Pagination;
 
 namespace Library.Business.Services
 {
@@ -32,18 +32,18 @@ namespace Library.Business.Services
             return ResultService.OkPaged(result.Data, result.TotalRegisters, result.PageNumber, result.TotalPages);
         }
 
-        public async Task<ResultService<List<PublisherBookDto>>> GetSummary()
+        public async Task<ResultService<List<PublisherListDto>>> GetSummary()
         {
-            var publishers = await _publisherRepository.GetAllPublishers();
-            return ResultService.Ok(_mapper.Map<List<PublisherBookDto>>(publishers));
+            var publishers = await _publisherRepository.GetSummary();
+            return ResultService.Ok(_mapper.Map<List<PublisherListDto>>(publishers));
         }
 
         public async Task<ResultService<Publishers>> GetById(int id)
         {
-            var publishers = await _publisherRepository.GetPublisherById(id);
-            if (publishers == null) return ResultService.NotFound<Publishers>("Editora não encontrada!");
+            var publisher = await _publisherRepository.GetPublisherById(id);
+            if (publisher == null) return ResultService.NotFound<Publishers>("Editora não encontrada!");
 
-            return ResultService.Ok(_mapper.Map<Publishers>(publishers));
+            return ResultService.Ok(_mapper.Map<Publishers>(publisher));
         }
 
         public async Task<ResultService> Create(CreatePublisherDto model)
@@ -51,47 +51,32 @@ namespace Library.Business.Services
             var validation = new PublisherDtoValidator().Validate(model);
             if (!validation.IsValid) return ResultService.BadRequest(validation);
 
-            var publisherExists = await _publisherRepository.GetPublisherByName(model.Name);
-            if (publisherExists.Count > 0) return ResultService.BadRequest("Editora já cadastrada!");
+            if (_publisherRepository.Search(p => p.Name.ToLower() == model.Name.ToLower()).Result.Any()) return ResultService.BadRequest("Editora já cadastrada!");
 
-            var publisher = _mapper.Map<Publishers>(model);
-            await _publisherRepository.Add(publisher);
-
+            await _publisherRepository.Add(_mapper.Map<Publishers>(model));
             return ResultService.Created("Editora adicionada com êxito.");
         }
 
         public async Task<ResultService> Update(UpdatePublisherDto model)
         {
-            var publisher = _mapper.Map<Publishers>(model);
-
-            var result = await _publisherRepository.GetPublisherById(publisher.Id);
-            if (result == null) return ResultService.NotFound("Editora não encontrada!");
-
-            if (result.Name != model.Name)
-            {
-                var publisherExists = await _publisherRepository.GetPublisherByName(model.Name);
-                if (publisherExists.Count > 0) return ResultService.BadRequest("Editora já cadastrada");
-            }
+            if (!_publisherRepository.Search(p => p.Id == model.Id).Result.Any()) return ResultService.NotFound("Editora não encontrada!");
 
             var validation = new UpdatePublisherDtoValidator().Validate(model);
             if (!validation.IsValid) return ResultService.BadRequest(validation);
 
-            await _publisherRepository.Update(publisher);
+            if (_publisherRepository.Search(p => p.Name == model.Name && p.Id != model.Id).Result.Any()) return ResultService.BadRequest("Editora já cadastrada");
 
+            await _publisherRepository.Update(_mapper.Map<Publishers>(model));
             return ResultService.Ok("Editora atualizada com êxito!");
         }
 
         public async Task<ResultService> Delete(int id)
         {
-            var publisher = await _publisherRepository.GetPublisherById(id);
+            if (!_publisherRepository.Search(p => p.Id == id).Result.Any()) return ResultService.NotFound("Editora não encontrada!");
 
-            if (publisher == null) return ResultService.NotFound("Editora não encontrada!");
+            if (_bookRepository.Search(b => b.PublisherId == id).Result.Any()) return ResultService.BadRequest("Possui associação com livros.");
 
-            var bookAssociation = await _bookRepository.GetAllBooksByPublisherId(id);
-            if (bookAssociation.Count > 0) return ResultService.BadRequest("Possui associação com livros.");
-
-            await _publisherRepository.Delete(publisher);
-
+            await _publisherRepository.Delete(id);
             return ResultService.Ok("Editora deletada com êxito!");
         }
     }

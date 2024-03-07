@@ -1,5 +1,6 @@
 ﻿using Library.Business.Interfaces.IServices;
 using Library.Business.Models.Dtos.LoginUser;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -7,18 +8,19 @@ namespace Library.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class LoginUserController : ControllerBase
+    public class AuthController : ControllerBase
     {
         private readonly ILoginUserService _service;
         private readonly IAuthenticateService _authenticate;
 
-        public LoginUserController(ILoginUserService service, IAuthenticateService authenticate)
+        public AuthController(ILoginUserService service, IAuthenticateService authenticate)
         {
             _service = service;
             _authenticate = authenticate;
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             var books = await _service.GetAll();
@@ -27,6 +29,7 @@ namespace Library.Api.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetById(int id)
         {
             var book = await _service.GetById(id);
@@ -53,6 +56,7 @@ namespace Library.Api.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> Put([FromBody] LoginUserUpdateDto model)
         {
             var result = await _service.Update(model);
@@ -62,6 +66,7 @@ namespace Library.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _service.Delete(id);

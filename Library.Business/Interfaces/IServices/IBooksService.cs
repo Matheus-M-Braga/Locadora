@@ -7,7 +7,7 @@ namespace Library.Business.Interfaces.IServices
     public interface IBooksService
     {
         Task<ResultService<List<BookDto>>> GetAll(FilterDb filterDb);
-        Task<ResultService<ICollection<BookRentalDto>>> GetSummary();
+        Task<ResultService<List<BookListDto>>> GetSummary();
         Task<ResultService<BookDto>> GetById(int id);
         Task<ResultService> Create(CreateBookDto model);
         Task<ResultService> Update(UpdateBookDto model);
